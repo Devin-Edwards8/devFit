@@ -1,36 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View} from 'react-native';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
 import React from 'react';
-import { useEffect, useCallback } from 'react';
+import Title from './Title'
 
-export default function StartScreen() {
-    const [fontsLoaded] = useFonts({
-    'TitanOne': require('./fonts/Titan_One/TitanOne-Regular.ttf'),
-    });
-
-    useEffect(() => {
-        async function prepare() {
-            await SplashScreen.preventAutoHideAsync();
-        }
-        prepare();
-    }, []);
-
-    const onLayoutRootView = useCallback(async () => {
-        if (fontsLoaded) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded]);
-
-    if (!fontsLoaded) {
-        return null;
-    }
-
+export default function StartScreen(props) {
     return (
-        <View style={styles.container} onLayout={onLayoutRootView}>
-            <Text style={styles.title}>DevFit</Text>
-            <StatusBar style="auto" />
+        <View style={styles.container} onTouchEnd={() => props.onSwitch()}>
+            <Title size='60'/>
+            <Text style={styles.promptText}>  - touch screen to enter - </Text> 
         </View>
     );
 }
@@ -38,13 +14,13 @@ export default function StartScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#c6d4e5',
+        backgroundColor: '#fefae0',
         alignItems: 'center',
         justifyContent: 'center',
-    },
-    title: {
-        fontSize: 60,
-        color: '#cd5b45',
-        fontFamily: 'TitanOne'
+    }, 
+    promptText: {
+        fontSize: 17,
+        fontWeight: '300',
+        color: '#023047'
     }
 });
