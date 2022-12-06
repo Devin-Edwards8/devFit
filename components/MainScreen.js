@@ -10,6 +10,7 @@ export default class MainScreen extends react.Component {
             <View style={styles.container}>
                 <Title /> 
                 <Bubble title='cals' val='20'/> 
+                <Bubble title='push' val='day'/>
                 <BottomNavBar />
             </View>
         );

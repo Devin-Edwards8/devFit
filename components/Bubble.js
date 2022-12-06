@@ -20,11 +20,13 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         border: 2,
         height: 150,
-        width: 150
+        width: 150,
+        margin: 20
     },
     bubbleText: {
         fontSize: 30,
         fontWeight: 'bold',
+        fontFamily: 'Cochin',
         color: '#283618'
     }
 });
