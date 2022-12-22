@@ -11,11 +11,13 @@
   "dependencies": {
     "bootstrap": "^5.2.2",
     "expo": "~47.0.3",
+    "expo-font": "~11.0.1",
+    "expo-splash-screen": "~0.17.5",
     "expo-status-bar": "~1.4.2",
     "react": "18.1.0",
     "react-native": "0.70.5",
-    "expo-font": "~11.0.1",
-    "expo-splash-screen": "~0.17.5"
+    "react-native-swipe-gestures": "^1.0.5",
+    "use-long-press": "^2.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

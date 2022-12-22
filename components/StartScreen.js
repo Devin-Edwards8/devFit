@@ -4,8 +4,8 @@ import Title from './Title'
 
 export default function StartScreen(props) {
     return (
-        <View style={styles.container} onTouchEnd={() => props.onSwitch()}>
-            <Title size='60'/>
+        <View style={styles.container} onTouchEnd={() => props.onSwitch(1)}>
+            <Title size='60' color='#190028'/>
             <Text style={styles.promptText}>  - touch screen to enter - </Text> 
         </View>
     );
@@ -14,13 +14,14 @@ export default function StartScreen(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fefae0',
+        backgroundColor: '#190028',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
     }, 
     promptText: {
         fontSize: 17,
         fontWeight: '300',
-        color: '#023047'
+        color: '#ffc2d4',
+        fontFamily: 'Cochin'
     }
 });

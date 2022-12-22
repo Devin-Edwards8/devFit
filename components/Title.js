@@ -7,7 +7,7 @@ import { useEffect, useCallback } from 'react';
 
 export default function StartScreen(props) {
     const [fontsLoaded] = useFonts({
-    'TitanOne': require('./fonts/Titan_One/TitanOne-Regular.ttf'),
+    'TitanOne': require('../assets/Titan_One/TitanOne-Regular.ttf'),
     });
 
     useEffect(() => {
@@ -28,17 +28,15 @@ export default function StartScreen(props) {
     }
 
     return (
-        <Text style={[styles.title]} onLayout={onLayoutRootView}>devFit</Text>
+        <Text style={[styles.title, {backgroundColor: props.color}]} onLayout={onLayoutRootView}>devFit</Text>
     );
 }
 
 const styles = StyleSheet.create({
     title: {
-        color: '#386641',
+        color: '#e05780',
         fontFamily: 'TitanOne',
-        textShadowColor: '#cad2c5',
-        textShadowRadius: 10,
         fontSize: 50,
-        padding: 60
+        paddingTop: 30
     }
 });
