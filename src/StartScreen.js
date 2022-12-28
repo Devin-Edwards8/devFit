@@ -1,12 +1,11 @@
 import { StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import Title from './Title'
+import Title from './components/Title'
 
 export default function StartScreen(props) {
     return (
         <View style={styles.container} onTouchEnd={() => props.onSwitch(1)}>
             <Title size='60' color='#190028'/>
-            <Text style={styles.promptText}>  - touch screen to enter - </Text> 
         </View>
     );
 }

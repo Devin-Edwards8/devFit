@@ -1,9 +1,9 @@
 import react from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import BottomNavBar from '../BottomNavBar'
-import Card from './Card'
-import AddCard from './AddCard'
-import Header from '../Header'
+import BottomNavBar from './components/BottomNavBar'
+import Card from './components/Card'
+import AddCard from './components/AddCard'
+import Header from './components/Header'
 
 export default function FitnessScreen(props) {
     const cards = props.cards
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     titleContainer: {
         width: '100%',
         borderBottomWidth: 1,
-        borderColor: '#ffe0e9'
+        borderColor: '#ffe0e9',
+        marginTop: 15
     }
 });

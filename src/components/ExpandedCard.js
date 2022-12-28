@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         borderColor: '#e05780'
     },
     cardText: {
-        fontFamily: 'Arial Rounded MT Bold',
+        fontFamily: 'Arial',
         color: '#e05780',
         fontSize: 30,
         fontWeight: 'bold',

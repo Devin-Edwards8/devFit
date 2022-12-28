@@ -1,10 +1,10 @@
 import react from 'react';
 import { View } from 'react-native';
-import StartScreen from './components/StartScreen';
-import MainScreen from './components/MainScreen/MainScreen';
-import FitnessScreen from './components/FitnessScreen/FitnessScreen';
-import NutritionScreen from './components/NutritionScreen';
-import IosFonts from './components/FontTest';
+import StartScreen from './src/StartScreen';
+import MainScreen from './src/MainScreen';
+import FitnessScreen from './src/FitnessScreen';
+import NutritionScreen from './src/NutritionScreen';
+import IosFonts from './src/FontTest';
 
 export default class App extends react.Component {
   switch = (screenNum) => {
@@ -40,7 +40,7 @@ export default class App extends react.Component {
   handleAddRow = () => {
     const rows = [...this.state.rows];
     const cardNum = rows.length;
-    rows[cardNum] = {id: cardNum, text: ['enter workout', '-', '-']}
+    rows[cardNum] = {id: cardNum, text: ['', '', '']}
     this.setState({
         rows: rows
     })
@@ -85,19 +85,22 @@ export default class App extends react.Component {
       ],
       currentScreen: 0,
       rows: [
-        {id: 0, text: ['enter workout', '-', '-']}
+        {id: 0, text: ['', '', '']}
+      ],
+      bubbles: [
+        {title: 'calories', value: 0, id: 1, goal: 0},
+        {title: 'protein', value: 0, id: 2, goal: 0},
       ]
     }
   }
 
   render() {
     const screens = [
-      <StartScreen onSwitch={this.switch}/>,
       <MainScreen onSwitch={this.switch}/>,
       <FitnessScreen onSwitch={this.switch} onDeleteCard={this.handleDeleteCard} rows={this.state.rows} onAddRow={this.handleAddRow}
       onAddCard={this.handleAddCard} cards={this.state.cards} onTitleChange={this.handleTitle} onDeleteRow={this.handleDeleteRow}
       onRowText={this.handleRowText}/>,
-      <NutritionScreen onSwitch={this.switch}/>,
+      <NutritionScreen onSwitch={this.switch} bubbles={this.state.bubbles}/>,
       <IosFonts></IosFonts>
     ]
 

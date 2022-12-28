@@ -50,7 +50,7 @@ export default class Card extends react.Component {
             onSwipeRight={(state) => this.handleSwipeRight()}>
                 <View></View>
                 <Text onTouchEnd={this.handleExpand} style={styles.cardText}>{this.props.title}</Text>
-                {this.state.delete ? <View style={styles.deleteButton} onTouchEnd={() => this.props.onDelete(this.props.id)}>
+                {this.state.delete ? <View style={styles.deleteButton} onTouchEnd={() => this.props.onDeleteCard(this.props.id)}>
                     <Text style={styles.deleteText}>Delete</Text></View> : <View></View>}
             </GestureRecognizer>}
             </>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         borderColor: '#ffe0e9'
     },
     cardText: {
-        fontFamily: 'Arial Rounded MT Bold',
+        fontFamily: 'Arial',
         color: '#e05780',
         fontSize: 30,
         fontWeight: 'bold',
