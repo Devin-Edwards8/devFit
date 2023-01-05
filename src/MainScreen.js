@@ -46,12 +46,14 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontFamily: 'Times New Roman',
         color: '#ffe0e9',
-        marginTop: 10
+        marginTop: 15
     },
     quote: {
         fontSize: 30,
         fontFamily: 'Times New Roman',
         color: '#ffe0e9',
-        marginTop: 15
+        marginTop: 15,
+        marginRight: 5,
+        marginLeft: 10
     }
 });

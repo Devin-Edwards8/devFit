@@ -37,6 +37,6 @@ const styles = StyleSheet.create({
         color: '#e05780',
         fontFamily: 'TitanOne',
         fontSize: 50,
-        paddingTop: 30
+        paddingTop: 30,
     }
 });

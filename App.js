@@ -56,7 +56,7 @@ export default class App extends react.Component {
   handleTitle = (title, id) => {
     const cards = [...this.state.cards];
     cards.forEach(element => {
-      if(element.id == id) {
+      if(element.id === id) {
         element.title = title
       }
     });
@@ -68,12 +68,46 @@ export default class App extends react.Component {
   handleRowText = (string, id, index) => {
     const rows = [...this.state.rows];
     rows.forEach(element => {
-      if(element.id == id) {
+      if(element.id === id) {
         element.text[index] = string
       }
     });
     this.setState({
       rows: rows
+    })
+  }
+
+  handleGoal = (goal, id) => {
+    const progressBars = [...this.state.progressBars];
+    progressBars.forEach(element => {
+      if(element.id === id) {
+        element.goal = goal
+      }
+    });
+    this.setState({
+      progressBars: progressBars
+    })
+  }
+
+  handleValueChange = (val, id) => {
+    const progressBars = [...this.state.progressBars];
+    progressBars.forEach(element => {
+      if(element.id === id) {
+        element.value += Number(val)
+      }
+    });
+    this.setState({
+      progressBars: progressBars
+    })
+  }
+
+  handleValueReset = () => {
+    const progressBars = [...this.state.progressBars];
+    progressBars.forEach(element => {
+      element.value = 0
+    });
+    this.setState({
+      progressBars: progressBars
     })
   }
 
@@ -87,7 +121,7 @@ export default class App extends react.Component {
       rows: [
         {id: 0, text: ['', '', '']}
       ],
-      bubbles: [
+      progressBars: [
         {title: 'calories', value: 0, id: 1, goal: 0},
         {title: 'protein', value: 0, id: 2, goal: 0},
       ]
@@ -100,7 +134,8 @@ export default class App extends react.Component {
       <FitnessScreen onSwitch={this.switch} onDeleteCard={this.handleDeleteCard} rows={this.state.rows} onAddRow={this.handleAddRow}
       onAddCard={this.handleAddCard} cards={this.state.cards} onTitleChange={this.handleTitle} onDeleteRow={this.handleDeleteRow}
       onRowText={this.handleRowText}/>,
-      <NutritionScreen onSwitch={this.switch} bubbles={this.state.bubbles}/>,
+      <NutritionScreen onSwitch={this.switch} onGoalSet={this.handleGoal} progressBars={this.state.progressBars}
+      onValueChange={this.handleValueChange} onReset={this.handleValueReset}/>,
       <IosFonts></IosFonts>
     ]
 
