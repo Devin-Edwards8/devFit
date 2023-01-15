@@ -1,146 +1,159 @@
-import react from 'react';
-import { View } from 'react-native';
-import StartScreen from './src/StartScreen';
+import { useState, useEffect } from 'react';
 import MainScreen from './src/MainScreen';
 import FitnessScreen from './src/FitnessScreen';
 import NutritionScreen from './src/NutritionScreen';
-import IosFonts from './src/FontTest';
+import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
-export default class App extends react.Component {
-  switch = (screenNum) => {
-    this.setState({
-      currentScreen: screenNum
-    })
+
+export default function App(props) {
+  const [currentScreen, setCurrentScreen] = useState(0)
+  const [cards, setCards] = useState([{id: 0, title: 'edit'}])
+  const { setItem, getItem } = useAsyncStorage('@cards')
+  const [rows, setRows] = useState([{id: 0, text: ['', '', '']}])
+  const [progressBars, setProgressBars] = useState([{title: 'calories', value: 0, id: 1, goal: 0},
+  {title: 'protein', value: 0, id: 2, goal: 0}])
+
+  const switchScreen = (screenNum) => {
+    setCurrentScreen(screenNum)
   }
 
-  handleAddCard = () => {
-    const cards = [...this.state.cards];
-    const cardNum = cards.length;
+  useEffect(() => {
+    loadWorkouts().catch(e => console.error(e));
+    loadProgress().catch(e => console.error(e));
+    loadRows().catch(e => console.error(e));
+  }, []);
+
+  const handleAddCard = () => {
+    const tempCards = [...cards]
+    const cardNum = tempCards.length;
     let uniqueID;
     if(cardNum === 0) {
       uniqueID = 1
     } else {
-      const ids = cards.map(e => e.id)
+      const ids = tempCards.map(e => e.id)
       uniqueID = Math.max.apply(null, ids) + 1
     }
-    
-    cards[cardNum] = {id: uniqueID, title: 'edit'}
-    this.setState({
-        cards: cards
-    })
+    tempCards[cardNum] = {id: uniqueID, title: 'edit'}
+    saveWorkouts(tempCards)
   }
 
-  handleDeleteCard = (id) => {
-    const cards = this.state.cards.filter(c => c.id !== id)
-    this.setState({
-        cards: cards
-    })
+  const handleDeleteCard = (id) => {
+    const newCards = cards.filter(c => c.id !== id)
+    saveWorkouts(newCards)
   }
 
-  handleAddRow = () => {
-    const rows = [...this.state.rows];
-    const cardNum = rows.length;
-    rows[cardNum] = {id: cardNum, text: ['', '', '']}
-    this.setState({
-        rows: rows
-    })
+  const handleAddRow = () => {
+    const tempRows = [...rows]
+    const cardNum = tempRows.length;
+    tempRows[cardNum] = {id: cardNum, text: ['', '', '']}
+    saveRows(tempRows)
   }
 
-  handleDeleteRow = () => {
-    const rows = this.state.rows.filter(c => c.id !== this.state.rows.length - 1)
-    this.setState({
-        rows: rows
-    })
+  const handleDeleteRow = () => {
+    const tempRows = rows.filter(c => c.id !== this.state.rows.length - 1)
+    saveRows(tempRows)
   }
 
-  handleTitle = (title, id) => {
-    const cards = [...this.state.cards];
-    cards.forEach(element => {
+  const handleTitle = (title, id) => {
+    const newCards = [...cards]
+    newCards.forEach(element => {
       if(element.id === id) {
         element.title = title
       }
     });
-    this.setState({
-      cards: cards
-    })
+    saveWorkouts(newCards)
   }
 
-  handleRowText = (string, id, index) => {
-    const rows = [...this.state.rows];
-    rows.forEach(element => {
+  const handleRowText = (string, id, index) => {
+    const tempRows = [...rows]
+    tempRows.forEach(element => {
       if(element.id === id) {
         element.text[index] = string
       }
     });
-    this.setState({
-      rows: rows
-    })
+    saveRows(tempRows)
   }
 
-  handleGoal = (goal, id) => {
-    const progressBars = [...this.state.progressBars];
-    progressBars.forEach(element => {
+  const handleGoal = (goal, id) => {
+    const tempProgressBars = [...progressBars]
+    tempProgressBars.forEach(element => {
       if(element.id === id) {
         element.goal = goal
       }
     });
-    this.setState({
-      progressBars: progressBars
-    })
+    saveProgress(tempProgressBars)
   }
 
-  handleValueChange = (val, id) => {
-    const progressBars = [...this.state.progressBars];
-    progressBars.forEach(element => {
+  const handleValueChange = (val, id) => {
+    const tempProgressBars = [...progressBars]
+    tempProgressBars.forEach(element => {
       if(element.id === id) {
         element.value += Number(val)
       }
     });
-    this.setState({
-      progressBars: progressBars
-    })
+    saveProgress(tempProgressBars)
   }
 
-  handleValueReset = () => {
-    const progressBars = [...this.state.progressBars];
-    progressBars.forEach(element => {
+  const handleValueReset = () => {
+    const tempProgressBars = [...progressBars]
+    tempProgressBars.forEach(element => {
       element.value = 0
     });
-    this.setState({
-      progressBars: progressBars
-    })
+    saveProgress(tempProgressBars)
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      cards: [
-        {id: 0, title: 'edit'}
-      ],
-      currentScreen: 0,
-      rows: [
-        {id: 0, text: ['', '', '']}
-      ],
-      progressBars: [
-        {title: 'calories', value: 0, id: 1, goal: 0},
-        {title: 'protein', value: 0, id: 2, goal: 0},
-      ]
+  const screens = [
+    <MainScreen onSwitch={switchScreen}/>,
+    <FitnessScreen onSwitch={switchScreen} onDeleteCard={handleDeleteCard} rows={rows} onAddRow={handleAddRow}
+    onAddCard={handleAddCard} cards={cards} onTitleChange={handleTitle} onDeleteRow={handleDeleteRow}
+    onRowText={handleRowText}/>,
+    <NutritionScreen onSwitch={switchScreen} onGoalSet={handleGoal} progressBars={progressBars}
+    onValueChange={handleValueChange} onReset={handleValueReset}/>
+  ]
+
+  return (
+    <>{screens[currentScreen]}</>
+  );
+
+  async function saveProgress(value) {
+    await AsyncStorage.setItem('@progressBars', JSON.stringify(value))
+    setProgressBars(value)
+  }
+
+  async function loadProgress() {
+    const oldBars = await AsyncStorage.getItem('@progressBars').catch(e => console.error(e))
+    if(oldBars !== null) {
+      setProgressBars(JSON.parse(oldBars))
+    } else {
+      setProgressBars(progressBars)
     }
   }
 
-  render() {
-    const screens = [
-      <MainScreen onSwitch={this.switch}/>,
-      <FitnessScreen onSwitch={this.switch} onDeleteCard={this.handleDeleteCard} rows={this.state.rows} onAddRow={this.handleAddRow}
-      onAddCard={this.handleAddCard} cards={this.state.cards} onTitleChange={this.handleTitle} onDeleteRow={this.handleDeleteRow}
-      onRowText={this.handleRowText}/>,
-      <NutritionScreen onSwitch={this.switch} onGoalSet={this.handleGoal} progressBars={this.state.progressBars}
-      onValueChange={this.handleValueChange} onReset={this.handleValueReset}/>,
-      <IosFonts></IosFonts>
-    ]
+  async function saveRows(value) {
+    await AsyncStorage.setItem('@rows', JSON.stringify(value))
+    setRows(value)
+  }
 
-    return (
-      <>{screens[this.state.currentScreen]}</>
-    );
+  async function loadRows() {
+    const oldRows = await AsyncStorage.getItem('@rows').catch(e => console.error(e))
+    if(oldRows !== null) {
+      setRows(JSON.parse(oldRows))
+    } else {
+      setRows(rows)
+    }
+  }
+
+  async function saveWorkouts(newCards) {
+    await setItem(JSON.stringify(newCards)).catch(e => console.error(e))
+    setCards(newCards)
+  }
+
+  async function loadWorkouts() {
+    const oldCards = await getItem().catch(e => console.error(e))
+    if(oldCards !== null) {
+      setCards(JSON.parse(oldCards))
+    } else {
+      setCards(cards)
+    }
   }
 }

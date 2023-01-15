@@ -1,5 +1,5 @@
 import react from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, ScrollView } from 'react-native'
 import BottomNavBar from './components/BottomNavBar'
 import Card from './components/Card'
 import AddCard from './components/AddCard'
@@ -10,10 +10,13 @@ export default function FitnessScreen(props) {
     return (
         <View style={styles.container}>
             <Header />
-            <View style={styles.titleContainer}><Text style={styles.title}>Workouts</Text></View>
-            {cards.map(card => <Card id={card.id} key={card.id} title={card.title} onDeleteCard={props.onDeleteCard}
-                        onTitleChange={props.onTitleChange} rows={props.rows} onAdd={props.onAddRow} onDeleteRow={props.onDeleteRow}
-                        onRowText={props.onRowText}/>)}
+            <ScrollView style={{maxWidth: '100%', width: '100%'}}>
+                <View style={styles.titleContainer}><Text style={styles.title}>Workouts</Text></View>
+                {cards.map(card => <Card id={card.id} key={card.id} title={card.title} onDeleteCard={props.onDeleteCard}
+                onTitleChange={props.onTitleChange} rows={props.rows} onAdd={props.onAddRow} onDeleteRow={props.onDeleteRow}
+                onRowText={props.onRowText}/>)}
+                <View style={{height: 300}}></View>
+            </ScrollView>
             <AddCard onAdd={props.onAddCard} />
             <BottomNavBar onSwitch={props.onSwitch}/>
         </View>

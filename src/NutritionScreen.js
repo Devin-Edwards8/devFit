@@ -1,5 +1,5 @@
 import react from 'react'
-import { StyleSheet, View, Text, TextInput } from 'react-native'
+import { StyleSheet, View, Text, TextInput, Keyboard } from 'react-native'
 import ProgressBar from './components/ProgressBar'
 import BottomNavBar from './components/BottomNavBar'
 import Header from './components/Header'
@@ -15,6 +15,7 @@ export default class FitnessScreen extends react.Component {
 
     state = {
         settingMode: false,
+        manualEntry: false,
         currentCalorieValue: 0,
         currentProteinValue: 0,
     }
@@ -36,10 +37,12 @@ export default class FitnessScreen extends react.Component {
         this.props.onValueChange(this.state.currentProteinValue, 2)
         this.input1.current.clear()
         this.input2.current.clear()
+        Keyboard.dismiss()
         this.setState({
             ...this.state,
             currentCalorieValue: 0,
-            currentProteinValue: 0
+            currentProteinValue: 0,
+            manualEntry: false
         })
     }
 
@@ -56,13 +59,15 @@ export default class FitnessScreen extends react.Component {
                 <GoalSetting onGoalClose={this.handleGoalClose} onGoalSet={this.props.onGoalSet} 
                 progressBars={this.props.progressBars} onReset={this.props.onReset}/> : 
                 <>
-                <SearchBar onGoalSet={this.handleGoalSet} onSubmission={this.handleSearchSubmission}/>
+                <SearchBar onGoalSet={this.handleGoalSet} onSubmission={this.handleSearchSubmission} isTyping={this.state.manualEntry}/>
                 <Text style={styles.submissionTitle}>Manual Entries</Text>
                 <View style={styles.manualSubmission}>
                     <TextInput style={styles.entryBox} placeholder='calories' placeholderTextColor='#e05780' ref={this.input1}
-                    onChangeText={(load) => this.setState({...this.state, currentCalorieValue: load})}/>
+                    onChangeText={(load) => this.setState({...this.state, currentCalorieValue: load})}
+                    onPressIn={() => this.setState({manualEntry: true})} onSubmitEditing={() => this.setState({manualEntry: false})}/>
                     <TextInput style={styles.entryBox} placeholder='protein' placeholderTextColor='#e05780' ref={this.input2}
-                    onChangeText={(load) => this.setState({...this.state, currentProteinValue: load})}/>
+                    onChangeText={(load) => this.setState({...this.state, currentProteinValue: load})}
+                    onPressIn={() => this.setState({manualEntry: true})} onSubmitEditing={() => this.setState({manualEntry: false})}/>
                     <View style={styles.submissionButton} onTouchEnd={() => this.handleManualSubmission()}>
                         <Text>{"\u2713"}</Text>
                     </View>

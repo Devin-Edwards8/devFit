@@ -43,8 +43,9 @@ export default class SearchBar extends Component {
     }
     
     render() {
+        const container = this.props.isTyping ? 0 : 1;
         return (
-            <View style={styles.container}>
+            <View style={{flex: container}}>
                 <View style={styles.header}>
                     <View style={styles.searchBar}>
                         <Image style={styles.image} source={require('../assets/icons/search_icon.png')} />
@@ -58,21 +59,26 @@ export default class SearchBar extends Component {
                         <View style={styles.line}/>
                     </View>
                 </View>
-                {this.state.searched ? 
-                <View style={styles.searchSpace}>
-                    {this.state.successfulQuery ? 
-                    <ScrollView style={styles.responseSpace}>
-                        <Text style={styles.resultHeader}>Top Results:</Text>
-                        {this.state.results.map(r => <SearchResults currentItem={r["food"]["label"]} 
-                        itemCals={r["food"]["nutrients"]["ENERC_KCAL"]} itemProt={r["food"]["nutrients"]["PROCNT"]}
-                        onSubmission={this.props.onSubmission}/>)}
-                    </ScrollView> :
-                    <Text style={styles.resultText}>No Item Found.</Text>
+                {this.props.isTyping ? 
+                <View style={{height: 0}}></View> :
+                <>
+                    {this.state.searched ? 
+                    <View style={styles.searchSpace}>
+                        {this.state.successfulQuery ? 
+                        <ScrollView style={styles.responseSpace}>
+                            <Text style={styles.resultHeader}>Top Results:</Text>
+                            {this.state.results.map(r => <SearchResults currentItem={r["food"]["label"]} 
+                            itemCals={r["food"]["nutrients"]["ENERC_KCAL"]} itemProt={r["food"]["nutrients"]["PROCNT"]}
+                            onSubmission={this.props.onSubmission}/>)}
+                        </ScrollView> :
+                        <Text style={styles.resultText}>No Item Found.</Text>
+                        }
+                    </View> :
+                    <View style={styles.searchSpace}>
+                        <Image style={styles.slothImage} source={require('../assets/sloth.png')}/>
+                    </View>
                     }
-                </View> :
-                <View style={styles.searchSpace}>
-                    <Image style={styles.slothImage} source={require('../assets/sloth.png')}/>
-                </View>
+                </>
                 }
             </View>
         );
@@ -80,9 +86,6 @@ export default class SearchBar extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
     header: {
         flex: 0,
         flexDirection: 'row',
