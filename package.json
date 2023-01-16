@@ -21,6 +21,7 @@
     "react-native": "0.70.5",
     "react-native-mmkv-storage": "^0.8.0",
     "react-native-swipe-gestures": "^1.0.5",
+    "updates": "^13.2.7",
     "use-long-press": "^2.0.2"
   },
   "devDependencies": {
