@@ -5,11 +5,11 @@ import NutritionScreen from './src/NutritionScreen';
 import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 
-export default function App(props) {
+export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0)
   const [cards, setCards] = useState([{id: 0, title: 'edit'}])
   const { setItem, getItem } = useAsyncStorage('@cards')
-  const [rows, setRows] = useState([{id: 0, text: ['', '', '']}])
+  const [rows, setRows] = useState({0: [{id: 0, text: ['', '', '']}]})
   const [progressBars, setProgressBars] = useState([{title: 'calories', value: 0, id: 1, goal: 0},
   {title: 'protein', value: 0, id: 2, goal: 0}])
 
@@ -34,23 +34,29 @@ export default function App(props) {
       uniqueID = Math.max.apply(null, ids) + 1
     }
     tempCards[cardNum] = {id: uniqueID, title: 'edit'}
+    const tempRows = {...rows}
+    tempRows[uniqueID] = [{ id: 0, text: ['','',''] }, ]
+    saveRows(tempRows)
     saveWorkouts(tempCards)
   }
 
   const handleDeleteCard = (id) => {
     const newCards = cards.filter(c => c.id !== id)
+    delete rows.id
+    saveRows(rows)
     saveWorkouts(newCards)
   }
 
-  const handleAddRow = () => {
-    const tempRows = [...rows]
-    const cardNum = tempRows.length;
-    tempRows[cardNum] = {id: cardNum, text: ['', '', '']}
+  const handleAddRow = (cardID) => {
+    const tempRows = {...rows}
+    const cardNum = tempRows[cardID].length;
+    tempRows[cardID][cardNum] = {id: cardNum, text: ['', '', '']}
     saveRows(tempRows)
   }
 
-  const handleDeleteRow = () => {
-    const tempRows = rows.filter(c => c.id !== this.state.rows.length - 1)
+  const handleDeleteRow = (cardID) => {
+    const tempRows = {...rows}
+    tempRows[cardID] = tempRows[cardID].filter(c => c.id !== tempRows[cardID].length - 1)
     saveRows(tempRows)
   }
 
@@ -64,9 +70,9 @@ export default function App(props) {
     saveWorkouts(newCards)
   }
 
-  const handleRowText = (string, id, index) => {
-    const tempRows = [...rows]
-    tempRows.forEach(element => {
+  const handleRowText = (string, id, index, cardID) => {
+    const tempRows = {...rows}
+    tempRows[cardID].forEach(element => {
       if(element.id === id) {
         element.text[index] = string
       }

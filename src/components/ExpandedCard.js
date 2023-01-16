@@ -12,8 +12,9 @@ export default function ExpandedCard(props) {
                 <View style={styles.numberText}><Text style={[styles.inputText]}>sets</Text></View>
                 <View style={styles.numberText}><Text style={[styles.inputText]}>reps</Text></View>
             </View>
-            {props.rows.map(row => <InputRow id={row.id} key={row.id} text={row.text} onRowText={props.onRowText}/>)}
-            <CardButtons onCondense={props.onCondense} onAdd={props.onAdd} onDelete={props.onDelete}/>
+            {props.rows[props.id].map(row => <InputRow id={row.id} key={row.id} text={row.text} onRowText={props.onRowText}
+            cardID={props.id}/>)}
+            <CardButtons onCondense={props.onCondense} onAdd={props.onAdd} onDelete={props.onDelete} id={props.id}/>
         </View>
     );
 }

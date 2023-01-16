@@ -4,10 +4,10 @@ import { StyleSheet, View, Text, } from 'react-native'
 export default function CardButtons(props) {
     return (
         <View style={styles.container}>
-            <View style={styles.button} onTouchEnd={() => props.onAdd()}>
+            <View style={styles.button} onTouchEnd={() => props.onAdd(props.id)}>
                 <Text style={styles.text}>add</Text>
             </View>
-            <View style={styles.button} onTouchEnd={() => props.onDelete()}>
+            <View style={styles.button} onTouchEnd={() => props.onDelete(props.id)}>
                 <Text style={styles.text}>delete</Text>
             </View>
             <View style={styles.button} onTouchEnd={() => props.onCondense()}>

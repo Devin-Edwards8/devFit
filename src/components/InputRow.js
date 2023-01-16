@@ -6,14 +6,14 @@ export default function ExpandedCard(props) {
     return (
         <View style={styles.rowTitle}>
             <TextInput style={[styles.inputText, styles.workoutText]} placeholder="enter workout" placeholderTextColor="#540b0e"
-            onChangeText={(payload) => props.onRowText(payload, props.id, 0)}>{props.text[0]}</TextInput>
+            onChangeText={(payload) => props.onRowText(payload, props.id, 0, props.cardID)}>{props.text[0]}</TextInput>
             <View style={styles.numberText}>
                 <TextInput style={[styles.inputText]} placeholder="-" placeholderTextColor="#540b0e"
-                onChangeText={(payload) => props.onRowText(payload, props.id, 1)}>{props.text[1]}</TextInput>
+                onChangeText={(payload) => props.onRowText(payload, props.id, 1, props.cardID)}>{props.text[1]}</TextInput>
             </View>
             <View style={styles.numberText}>
                 <TextInput style={[styles.inputText]} placeholder="-" placeholderTextColor="#540b0e"
-                onChangeText={(payload) => props.onRowText(payload, props.id, 2)}>{props.text[2]}</TextInput>
+                onChangeText={(payload) => props.onRowText(payload, props.id, 2, props.cardID)}>{props.text[2]}</TextInput>
             </View>
         </View>
     );
