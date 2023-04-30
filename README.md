@@ -1,6 +1,6 @@
 # DevFit
 
-My app to achive my personal fitness goals. Using the React Native framework, I developed screens for tracking my daily nutritional intake and storing my workout plans. I also included a motivational quote. 
+My app to achieve my personal fitness goals. Using the React Native framework, I developed screens for tracking my daily nutritional intake and storing my workout plans. I also included a motivational quote. 
 
 ## Nutrition Screen
 
