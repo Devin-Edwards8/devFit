@@ -6,7 +6,7 @@ export default function Header(props) {
     return (
         <View style={styles.strip}>
             <Image style={styles.image} source={require('../assets/icons/settings_icon.png')} />
-            {props.screen === "fitness" ? <Text style={styles.add}>+</Text> : <></>}
+            {props.screen === "fitness" ? <View onTouchEnd={() => props.onAdd()}><Text style={styles.add}>+</Text></View> : <></>}
         </View>
     );
 }

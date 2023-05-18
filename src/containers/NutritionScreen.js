@@ -1,133 +1,157 @@
-import react from 'react'
-import { StyleSheet, View, Text, TextInput, Keyboard } from 'react-native'
-import ProgressBar from '../components/ProgressBar'
+import react, { useState } from 'react'
+import { View, Text, TextInput, Keyboard } from 'react-native'
 import BottomNavBar from '../components/BottomNavBar'
 import Header from '../components/Header'
 import SearchBar from '../components/SearchBar'
-import GoalSetting from '../components/GoalSetting'
+import GoalSetting from './GoalSetting'
 import { colorTheme } from '../global_colors'
 import PieChart from 'react-native-pie-chart'
+import EStyleSheet from 'react-native-extended-stylesheet'
+import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins';
 
-export default class FitnessScreen extends react.Component {
-    constructor(props) {
-        super(props)
-        this.input1 = react.createRef();
-        this.input2 = react.createRef();
-    }
+export default function NutritionScreen(props) {
+    const input1 = react.createRef();
+    const input2 = react.createRef();
+    let [fontsLoaded] = useFonts({Poppins_500Medium})
 
-    state = {
-        settingMode: false,
-        manualEntry: false,
-        currentCalorieValue: 0,
-        currentProteinValue: 0,
-    }
+    const [state, setState] = useState(
+        {
+            settingMode: false,
+            manualEntry: false,
+            currentCalorieValue: 0,
+            currentProteinValue: 0,
+        }
+    )
 
-    handleGoalSet = () => {
-        this.setState({
+    const handleGoalSet = () => {
+        setState({
             settingMode: true
         })
     }
 
-    handleGoalClose = () => {
-        this.setState({
+    const handleGoalClose = () => {
+        setState({
             settingMode: false
         })
     }
 
-    handleManualSubmission = () => {
-        this.props.onValueChange(this.state.currentCalorieValue, 1)
-        this.props.onValueChange(this.state.currentProteinValue, 2)
-        this.input1.current.clear()
-        this.input2.current.clear()
+    const handleManualSubmission = () => {
+        props.onValueChange(state.currentCalorieValue, 1)
+        props.onValueChange(state.currentProteinValue, 2)
+        input1.current.clear()
+        input2.current.clear()
         Keyboard.dismiss()
-        this.setState({
-            ...this.state,
+        setState({
+            ...state,
             currentCalorieValue: 0,
             currentProteinValue: 0,
             manualEntry: false
         })
     }
 
-    handleSearchSubmission = (cals, prot) => {
-        this.props.onValueChange(cals, 1)
-        this.props.onValueChange(prot, 2)
+    const handleSearchSubmission = (cals, prot) => {
+        props.onValueChange(cals, 1)
+        props.onValueChange(prot, 2)
     }
 
-    p0 = this.props.progressBars[0]
-    p1 = this.props.progressBars[1]
+    const p0 = props.progressBars[0]
+    const p1 = props.progressBars[1]
 
-    render() {
+    if(!fontsLoaded) {
+        return <></>
+    } else {
         return (
             <View style={styles.container}>
-                <Header /> 
-                {this.state.settingMode ? 
-                <GoalSetting onGoalClose={this.handleGoalClose} onGoalSet={this.props.onGoalSet} 
-                progressBars={this.props.progressBars} onReset={this.props.onReset}/> : 
-                <View style={styles.nutritionContainer}>
-                    <SearchBar onGoalSet={this.handleGoalSet} onSubmission={this.handleSearchSubmission} isTyping={this.state.manualEntry}/>
-                    <Text style={styles.title}>Nutrition Tracker</Text>
-                    <View style={styles.chartBox}>
-                        <View style={styles.calorieChart}>
-                            <PieChart widthAndHeight={200} series={[this.p1.value / this.p1.goal, 1]} 
-                            sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={this.p0.id}/>
+                <View style={styles.mainContainer}>
+                    <Header /> 
+                    {state.settingMode ? 
+                        <GoalSetting onGoalClose={handleGoalClose} onGoalSet={props.onGoalSet} 
+                        progressBars={props.progressBars} onReset={props.onReset}/> 
+                        : 
+                        <View style={styles.nutritionContainer}>
+                            <View style={styles.chartsAndSearch}>
+                                <SearchBar onGoalSet={handleGoalSet} onSubmission={handleSearchSubmission} isTyping={state.manualEntry}/>
+                                <Text style={styles.title}>Nutrition Tracker</Text>
+                                <View style={styles.chartBox}>
+                                    <View style={styles.calorieChart}>
+                                        <PieChart widthAndHeight={200} series={[p1.value / p1.goal, 1]} style={styles.sideMargin}
+                                        sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p0.id}/>
+                                        <View>
+                                            <Text>calories</Text>
+                                            <Text>{}/{}</Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.proteinChart}>
+                                        <View>
+                                            <Text>protein (g)</Text>
+                                            <Text>{}/{}</Text>
+                                        </View>
+                                        <PieChart widthAndHeight={200} series={[p1.value / p1.goal, 1]} style={[styles.sideMargin]}
+                                        sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p1.id}/>
+                                    </View>
+                                </View>
+                            </View>
+                            <View>
+                                <Text style={styles.submissionTitle}>Add as you eat!</Text>
+                                <View style={styles.submissionEntries}>
+                                    <TextInput style={styles.entryBox} placeholder='calories' placeholderTextColor={colorTheme.mediumTheme} ref={input1}
+                                    onChangeText={(load) => setState({...state, currentCalorieValue: load})}
+                                    onPressIn={() => setState({manualEntry: true})} onSubmitEditing={() => setState({manualEntry: false})}/>
+                                    <TextInput style={styles.entryBox} placeholder='protein' placeholderTextColor={colorTheme.mediumTheme} ref={input2}
+                                    onChangeText={(load) => setState({...state, currentProteinValue: load})}
+                                    onPressIn={() => setState({manualEntry: true})} onSubmitEditing={() => setState({manualEntry: false})}/>
+                                    <View style={styles.submissionButton} onTouchEnd={() => handleManualSubmission()}>
+                                        <Text style={{color: colorTheme.background}}>{"\u2713"}</Text>
+                                    </View>
+                                </View>
+                            </View>
                         </View>
-                        <View style={styles.proteinChart}>
-                            <PieChart widthAndHeight={200} series={[this.p1.value / this.p1.goal, 1]} 
-                            sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={this.p1.id}/>
-                        </View>
-                    </View>
-                    <Text style={styles.submissionTitle}>Add as you eat!</Text>
-                    <View style={styles.manualSubmission}>
-                        <TextInput style={styles.entryBox} placeholder='calories' placeholderTextColor={colorTheme.mediumTheme} ref={this.input1}
-                        onChangeText={(load) => this.setState({...this.state, currentCalorieValue: load})}
-                        onPressIn={() => this.setState({manualEntry: true})} onSubmitEditing={() => this.setState({manualEntry: false})}/>
-                        <TextInput style={styles.entryBox} placeholder='protein' placeholderTextColor={colorTheme.mediumTheme} ref={this.input2}
-                        onChangeText={(load) => this.setState({...this.state, currentProteinValue: load})}
-                        onPressIn={() => this.setState({manualEntry: true})} onSubmitEditing={() => this.setState({manualEntry: false})}/>
-                        <View style={styles.submissionButton} onTouchEnd={() => this.handleManualSubmission()}>
-                            <Text style={{color: colorTheme.background}}>{"\u2713"}</Text>
-                        </View>
-                    </View>
+                    }
                 </View>
-                }
-                <BottomNavBar onSwitch={this.props.onSwitch}/>
+                <BottomNavBar onSwitch={props.onSwitch}/>
             </View>
         );
     }
 }
  
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     container: {
+        flex: 1,
+        justifyContent: 'space-between'
+    },
+    mainContainer: {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         backgroundColor: colorTheme.background,
     },
+    nutritionContainer: {
+        flex: 1,
+        justifyContent: 'space-between'
+    },
+    chartsAndSearch: {
+        flex: 1,
+        justifyContent: 'flex-start'
+    },
     title: {
-        fontFamily: 'Arial Rounded MT Bold',
-        fontSize: 30,
+        fontFamily: 'Poppins_500Medium',
+        fontSize: '2rem',
         color: colorTheme.accent,
         alignSelf: 'center',
-        margin: 20
+        marginTop: '.5rem'
     },
     chartBox: {
-        flex: 0,
+        flex: 1,
         flexDirection: 'column',
-        width: '100%',
-    },
-    calorieChart: {
-
-    },
-    proteinChart: {
-
+        justifyContent: 'space-around'
     },
     submissionTitle: {
         fontFamily: 'Arial Rounded MT Bold',
         fontSize: 13,
         color: colorTheme.boldAccent,
         margin: 5
-    }, 
-    manualSubmission: {
+    },
+    submissionEntries: {
         flex: 0,
         flexDirection: 'row',
         backgroundColor: colorTheme.lightTheme,
@@ -159,5 +183,9 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
         backgroundColor: colorTheme.mediumTheme
+    },
+    sideMargin: {
+        marginRight: '.5rem',
+        marginLeft: '.5rem'
     }
 });

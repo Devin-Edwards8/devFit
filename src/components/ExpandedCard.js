@@ -16,7 +16,7 @@ export default function ExpandedCard(props) {
             <View style={styles.container}>
                 <View style={{flex: 0, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Image style={styles.image} source={require('../assets/icons/new_fitness_icon.png')} />
-                    <TextInput style={styles.cardText} onChangeText={((payload) => props.onTitleChange(payload, props.id))}>{props.cards[props.id - 1].title}</TextInput>
+                    <TextInput style={styles.cardText} onChangeText={((payload) => props.onTitleChange(payload, props.id))}>{props.title}</TextInput>
                     <Image style={styles.image} source={require('../assets/icons/exit_icon.png')} 
                     onTouchEnd={() => props.onCondense({viewMode: false, cardNo: 0})} />
                 </View>

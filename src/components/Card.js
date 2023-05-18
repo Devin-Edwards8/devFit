@@ -26,7 +26,7 @@ export default function Card(props) {
             <GestureRecognizer style={styles.card} onSwipeLeft={(state) => handleSwipeLeft(state)}
             onSwipeRight={(state) => handleSwipeRight()}>
                 <View></View>
-                <Text onTouchEnd={() => props.handleExpand({viewMode: true, id: props.id})} style={styles.cardText}>{props.title}</Text>
+                <Text onTouchEnd={() => props.handleExpand({viewMode: true, id: props.id, title: props.title})} style={styles.cardText}>{props.title}</Text>
                 {del ? <View style={styles.deleteButton} onTouchEnd={() => props.onDeleteCard(props.id)}>
                     <Text style={styles.deleteText}>Delete</Text></View> : <View></View>}
             </GestureRecognizer>

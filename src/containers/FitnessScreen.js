@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, ScrollView, ImageBackground } from 'react-native'
 import { useState } from 'react'
 import BottomNavBar from '../components/BottomNavBar'
 import Card from '../components/Card'
@@ -10,7 +10,7 @@ import ExpandedCard from '../components/ExpandedCard'
 export default function FitnessScreen(props) {
     const cards = props.cards
     let [fontsLoaded] = useFonts({Poppins_500Medium})
-    const [state, setState] = useState({viewMode: false, id: 0})
+    const [state, setState] = useState({viewMode: false, id: 0, title: ''})
 
     if (!fontsLoaded) {
         return <></>;
@@ -19,23 +19,23 @@ export default function FitnessScreen(props) {
             <>
             {
                 state.viewMode ? 
-                <View style={styles.outerContainer}>
-                    <ExpandedCard onCondense={setState} cards={cards} onTitleChange={props.onTitleChange}
+                <ImageBackground style={styles.outerContainer} blurRadius={90}>
+                    <ExpandedCard onCondense={setState} title={state.title} onTitleChange={props.onTitleChange}
                     id={state.id} rows={props.rows} onAdd={props.onAddRow} onDelete={props.onDeleteRow}
                     onRowText={props.onRowText}/>
                     <View style={[styles.innerContainer]}>
                         <View>
-                            <Header screen="fitness"/>
+                            <Header screen="fitness" onAdd={props.onAddCard}/>
                             <View style={[styles.titleContainer]}><Text style={styles.title}>Workout Library</Text></View>
                             {cards.map(card => <Card id={card.id} key={card.id} title={card.title} onDeleteCard={props.onDeleteCard}
                             handleExpand={setState}/>)}
                         </View>
                         <BottomNavBar onSwitch={props.onSwitch}/>
                     </View>
-                </View> 
+                </ImageBackground> 
                 :
                 <View style={styles.container}>
-                    <Header screen="fitness"/>
+                    <Header screen="fitness" onAdd={props.onAddCard}/>
                     <ScrollView style={{maxWidth: '100%', width: '100%'}}>
                         <View style={styles.titleContainer}><Text style={styles.title}>Workout Library</Text></View>
                         {cards.map(card => <Card id={card.id} key={card.id} title={card.title} onDeleteCard={props.onDeleteCard}

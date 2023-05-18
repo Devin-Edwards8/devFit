@@ -3,6 +3,11 @@ import MainScreen from './containers/MainScreen';
 import FitnessScreen from './containers/FitnessScreen';
 import NutritionScreen from './containers/NutritionScreen';
 import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import EStyleSheet from 'react-native-extended-stylesheet';
+ 
+EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use global variables!
+  $textColor: '#0275d8'
+});
 
 
 export default function App() {

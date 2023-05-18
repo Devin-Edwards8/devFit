@@ -46,7 +46,6 @@ export default class SearchBar extends Component {
     render() {
         const container = this.props.isTyping ? 0 : 1;
         return (
-            <View style={{flex: container}}>
                 <View style={styles.header}>
                     <View style={styles.searchBar}>
                         <Image style={styles.image} source={require('../assets/icons/search_icon.png')} />
@@ -54,8 +53,7 @@ export default class SearchBar extends Component {
                         onSubmitEditing={() => this.handleSearch()} ref={this.searchBar} 
                         onChangeText={load => this.setState({...this.state, currentText: load})}/>
                     </View>
-                </View>
-                {this.props.isTyping ? 
+                    {/* {this.props.isTyping ? 
                 <View style={{height: 0}}></View> :
                 <>
                     {this.state.searched ? 
@@ -73,8 +71,8 @@ export default class SearchBar extends Component {
                     <></>
                     }
                 </>
-                }
-            </View>
+                } should be beneath this view*/}
+                </View>
         );
     }
 }
