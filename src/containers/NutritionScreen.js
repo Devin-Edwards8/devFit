@@ -3,16 +3,15 @@ import { View, Text, TextInput, Keyboard } from 'react-native'
 import BottomNavBar from '../components/BottomNavBar'
 import Header from '../components/Header'
 import SearchBar from '../components/SearchBar'
-import GoalSetting from './GoalSetting'
 import { colorTheme } from '../global_colors'
 import PieChart from 'react-native-pie-chart'
 import EStyleSheet from 'react-native-extended-stylesheet'
-import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins';
+import {useFonts, Poppins_500Medium, Poppins_400Regular, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 export default function NutritionScreen(props) {
     const input1 = react.createRef();
     const input2 = react.createRef();
-    let [fontsLoaded] = useFonts({Poppins_500Medium})
+    let [fontsLoaded] = useFonts({Poppins_500Medium, Poppins_400Regular, Poppins_300Light})
 
     const [state, setState] = useState(
         {
@@ -63,51 +62,46 @@ export default function NutritionScreen(props) {
         return (
             <View style={styles.container}>
                 <View style={styles.mainContainer}>
-                    <Header /> 
-                    {state.settingMode ? 
-                        <GoalSetting onGoalClose={handleGoalClose} onGoalSet={props.onGoalSet} 
-                        progressBars={props.progressBars} onReset={props.onReset}/> 
-                        : 
-                        <View style={styles.nutritionContainer}>
-                            <View style={styles.chartsAndSearch}>
-                                <SearchBar onGoalSet={handleGoalSet} onSubmission={handleSearchSubmission} isTyping={state.manualEntry}/>
-                                <Text style={styles.title}>Nutrition Tracker</Text>
-                                <View style={styles.chartBox}>
-                                    <View style={styles.calorieChart}>
-                                        <PieChart widthAndHeight={200} series={[p1.value / p1.goal, 1]} style={styles.sideMargin}
-                                        sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p0.id}/>
-                                        <View>
-                                            <Text>calories</Text>
-                                            <Text>{}/{}</Text>
-                                        </View>
-                                    </View>
-                                    <View style={styles.proteinChart}>
-                                        <View>
-                                            <Text>protein (g)</Text>
-                                            <Text>{}/{}</Text>
-                                        </View>
-                                        <PieChart widthAndHeight={200} series={[p1.value / p1.goal, 1]} style={[styles.sideMargin]}
-                                        sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p1.id}/>
+                    <Header />
+                    <View style={styles.nutritionContainer}>
+                        <View style={styles.chartsAndSearch}>
+                            <SearchBar onGoalSet={handleGoalSet} onSubmission={handleSearchSubmission} isTyping={state.manualEntry}/>
+                            <Text style={styles.title}>Nutrition Tracker</Text>
+                            <View style={styles.chartBox}>
+                                <View style={styles.chartContainer}>
+                                    <PieChart widthAndHeight={styles.$pieSize} series={[p0.value / p0.goal, 1]}
+                                    sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p0.id}/>
+                                    <View>
+                                        <Text style={styles.chartText}>calories</Text>
+                                        <Text style={styles.chartText}>{p0.value}/{p0.goal}</Text>
                                     </View>
                                 </View>
-                            </View>
-                            <View>
-                                <Text style={styles.submissionTitle}>Add as you eat!</Text>
-                                <View style={styles.submissionEntries}>
-                                    <TextInput style={styles.entryBox} placeholder='calories' placeholderTextColor={colorTheme.mediumTheme} ref={input1}
-                                    onChangeText={(load) => setState({...state, currentCalorieValue: load})}
-                                    onPressIn={() => setState({manualEntry: true})} onSubmitEditing={() => setState({manualEntry: false})}/>
-                                    <TextInput style={styles.entryBox} placeholder='protein' placeholderTextColor={colorTheme.mediumTheme} ref={input2}
-                                    onChangeText={(load) => setState({...state, currentProteinValue: load})}
-                                    onPressIn={() => setState({manualEntry: true})} onSubmitEditing={() => setState({manualEntry: false})}/>
-                                    <View style={styles.submissionButton} onTouchEnd={() => handleManualSubmission()}>
-                                        <Text style={{color: colorTheme.background}}>{"\u2713"}</Text>
+                                <View style={styles.chartContainer}>
+                                    <View>
+                                        <Text style={styles.chartText}>protein (g)</Text>
+                                        <Text style={styles.chartText}>{p1.value}/{p1.goal}</Text>
                                     </View>
+                                    <PieChart widthAndHeight={styles.$pieSize} series={[p1.value / p1.goal, 1]}
+                                    sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p1.id}/>
                                 </View>
                             </View>
                         </View>
-                    }
-                </View>
+                        <View>
+                            <Text style={styles.submissionTitle}>Add as you eat!</Text>
+                            <View style={styles.submissionEntries}>
+                                <TextInput style={styles.entryBox} placeholder='calories' placeholderTextColor={colorTheme.mediumTheme} ref={input1}
+                                onChangeText={(load) => setState({...state, currentCalorieValue: load})}
+                                onPressIn={() => setState({manualEntry: true})} onSubmitEditing={() => setState({manualEntry: false})}/>
+                                <TextInput style={styles.entryBox} placeholder='protein' placeholderTextColor={colorTheme.mediumTheme} ref={input2}
+                                onChangeText={(load) => setState({...state, currentProteinValue: load})}
+                                onPressIn={() => setState({manualEntry: true})} onSubmitEditing={() => setState({manualEntry: false})}/>
+                                <View style={styles.submissionButton} onTouchEnd={() => handleManualSubmission()}>
+                                    <Text style={{color: colorTheme.background}}>{"\u2713"}</Text>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+            </View>
                 <BottomNavBar onSwitch={props.onSwitch}/>
             </View>
         );
@@ -133,6 +127,12 @@ const styles = EStyleSheet.create({
         flex: 1,
         justifyContent: 'flex-start'
     },
+    chartContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around'
+    },
     title: {
         fontFamily: 'Poppins_500Medium',
         fontSize: '2rem',
@@ -140,15 +140,20 @@ const styles = EStyleSheet.create({
         alignSelf: 'center',
         marginTop: '.5rem'
     },
+    chartText: {
+        fontSize: '1.5rem',
+        fontFamily: 'Poppins_300Light',
+        color: colorTheme.boldTheme
+    },
     chartBox: {
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'space-around'
     },
     submissionTitle: {
-        fontFamily: 'Arial Rounded MT Bold',
-        fontSize: 13,
-        color: colorTheme.boldAccent,
+        fontFamily: 'Poppins_400Regular',
+        fontSize: '.8rem',
+        color: colorTheme.boldTheme,
         margin: 5
     },
     submissionEntries: {
@@ -168,9 +173,9 @@ const styles = EStyleSheet.create({
         height: 30,
         backgroundColor: colorTheme.background,
         borderWidth: 1,
-        borderColor: colorTheme.boldAccent,
-        fontFamily: 'Arial',
-        color: colorTheme.boldAccent,
+        borderColor: colorTheme.boldTheme,
+        fontFamily: 'Poppins_300Light',
+        color: colorTheme.boldTheme,
         paddingLeft: 5
     },
     submissionButton: {
@@ -187,5 +192,6 @@ const styles = EStyleSheet.create({
     sideMargin: {
         marginRight: '.5rem',
         marginLeft: '.5rem'
-    }
+    },
+    $pieSize: '12rem'
 });

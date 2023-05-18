@@ -1,7 +1,8 @@
-import { StyleSheet, TextInput, View, Image, Text, ScrollView} from 'react-native';
+import { TextInput, View, Image, Text, ScrollView} from 'react-native';
 import React, {Component} from 'react';
 import SearchResults from './SearchResults';
 import { colorTheme } from '../global_colors';
+import EStyleSheet from 'react-native-extended-stylesheet'
 
 export default class SearchBar extends Component {
     constructor(props) {
@@ -49,7 +50,7 @@ export default class SearchBar extends Component {
                 <View style={styles.header}>
                     <View style={styles.searchBar}>
                         <Image style={styles.image} source={require('../assets/icons/search_icon.png')} />
-                        <TextInput style={styles.searchText} placeholder='search nutrition' placeholderTextColor={colorTheme.mediumTheme} 
+                        <TextInput style={styles.searchText} placeholder='not currently supported :(' placeholderTextColor={colorTheme.mediumTheme} 
                         onSubmitEditing={() => this.handleSearch()} ref={this.searchBar} 
                         onChangeText={load => this.setState({...this.state, currentText: load})}/>
                     </View>
@@ -77,7 +78,7 @@ export default class SearchBar extends Component {
     }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     header: {
         flex: 0,
         flexDirection: 'row',
@@ -91,10 +92,9 @@ const styles = StyleSheet.create({
         flex: 0,
         flexDirection: 'row',
         backgroundColor: colorTheme.background,
-        borderWidth: 1,
-        borderColor: colorTheme.lightAccent,
-        padding: 5,
-        marginLeft: 10,
+        marginLeft: '.5rem',
+        width: '95%',
+        padding: '.3rem',
         borderRadius: 5
     },
     searchText: {

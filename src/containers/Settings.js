@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image, TextInput} from 'react-native';
 import React, {useState} from 'react';
 
-export default function ProgressBar(props) {
+export default function SettingsScreen(props) {
     const [buttonColor, setButtonColor] = useState('#ec0868')
 
     return (

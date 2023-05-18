@@ -4,6 +4,7 @@ import FitnessScreen from './containers/FitnessScreen';
 import NutritionScreen from './containers/NutritionScreen';
 import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import SettingsScreen from './containers/Settings';
  
 EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use global variables!
   $textColor: '#0275d8'
@@ -119,7 +120,8 @@ export default function App() {
     onAddCard={handleAddCard} cards={cards} onTitleChange={handleTitle} onDeleteRow={handleDeleteRow}
     onRowText={handleRowText}/>,
     <NutritionScreen onSwitch={switchScreen} onGoalSet={handleGoal} progressBars={progressBars}
-    onValueChange={handleValueChange} onReset={handleValueReset}/>
+    onValueChange={handleValueChange} onReset={handleValueReset}/>,
+    <SettingsScreen />
   ]
 
   return (
