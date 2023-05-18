@@ -26,8 +26,9 @@ export default function MainScreen(props) {
         }
     }
 
-    // const quote = getQuote()
-    const quote = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",  "Devin Edwards"]
+    const quote = getQuote()
+    // test for long quote (too long, need to shrink)
+    // const quote = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",  "Devin Edwards"]
 
     if(!fontsLoaded) {
         return <></>
@@ -42,6 +43,13 @@ export default function MainScreen(props) {
                         <View style={[styles.box, styles.wideBox]}>
                             <Text style={styles.cardTitle}>Today's Report</Text>
                             <View style={styles.rule}/>
+                            <View style={styles.reportSection}>
+                                <Text style={[styles.reportText]}>Today's Workout: {"Pull"}</Text>
+                            </View>
+                            <View style={styles.rule}/>
+                            <View style={styles.reportSection}>
+                                <Text style={[styles.reportText]}>Nutritional goals {}% complete, keep it up!</Text>
+                            </View>
                         </View>
                         <View style={{flex: 0, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>
                             <View style={[styles.box, styles.narrowBox]}>
@@ -126,6 +134,19 @@ const styles = EStyleSheet.create({
         fontFamily: 'Poppins_300Light',
         color: colorTheme.boldTheme,
         textAlign: 'center'
+    },
+    reportSection: {
+        flex: 1,
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start'
+    },
+    reportText: {
+        fontSize: '1rem',
+        fontFamily: 'Poppins_300Light',
+        color: colorTheme.boldTheme,
+        marginLeft: '1rem'
     },
     ruleGap: {
         marginTop: '1rem'
