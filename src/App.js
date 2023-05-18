@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import MainScreen from './src/MainScreen';
-import FitnessScreen from './src/FitnessScreen';
-import NutritionScreen from './src/NutritionScreen';
+import MainScreen from './containers/MainScreen';
+import FitnessScreen from './containers/FitnessScreen';
+import NutritionScreen from './containers/NutritionScreen';
 import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
 

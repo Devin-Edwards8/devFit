@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import { colorTheme } from '../global_colors';
 
 export default function ProgressBar(props) {
     let width = 0
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         position: 'relative',
-        backgroundColor: "#ffc2d4",
+        backgroundColor: colorTheme.lightAccent,
         borderRadius: 10,
         overflow: 'hidden',
         height: 50,
@@ -38,18 +39,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         position: 'relative',
-        backgroundColor: "#e05780",
+        backgroundColor: colorTheme.boldAccent,
         borderRadius: 10,
         overflow: 'hidden',
         height: 50,
         marginTop: -60,
-        marginLeft: 10
+        marginLeft: 10,
     },
     bubbleText: {
         fontSize: 30,
         fontWeight: 'bold',
         fontFamily: 'Arial',
-        color: '#190028',
+        color: colorTheme.highContrast,
     },
     valuePosition: {
         position: 'absolute',

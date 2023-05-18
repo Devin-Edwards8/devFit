@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import { colorTheme } from '../global_colors';
 
 export default function AddCard(props) {
     return (
@@ -14,14 +15,15 @@ const styles = StyleSheet.create({
         flex: 0,
         height: 50,
         width: 100,
-        marginTop: 20,
+        margin: 20,
         borderRadius: 10,
-        backgroundColor: '#ffc2d4',
+        backgroundColor: colorTheme.lightAccent,
         alignItems: 'center',
         justifyContent: 'center'
     },
     buttonText: {
         fontFamily: 'Arial Rounded MT Bold',
-        fontSize: 15
+        fontSize: 15,
+        color: colorTheme.highContrast
     }
 });

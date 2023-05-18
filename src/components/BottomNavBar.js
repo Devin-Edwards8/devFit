@@ -1,5 +1,6 @@
 import react from 'react'
 import { StyleSheet, View, Image } from 'react-native'
+import { colorTheme } from '../global_colors';
 
 export default class BottomNavBar extends react.Component {
     render() {
@@ -24,9 +25,8 @@ const styles = StyleSheet.create({
         flex: 0,
         width: '100%',
         height: 100,
-        marginTop: 'auto',
         flexDirection: 'row',
-        backgroundColor: '#190028'
+        backgroundColor: colorTheme.bars
     },
     button: {
         flex: 0,

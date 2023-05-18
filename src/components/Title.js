@@ -4,10 +4,11 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import React from 'react';
 import { useEffect, useCallback } from 'react';
+import { colorTheme } from '../global_colors';
 
-export default function StartScreen(props) {
+export default function Title(props) {
     const [fontsLoaded] = useFonts({
-    'TitanOne': require('../assets/Titan_One/TitanOne-Regular.ttf'),
+        'TitanOne': require('../assets/fonts/TitanOne-Regular.ttf'),
     });
 
     useEffect(() => {
@@ -34,9 +35,9 @@ export default function StartScreen(props) {
 
 const styles = StyleSheet.create({
     title: {
-        color: '#e05780',
+        color: colorTheme.accent,
         fontFamily: 'TitanOne',
-        fontSize: 50,
-        paddingTop: 30,
+        fontSize: 60,
+        marginTop: 10
     }
 });

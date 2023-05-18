@@ -1,5 +1,6 @@
 import { StyleSheet, TextInput, View, Image, Text} from 'react-native';
 import React from 'react';
+import { colorTheme } from '../global_colors';
 
 export default function SearchResults(props) {
     const cals = props.itemCals
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     resultText: {
         fontSize: 20,
         fontFamily: 'Arial',
-        color: '#ffc2d4',
+        color: colorTheme.highContrast,
         width: 310, 
         marginLeft: 1
     }, 
@@ -52,6 +53,6 @@ const styles = StyleSheet.create({
         marginRight: 10,
         width: 30,
         height: 30,
-        backgroundColor: '#ffc2d4'
+        backgroundColor: colorTheme.lightAccent
     }
 });

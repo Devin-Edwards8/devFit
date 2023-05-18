@@ -1,7 +1,13 @@
 import react from 'react'
 import { StyleSheet, View, Text, } from 'react-native'
+import { colorTheme } from '../global_colors';
+import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins';
 
 export default function CardButtons(props) {
+    let [fontsLoaded] = useFonts({
+        Poppins_500Medium
+      });
+
     return (
         <View style={styles.container}>
             <View style={styles.button} onTouchEnd={() => props.onAdd(props.id)}>
@@ -9,9 +15,6 @@ export default function CardButtons(props) {
             </View>
             <View style={styles.button} onTouchEnd={() => props.onDelete(props.id)}>
                 <Text style={styles.text}>delete</Text>
-            </View>
-            <View style={styles.button} onTouchEnd={() => props.onCondense()}>
-                <Text style={styles.text}>minimize</Text>
             </View>
         </View>
     );
@@ -24,19 +27,20 @@ const styles = StyleSheet.create({
         flex: 0,
         width: 300,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-around'
     },
     button: {
         flex: 0,
         alignItems: 'center',
-        backgroundColor: '#ffc2d4',
+        borderWidth: 1,
+        borderColor: colorTheme.boldTheme,
         padding: 5,
         borderRadius: 10,
         width: 80
     },
     text: {
-        fontFamily: 'Arial',
-        color: '#220135',
+        fontFamily: 'Poppins_500Medium',
+        color: colorTheme.boldTheme,
         fontSize: 15,
     }
 });

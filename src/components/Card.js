@@ -1,59 +1,35 @@
-import react from 'react'
 import { StyleSheet, View, Text } from 'react-native'
+import { useState } from 'react';
 import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
-import ExpandedCard from './ExpandedCard';
+import { colorTheme } from '../global_colors';
+import {useFonts, Poppins_300Light} from '@expo-google-fonts/poppins';
 
-export default class Card extends react.Component {
-    state = {
-        delete: false,
-        viewMode: false,
+export default function Card(props) {
+    const [del, setDelete] = useState(false)
+
+    const handleSwipeLeft = (gestureState) => {
+        setDelete(true)
     }
 
-    handleSwipeLeft = (gestureState) => {
-        this.setState({
-            ...this.state,
-            delete: true
-        })
+    const handleSwipeRight = (gestureState) => {
+        setDelete(false)
     }
 
-    handleSwipeRight = (gestureState) => {
-        this.setState({
-            ...this.state,
-            delete: false
-        })
-    }
-
-    handleExpand = () => {
-        this.setState({
-            ...this.state,
-            viewMode: true
-        })
-    }
-
-    handleCondense = () => {
-        this.setState({
-            ...this.state,
-            viewMode: false
-        })
-    }
-
-    render() {
+    let [fontsLoaded] = useFonts({
+        Poppins_300Light
+      });
+    
+    if(!fontsLoaded) {
+        <></>
+    } else{
         return (
-            <>
-            {this.state.viewMode ? 
-            <View style={styles.expandedCard}>
-                <ExpandedCard onCondense={this.handleCondense} title={this.props.title} onTitleChange={this.props.onTitleChange}
-                    id={this.props.id} rows={this.props.rows} onAdd={this.props.onAdd} onDelete={this.props.onDeleteRow}
-                    onRowText={this.props.onRowText}/>
-            </View> :
-            <GestureRecognizer style={styles.card} onSwipeLeft={(state) => this.handleSwipeLeft(state)}
-            onSwipeRight={(state) => this.handleSwipeRight()}>
+            <GestureRecognizer style={styles.card} onSwipeLeft={(state) => handleSwipeLeft(state)}
+            onSwipeRight={(state) => handleSwipeRight()}>
                 <View></View>
-                <Text onTouchEnd={this.handleExpand} style={styles.cardText}>{this.props.title}</Text>
-                {this.state.delete ? <View style={styles.deleteButton} onTouchEnd={() => this.props.onDeleteCard(this.props.id)}>
+                <Text onTouchEnd={() => props.handleExpand({viewMode: true, id: props.id})} style={styles.cardText}>{props.title}</Text>
+                {del ? <View style={styles.deleteButton} onTouchEnd={() => props.onDeleteCard(props.id)}>
                     <Text style={styles.deleteText}>Delete</Text></View> : <View></View>}
-            </GestureRecognizer>}
-            </>
+            </GestureRecognizer>
         );
     }
 }
@@ -67,32 +43,28 @@ const styles = StyleSheet.create({
         height: 80,
         width: '100%',
         borderBottomWidth: 1,
-        borderColor: '#ffe0e9'
+        borderColor: colorTheme.lightTheme
     },
     cardText: {
-        fontFamily: 'Arial',
-        color: '#e05780',
+        fontFamily: 'Poppins_300Light',
+        color: colorTheme.boldTheme,
         fontSize: 30,
         fontWeight: 'bold',
-    }, 
-    expandedCard: {
-        flex: 0,
-        alignItems: 'center',
-        width: '100%',
-        minHeight: '10%',
-        borderBottomWidth: 1,
-        borderColor: '#ffe0e9'
     },
     deleteButton: {
         flex: 0,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#ffc2d4',
+        backgroundColor: colorTheme.lightAccent,
         height: '100%',
         width: 100,
     }, 
     deleteText: {
-        color: '#220135',
-        fontFamily: 'Arial Rounded MT Bold',
+        color: colorTheme.highContrast,
+        fontFamily: 'Poppins_300Light',
+    },
+    fill: {
+        width: '100%',
+        aspectRatio: 1 / 2
     }
 });
