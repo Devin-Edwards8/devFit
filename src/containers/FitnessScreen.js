@@ -7,6 +7,8 @@ import { colorTheme } from '../global_colors'
 import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins'
 import ExpandedCard from '../components/ExpandedCard'
 import EStyleSheet from 'react-native-extended-stylesheet'
+import { BlurView } from 'expo-blur'
+
 
 export default function FitnessScreen(props) {
     const cards = props.cards
@@ -20,20 +22,20 @@ export default function FitnessScreen(props) {
             <>
             {
                 state.viewMode ? 
-                <ImageBackground style={styles.outerContainer} blurRadius={90}>
+                <View style={styles.outerContainer}>
                     <ExpandedCard onCondense={setState} title={state.title} onTitleChange={props.onTitleChange}
                     id={state.id} rows={props.rows} onAdd={props.onAddRow} onDelete={props.onDeleteRow}
                     onRowText={props.onRowText}/>
-                    <View style={[styles.innerContainer]}>
+                    <View style={[styles.innerContainer, styles.blur]}>
                         <View>
                             <Header screen="fitness" onAdd={props.onAddCard}/>
-                            <View style={[styles.titleContainer]}><Text style={styles.title}>Workout Library</Text></View>
+                            <View style={[styles.titleContainer]}><Text style={[styles.title, styles.blur]}>Workout Library</Text></View>
                             {cards.map(card => <Card id={card.id} key={card.id} title={card.title} onDeleteCard={props.onDeleteCard}
                             handleExpand={setState}/>)}
                         </View>
                         <BottomNavBar onSwitch={props.onSwitch}/>
                     </View>
-                </ImageBackground> 
+                </View> 
                 :
                 <View style={styles.container}>
                     <Header screen="fitness" onAdd={props.onAddCard} onSwitch={props.onSwitch}/>
@@ -78,5 +80,8 @@ const styles = EStyleSheet.create({
         height: '100%',
         flex: 0,
         justifyContent: 'space-between'
+    },
+    blur: {
+        opacity: .2
     }
 });

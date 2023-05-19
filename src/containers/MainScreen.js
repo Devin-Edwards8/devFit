@@ -1,4 +1,4 @@
-import react from 'react'
+import {useState} from 'react'
 import { View, Text } from 'react-native'
 import BottomNavBar from '../components/BottomNavBar'
 import Header from '../components/Header'
@@ -12,6 +12,7 @@ import PieChart from 'react-native-pie-chart'
 
 export default function MainScreen(props) {
     let [fontsLoaded] = useFonts({Poppins_400Regular, Poppins_300Light})
+    const [workoutComplete, completeWorkout] = useState(false)
 
     const getQuote = () => {
         const d = new Date();
@@ -27,6 +28,7 @@ export default function MainScreen(props) {
     }
 
     const quote = getQuote()
+    let nutritionPercent = Math.round(((props.progressBars[0].value / props.progressBars[0].goal) + (props.progressBars[1].value / props.progressBars[1].goal)) / 2)
     // test for long quote (too long, need to shrink)
     // const quote = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",  "Devin Edwards"]
 
@@ -44,11 +46,17 @@ export default function MainScreen(props) {
                             <Text style={styles.cardTitle}>Today's Report</Text>
                             <View style={styles.rule}/>
                             <View style={styles.reportSection}>
+                                {workoutComplete ? 
+                                <Text style={[styles.reportText]}>{"Pull"} workout complete! Feel the burn 🔥🔥</Text> :
+                                <>
                                 <Text style={[styles.reportText]}>Today's Workout: {"Pull"}</Text>
+                                <View style={styles.completeButton} onTouchEnd={() => completeWorkout(true)}><Text style={styles.buttonText}>Complete?</Text></View>
+                                </>
+                                }
                             </View>
                             <View style={styles.rule}/>
                             <View style={styles.reportSection}>
-                                <Text style={[styles.reportText]}>Nutritional goals {}% complete, keep it up!</Text>
+                                <Text style={[styles.reportText]}>Nutritional goals {nutritionPercent}% complete, keep it up!</Text>
                             </View>
                         </View>
                         <View style={{flex: 0, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>
@@ -67,7 +75,7 @@ export default function MainScreen(props) {
                         <View style={[styles.box, styles.wideBox]}>
                             <Text style={styles.cardTitle}>Quote of the Day</Text>
                             <View style={styles.rule}/>
-                            <View style={{flex: 0}}><Text style={[styles.body, styles.ruleGap]}>{quote[0]} ~{quote[1]}</Text></View>
+                            <View style={{flexGrow: 1, justifyContent: 'center'}}><Text style={[styles.body, styles.ruleGap]}>{quote[0]} ~{quote[1]}</Text></View>
                         </View>
                     </View>
                 </View>
@@ -115,6 +123,9 @@ const styles = EStyleSheet.create({
         borderTopWidth: 1,
         borderColor: colorTheme.mediumTheme
     },
+    ruleGap: {
+        marginTop: '1rem'
+    },
     wideBox: {
         width: '96%',
         aspectRatio: 2/1
@@ -140,7 +151,7 @@ const styles = EStyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'space-between'
     },
     reportText: {
         fontSize: '1rem',
@@ -148,8 +159,20 @@ const styles = EStyleSheet.create({
         color: colorTheme.boldTheme,
         marginLeft: '1rem'
     },
-    ruleGap: {
-        marginTop: '1rem'
+    completeButton: {
+        width: '30%',
+        height: '65%',
+        marginRight: '1rem',
+        borderRadius: '.3rem',
+        backgroundColor: colorTheme.mediumTheme,
+        flex: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonText: {
+        fontSize: '0.9rem',
+        fontFamily: 'Poppins_300Light',
+        color: colorTheme.boldTheme
     },
     pieGap: {
         marginTop: '.5rem'

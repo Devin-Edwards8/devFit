@@ -115,7 +115,7 @@ export default function App() {
   }
 
   const screens = [
-    <MainScreen onSwitch={switchScreen}/>,
+    <MainScreen onSwitch={switchScreen} progressBars={progressBars}/>,
     <FitnessScreen onSwitch={switchScreen} onDeleteCard={handleDeleteCard} rows={rows} onAddRow={handleAddRow}
     onAddCard={handleAddCard} cards={cards} onTitleChange={handleTitle} onDeleteRow={handleDeleteRow}
     onRowText={handleRowText}/>,
