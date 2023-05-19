@@ -4,7 +4,7 @@ import BottomNavBar from '../components/BottomNavBar'
 import Card from '../components/Card'
 import Header from '../components/Header'
 import { colorTheme } from '../global_colors'
-import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins';
+import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins'
 import ExpandedCard from '../components/ExpandedCard'
 import EStyleSheet from 'react-native-extended-stylesheet'
 

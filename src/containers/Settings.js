@@ -1,13 +1,17 @@
-import { StyleSheet, Text, View, Image, TextInput} from 'react-native';
+import { Text, View, TextInput, ScrollView } from 'react-native';
 import React, {useState} from 'react';
 import Header from '../components/Header';
 import BottomNavBar from '../components/BottomNavBar';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import {useFonts, Poppins_500Medium, Poppins_400Regular, Poppins_300Light} from '@expo-google-fonts/poppins';
 import { colorTheme } from '../global_colors';
+import Toggle from 'react-native-toggle-input'
 
 export default function SettingsScreen(props) {
     let [fontsLoaded] = useFonts({Poppins_500Medium, Poppins_400Regular, Poppins_300Light})
+    const [toggle1, setToggle1] = useState(false)
+    const [toggle2, setToggle2] = useState(false)
+    const [toggle3, setToggle3] = useState(false)
 
     if(!fontsLoaded) {
         return <></>
@@ -15,32 +19,63 @@ export default function SettingsScreen(props) {
         return (
             <View style={styles.container}>
                 <View>
-                    <Header screen='settings'/>
+                    <Header screen='settings' onClose={props.onSwitch}/>
                     <Text style={styles.title}>Settings</Text>
                     <Text style={styles.subtitle}>General</Text>
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Allow Notifications</Text>
+                        <View style={styles.toggle}>
+                            <Toggle toggle={toggle1} setToggle={setToggle1} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
+                        </View>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.rowText}>Allow devFit to use your data</Text>
+                        <View style={styles.toggle}>
+                            <Toggle toggle={toggle2} setToggle={setToggle2} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
+                        </View>
                     </View>
                     <Text style={styles.subtitle}>Set Nutritional Goals</Text>
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Caloric intake</Text>
+                        <View style={styles.inputBox}>
+                            <TextInput style={styles.inputText} onChangeText={(load) => props.onGoalSet(load, props.progressBars[0].id)}>
+                                {props.progressBars[0].goal}</TextInput>
+                        </View>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.rowText}>Grams of protein</Text>
+                        <View style={styles.inputBox}>
+                            <TextInput style={styles.inputText} onChangeText={(load) => props.onGoalSet(load, props.progressBars[1].id)}>
+                                {props.progressBars[1].goal}</TextInput>
+                        </View>
                     </View>
                         <Text style={styles.subtitle}>Home Screen Data</Text>
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Customize split rotation</Text>
+                        <View style={styles.toggle}>
+                            <Toggle toggle={toggle3} setToggle={setToggle3} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
+                        </View>
                     </View>
-                    <View style={styles.row}>
-                        <Text style={styles.rowText}>Length of rotation (days)</Text>
-                    </View>
+                    {toggle3 ? 
                     <View>
-                        <Text style={styles.rowText}>Enter split titles separated by commas</Text>
+                        <View style={styles.row}>
+                            <Text style={styles.rowText}>Length of rotation (days)</Text>
+                            <View style={styles.inputBox}>
+                                <TextInput style={styles.inputText} placeholder='7 (default)' placeholderTextColor={colorTheme.mediumTheme}></TextInput>
+                            </View>
+                        </View>
+                        <View style={[styles.row, styles.doubleRow]}>
+                            <Text style={styles.rowText}>Enter split titles separated by commas</Text>
+                            <View style={[styles.inputBox, styles.wideBox]}>
+                                <TextInput style={styles.inputText} placeholder='ex. Upper,Lower,Rest,Upper,Rest,Lower,Rest' placeholderTextColor={colorTheme.mediumTheme}>
+
+                                </TextInput>
+                            </View>
+                        </View>
                     </View>
+                     :
+                    <></>
+                    }
                 </View>
                 <BottomNavBar onSwitch={props.onSwitch} />
             </View>
@@ -81,11 +116,39 @@ const styles = EStyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
+    doubleRow: {
+        height: '6rem',
+        flexDirection: 'column',
+        justifyContent: 'space-evenly'
+    },
     rowText: {
         fontFamily: 'Poppins_400Regular',
         fontSize: '.9rem',
         color: colorTheme.boldTheme,
         marginLeft: '.3rem'
     },
-
+    inputBox: {
+        width: '25%',
+        height: '80%',
+        marginRight: '.3rem',
+        flex: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderRadius: '.2rem',
+        borderWidth: 1,
+        borderColor: colorTheme.mediumTheme
+    },
+    wideBox: {
+        width: '90%',
+        height: '48%'
+    },
+    inputText: {
+        width: '100%',
+        textAlign: 'center',
+        color: colorTheme.boldTheme
+    },
+    toggle: {
+        marginRight: '.3rem'
+    },
+    $toggleSize: '1.2rem'
 });
