@@ -1,112 +1,91 @@
 import { StyleSheet, Text, View, Image, TextInput} from 'react-native';
 import React, {useState} from 'react';
+import Header from '../components/Header';
+import BottomNavBar from '../components/BottomNavBar';
+import EStyleSheet from 'react-native-extended-stylesheet';
+import {useFonts, Poppins_500Medium, Poppins_400Regular, Poppins_300Light} from '@expo-google-fonts/poppins';
+import { colorTheme } from '../global_colors';
 
 export default function SettingsScreen(props) {
-    const [buttonColor, setButtonColor] = useState('#ec0868')
+    let [fontsLoaded] = useFonts({Poppins_500Medium, Poppins_400Regular, Poppins_300Light})
 
-    return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>Nutrition Goals</Text>
-                <View style={styles.closeButton} onTouchEnd={props.onGoalClose}>
-                    <Image style={styles.image} source={require('../assets/icons/exit_icon.png')}/>
+    if(!fontsLoaded) {
+        return <></>
+    } else {
+        return (
+            <View style={styles.container}>
+                <View>
+                    <Header screen='settings'/>
+                    <Text style={styles.title}>Settings</Text>
+                    <Text style={styles.subtitle}>General</Text>
+                    <View style={[styles.row, styles.topRow]}>
+                        <Text style={styles.rowText}>Allow Notifications</Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.rowText}>Allow devFit to use your data</Text>
+                    </View>
+                    <Text style={styles.subtitle}>Set Nutritional Goals</Text>
+                    <View style={[styles.row, styles.topRow]}>
+                        <Text style={styles.rowText}>Caloric intake</Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.rowText}>Grams of protein</Text>
+                    </View>
+                        <Text style={styles.subtitle}>Home Screen Data</Text>
+                    <View style={[styles.row, styles.topRow]}>
+                        <Text style={styles.rowText}>Customize split rotation</Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.rowText}>Length of rotation (days)</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.rowText}>Enter split titles separated by commas</Text>
+                    </View>
                 </View>
+                <BottomNavBar onSwitch={props.onSwitch} />
             </View>
-            <View style={styles.goalInput}>
-                <Text style={styles.goalPrompt}>Calories per day: </Text>
-                <View style={styles.inputSpace}>
-                    <TextInput style={styles.inputText} onChangeText={(load) => props.onGoalSet(load, props.progressBars[0].id)}>
-                        {props.progressBars[0].goal}</TextInput>
-                </View>
-            </View>
-            <View style={styles.goalInput}>
-                <Text style={styles.goalPrompt}>Grams of protein per day: </Text>
-                <View style={styles.inputSpace}>
-                    <TextInput style={styles.inputText} onChangeText={(load) => props.onGoalSet(load, props.progressBars[1].id)}>
-                        {props.progressBars[1].goal}</TextInput>
-                </View>
-            </View>
-            <View style={[styles.resetButton, {backgroundColor: buttonColor}]} onTouchEnd={() => props.onReset()}
-            onTouchStart={() => setButtonColor('#ffc2d4')}>
-                <Text style={styles.resetText}>Reset Values</Text>
-            </View>
-        </View>
-    );
+        );
+    }
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     container: {
-        flex: 0,
-        width: '100%',
-        alignItems: 'center'
-    }, 
+        flex: 1,
+        justifyContent: 'space-between'
+    },
     title: {
-        fontSize: 40,
-        fontFamily: 'Arial Rounded MT Bold',
-        color: '#ffc2d4',
-        marginLeft: 10
+        fontSize: '2rem',
+        fontFamily: 'Poppins_500Medium',
+        color: colorTheme.accent,
+        textAlign: 'center',
+        marginTop: '.5rem'
+    }, 
+    subtitle: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: '1rem',
+        color: colorTheme.boldTheme,
+        marginTop: '1.5rem',
+        marginLeft: '.3rem'
     },
-    closeButton: {
-        marginRight: 10,
-        padding: 10,
-        backgroundColor: '#190028',
-        borderRadius: 10
+    topRow: {
+        borderTopWidth: 1
     },
-    header: {
-        flex: 0,
+    row: {
         width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginTop: 5
-    },
-    image: {
-        height: 20,
-        width: 20
-    }, 
-    goalInput: {
+        height: '3rem',
+        borderBottomWidth: 1,
+        borderColor: colorTheme.mediumTheme,
+        backgroundColor: colorTheme.lightTheme,
         flex: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignSelf: 'flex-start',
-        alignContent: 'center',
-        marginTop: 20
-    }, 
-    goalPrompt: {
-        fontFamily: 'Arial Rounded MT Bold',
-        fontSize: 20,
-        color: '#ffc2d4',
-        marginLeft: 20
+        alignItems: 'center'
     },
-    inputSpace: {
-        backgroundColor: '#190028',
-        height: 28,
-        minWidth: 20,
-        width: 'auto',
-        borderRadius: 3,
-        alignContent: 'center'
+    rowText: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: '.9rem',
+        color: colorTheme.boldTheme,
+        marginLeft: '.3rem'
     },
-    inputText: {
-        fontFamily: 'Arial Rounded MT Bold',
-        fontSize: 18,
-        color: '#e05780',
-        paddingTop: 3,
-        paddingBottom: 3,
-        paddingLeft: 5,
-        paddingRight: 5
-    },
-    resetButton: {
-        flex: 0,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 80, 
-        width: 180,
-        borderRadius: 20,
-        marginTop: 80
-    },
-    resetText: {
-        fontFamily: 'Arial Rounded MT Bold',
-        fontSize: 20,
-        color: '#190028'
-    }
+
 });

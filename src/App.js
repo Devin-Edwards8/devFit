@@ -121,7 +121,7 @@ export default function App() {
     onRowText={handleRowText}/>,
     <NutritionScreen onSwitch={switchScreen} onGoalSet={handleGoal} progressBars={progressBars}
     onValueChange={handleValueChange} onReset={handleValueReset}/>,
-    <SettingsScreen />
+    <SettingsScreen onSwitch={switchScreen} onGoalSet={handleGoal} onReset={handleValueReset} progressBars={progressBars} />
   ]
 
   return (

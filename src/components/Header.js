@@ -5,7 +5,7 @@ import { colorTheme } from '../global_colors';
 export default function Header(props) {
     return (
         <View style={styles.strip}>
-            <Image style={styles.image} source={require('../assets/icons/settings_icon.png')} />
+            <Image style={styles.image} source={require('../assets/icons/settings_icon.png')} onTouchEnd={() => props.onSwitch(3)} />
             {props.screen === "fitness" ? <View onTouchEnd={() => props.onAdd()}><Text style={styles.add}>+</Text></View> : <></>}
         </View>
     );

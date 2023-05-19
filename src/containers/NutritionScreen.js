@@ -62,7 +62,7 @@ export default function NutritionScreen(props) {
         return (
             <View style={styles.container}>
                 <View style={styles.mainContainer}>
-                    <Header />
+                    <Header onSwitch={props.onSwitch} />
                     <View style={styles.nutritionContainer}>
                         <View style={styles.chartsAndSearch}>
                             <SearchBar onGoalSet={handleGoalSet} onSubmission={handleSearchSubmission} isTyping={state.manualEntry}/>

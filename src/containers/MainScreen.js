@@ -37,7 +37,7 @@ export default function MainScreen(props) {
             <View style={styles.container}>
                 <StatusBar style="light"/>
                 <View style={styles.mainContainer}>
-                    <Header />
+                    <Header onSwitch={props.onSwitch} />
                     <Title />
                     <View style={styles.boxContainer}>
                         <View style={[styles.box, styles.wideBox]}>
