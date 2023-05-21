@@ -22,18 +22,6 @@ export default function NutritionScreen(props) {
         }
     )
 
-    const handleGoalSet = () => {
-        setState({
-            settingMode: true
-        })
-    }
-
-    const handleGoalClose = () => {
-        setState({
-            settingMode: false
-        })
-    }
-
     const handleManualSubmission = () => {
         props.onValueChange(state.currentCalorieValue, 1)
         props.onValueChange(state.currentProteinValue, 2)
@@ -65,7 +53,7 @@ export default function NutritionScreen(props) {
                     <Header onSwitch={props.onSwitch} />
                     <View style={styles.nutritionContainer}>
                         <View style={styles.chartsAndSearch}>
-                            <SearchBar onGoalSet={handleGoalSet} onSubmission={handleSearchSubmission} isTyping={state.manualEntry}/>
+                            <SearchBar onSubmission={handleSearchSubmission} isTyping={state.manualEntry}/>
                             <Text style={styles.title}>Nutrition Tracker</Text>
                             <View style={styles.chartBox}>
                                 <View style={styles.chartContainer}>
@@ -90,11 +78,9 @@ export default function NutritionScreen(props) {
                             <Text style={styles.submissionTitle}>Add as you eat!</Text>
                             <View style={styles.submissionEntries}>
                                 <TextInput style={styles.entryBox} placeholder='calories' placeholderTextColor={colorTheme.mediumTheme} ref={input1}
-                                onChangeText={(load) => setState({...state, currentCalorieValue: load})}
-                                onPressIn={() => setState({manualEntry: true})} onSubmitEditing={() => setState({manualEntry: false})}/>
+                                onChangeText={(load) => setState({...state, currentCalorieValue: load})} />
                                 <TextInput style={styles.entryBox} placeholder='protein' placeholderTextColor={colorTheme.mediumTheme} ref={input2}
-                                onChangeText={(load) => setState({...state, currentProteinValue: load})}
-                                onPressIn={() => setState({manualEntry: true})} onSubmitEditing={() => setState({manualEntry: false})}/>
+                                onChangeText={(load) => setState({...state, currentProteinValue: load})} />
                                 <View style={styles.submissionButton} onTouchEnd={() => handleManualSubmission()}>
                                     <Text style={{color: colorTheme.background}}>{"\u2713"}</Text>
                                 </View>

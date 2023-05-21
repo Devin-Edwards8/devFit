@@ -12,7 +12,10 @@ import PieChart from 'react-native-pie-chart'
 
 export default function MainScreen(props) {
     let [fontsLoaded] = useFonts({Poppins_400Regular, Poppins_300Light})
-    const [workoutComplete, completeWorkout] = useState(false)
+    const d = new Date()
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    let day = days[d.getDay()]
+
 
     const getQuote = () => {
         const d = new Date();
@@ -28,7 +31,7 @@ export default function MainScreen(props) {
     }
 
     const quote = getQuote()
-    let nutritionPercent = Math.round(((props.progressBars[0].value / props.progressBars[0].goal) + (props.progressBars[1].value / props.progressBars[1].goal)) / 2)
+    let nutritionPercent = Math.round(((props.progressBars[0].value / props.progressBars[0].goal) + (props.progressBars[1].value / props.progressBars[1].goal)) / 2 * 100)
     // test for long quote (too long, need to shrink)
     // const quote = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",  "Devin Edwards"]
 
@@ -43,20 +46,24 @@ export default function MainScreen(props) {
                     <Title />
                     <View style={styles.boxContainer}>
                         <View style={[styles.box, styles.wideBox]}>
-                            <Text style={styles.cardTitle}>Today's Report</Text>
+                            <Text style={styles.cardTitle}>{day}'s Report</Text>
                             <View style={styles.rule}/>
                             <View style={styles.reportSection}>
-                                {workoutComplete ? 
-                                <Text style={[styles.reportText]}>{"Pull"} workout complete! Feel the burn 🔥🔥</Text> :
+                                {props.workoutComplete.status ? 
+                                <Text style={[styles.reportText]}>Workout complete! Feel the burn 🔥🔥</Text> :
                                 <>
-                                <Text style={[styles.reportText]}>Today's Workout: {"Pull"}</Text>
-                                <View style={styles.completeButton} onTouchEnd={() => completeWorkout(true)}><Text style={styles.buttonText}>Complete?</Text></View>
+                                <Text style={[styles.reportText]}>Today's Workout:</Text>
+                                <View style={styles.completeButton} onTouchEnd={() => props.completeWorkout({status: true, weeklyProgress: props.workoutComplete.weeklyProgress++})}>
+                                    <Text style={styles.buttonText}>Complete?</Text>
+                                </View>
                                 </>
                                 }
                             </View>
                             <View style={styles.rule}/>
                             <View style={styles.reportSection}>
-                                <Text style={[styles.reportText]}>Nutritional goals {nutritionPercent}% complete, keep it up!</Text>
+                                {nutritionPercent === 100 ? 
+                                <Text style={[styles.reportText]}>Nutritional goals reached, great work!</Text> :
+                                <Text style={[styles.reportText]}>Nutritional goals {nutritionPercent}% complete, keep it up!</Text>}
                             </View>
                         </View>
                         <View style={{flex: 0, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>

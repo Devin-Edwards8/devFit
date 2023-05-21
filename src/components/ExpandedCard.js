@@ -1,26 +1,35 @@
-import { StyleSheet, View, Text, ScrollView, TextInput, Image } from 'react-native'
-import CardButtons from './CardButtons';
+import { View, Text, TextInput, Image } from 'react-native'
+import { useState } from 'react';
 import InputRow from './InputRow'
 import { colorTheme } from '../global_colors';
 import {useFonts, Poppins_300Light} from '@expo-google-fonts/poppins';
+import CardButtons from './CardButtons'
+import EStyleSheet from 'react-native-extended-stylesheet'
+import Row from './Row'
+
 
 export default function ExpandedCard(props) {
     let [fontsLoaded] = useFonts({
         Poppins_300Light
       });
+    const [editMode, toggleEdit] = useState(false)
     
     if(!fontsLoaded) {
         return <></>
     } else{
         return (
-            <View style={styles.container}>
-                <View style={{flex: 0, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <Image style={styles.image} source={require('../assets/icons/new_fitness_icon.png')} />
+            <>
+            {
+            editMode ? 
+            <View style={[styles.container, {paddingBottom: 0}]}>
+                <View style={{flex: 0, flexShrink: 1, flexGrow: 1, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <Image style={[styles.image, styles.close]} source={require('../assets/icons/close_icon2.png')} 
+                    onTouchEnd={() => props.onCondense({viewMode: false, cardNo: 0})}/>
                     <TextInput style={styles.cardText} onChangeText={((payload) => props.onTitleChange(payload, props.id))}>{props.title}</TextInput>
-                    <Image style={styles.image} source={require('../assets/icons/exit_icon.png')} 
-                    onTouchEnd={() => props.onCondense({viewMode: false, cardNo: 0})} />
+                    <Image style={[styles.image, styles.edit]} source={require('../assets/icons/editing_icon.jpeg')} 
+                    onTouchEnd={() => toggleEdit(false)}/>
                 </View>
-                <ScrollView contentContainerStyle={{flexGrow: 1, alignItems: 'center'}}>
+                <View style={{flex: 0, alignItems: 'center'}}>
                     <View style={styles.rowTitle}>
                         <Text style={[styles.inputText, styles.workoutText]}>workout</Text>
                         <View style={[styles.numberText, {width: '25%'}]}><Text style={[styles.inputText]}>set x rep</Text></View>
@@ -28,26 +37,45 @@ export default function ExpandedCard(props) {
                     </View>
                     {props.rows[props.id].map(row => <InputRow id={row.id} key={row.id} text={row.text} onRowText={props.onRowText}
                     cardID={props.id}/>)}
-                </ScrollView>
-                {/* <CardButtons onCondense={props.onCondense} onAdd={props.onAdd} onDelete={props.onDelete} id={props.id}/> */}
+                </View>
+                <CardButtons onCondense={props.onCondense} onAdd={props.onAdd} onDelete={props.onDelete} id={props.id}/>
+            </View> :
+            <View style={[styles.container]}>
+                <View style={{flex: 0, flexShrink: 1, flexGrow: 1, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <Image style={[styles.image, styles.close]} source={require('../assets/icons/close_icon2.png')} 
+                    onTouchEnd={() => props.onCondense({viewMode: false, cardNo: 0})}/>
+                    <Text style={styles.cardText}>{props.title}</Text>
+                    <Image style={[styles.image, styles.edit]} source={require('../assets/icons/not_editing_icon.jpeg')} 
+                    onTouchEnd={() => toggleEdit(true)}/>
+                </View>
+                <View style={{flex: 0, alignItems: 'center'}}>
+                    <View style={styles.rowTitle}>
+                        <Text style={[styles.inputText, styles.workoutText]}>workout</Text>
+                        <View style={[styles.numberText, {width: '25%'}]}><Text style={[styles.inputText]}>set x rep</Text></View>
+                        <View style={[styles.numberText, {width: '20%'}]}><Text style={[styles.inputText]}>weight</Text></View>
+                    </View>
+                    {props.rows[props.id].map(row => <Row key={row.id} text={row.text}/>)}
+                </View>
             </View>
+            }
+            </>
         );
     }
     }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     container: {
         position: 'absolute',
         width: '98%',
-        height: '30%',
         backgroundColor: colorTheme.lightTheme,
-        borderRadius: '10rem',
+        top: '30%',
+        borderRadius: '.2rem',
         alignSelf: 'center',
         zIndex: 1,
-        top: '30%',
         flex: 0,
         justifyContent: 'space-around',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingBottom: '.3rem'
     },
     rowTitle: {
         flex: 0,
@@ -82,9 +110,15 @@ const styles = StyleSheet.create({
         borderColor: colorTheme.mediumTheme
     },
     image: {
-        width: '10%',
         aspectRatio: 1 / 1,
         marginLeft: '3%',
         marginRight: '3%'
+    },
+    close: {
+        width: '8%'
+    },
+    edit: {
+        width: '9%',
+        borderRadius: '.5rem'
     }
 });

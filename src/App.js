@@ -12,12 +12,19 @@ EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use glo
 
 
 export default function App() {
+  const d = new Date()
+  let date = String(d.getMonth) + String(d.getDate) + String(d.getFullYear)
+  
+
   const [currentScreen, setCurrentScreen] = useState(0)
   const [cards, setCards] = useState([{id: 0, title: 'edit'}])
   const { setItem, getItem } = useAsyncStorage('@cards')
   const [rows, setRows] = useState({0: [{id: 0, text: ['', '', '']}]})
   const [progressBars, setProgressBars] = useState([{title: 'calories', value: 0, id: 1, goal: 0},
   {title: 'protein', value: 0, id: 2, goal: 0}])
+  const [workoutComplete, completeWorkout] = useState({status: false, weeklyProgress: 0})
+  const [split, setSplit] = useState({customRotation: 'false', splits: cards.map(e => e.title), 
+  currentDay: 0, rotationLength: cards.length})
 
   const switchScreen = (screenNum) => {
     setCurrentScreen(screenNum)
@@ -115,7 +122,7 @@ export default function App() {
   }
 
   const screens = [
-    <MainScreen onSwitch={switchScreen} progressBars={progressBars}/>,
+    <MainScreen onSwitch={switchScreen} progressBars={progressBars} workoutComplete={workoutComplete} completeWorkout={completeWorkout}/>,
     <FitnessScreen onSwitch={switchScreen} onDeleteCard={handleDeleteCard} rows={rows} onAddRow={handleAddRow}
     onAddCard={handleAddCard} cards={cards} onTitleChange={handleTitle} onDeleteRow={handleDeleteRow}
     onRowText={handleRowText}/>,

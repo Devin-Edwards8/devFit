@@ -33,7 +33,10 @@
     "react-native-swipe-gestures": "^1.0.5",
     "react-native-toggle-input": "^1.0.12",
     "updates": "^13.2.7",
-    "use-long-press": "^2.0.2"
+    "use-long-press": "^2.0.2",
+    "react-native-web": "~0.18.9",
+    "react-dom": "18.1.0",
+    "@expo/webpack-config": "^0.17.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

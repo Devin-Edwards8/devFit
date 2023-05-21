@@ -1,8 +1,8 @@
-import { StyleSheet, View,  TextInput } from 'react-native'
+import { StyleSheet, View,  Text } from 'react-native'
 import { colorTheme } from '../global_colors';
 import {useFonts, Poppins_300Light} from '@expo-google-fonts/poppins';
 
-export default function InputRow(props) {
+export default function Row(props) {
     let [fontsLoaded] = useFonts({
         Poppins_300Light
       });
@@ -10,17 +10,22 @@ export default function InputRow(props) {
     if(!fontsLoaded) {
         return <></>
     } else {
+        let text0 = props.text[0]
+        let text1 = props.text[1]
+        let text2 = props.text[2]
+        if(!text0) {
+            text0 = 'no workout'
+            text1 = 'n/a'
+            text2 = 'n/a'
+        }
         return (
             <View style={styles.rowTitle}>
-                <TextInput style={[styles.inputText, styles.workoutText]} placeholder="enter workout" placeholderTextColor={colorTheme.mediumTheme}
-                onChangeText={(payload) => props.onRowText(payload, props.id, 0, props.cardID)}>{props.text[0]}</TextInput>
+                <Text style={[styles.inputText, styles.workoutText]}>{text0}</Text>
                 <View style={[styles.numberText, {width: '25%'}]}>
-                    <TextInput style={[styles.inputText]} placeholder="-" placeholderTextColor={colorTheme.mediumTheme}
-                    onChangeText={(payload) => props.onRowText(payload, props.id, 1, props.cardID)}>{props.text[1]}</TextInput>
+                    <Text style={[styles.inputText]}>{text1}</Text>
                 </View>
                 <View style={[styles.numberText, {width: '20%'}]}>
-                    <TextInput style={[styles.inputText]} placeholder="-" placeholderTextColor={colorTheme.mediumTheme}
-                    onChangeText={(payload) => props.onRowText(payload, props.id, 2, props.cardID)}>{props.text[2]}</TextInput>
+                    <Text style={[styles.inputText]}>{text2}</Text>
                 </View>
             </View>
         );
