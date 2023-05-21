@@ -7,7 +7,6 @@ import { colorTheme } from '../global_colors'
 import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins'
 import ExpandedCard from '../components/ExpandedCard'
 import EStyleSheet from 'react-native-extended-stylesheet'
-import { BlurView } from 'expo-blur'
 
 
 export default function FitnessScreen(props) {

@@ -1,58 +1,85 @@
-import { StyleSheet, TextInput, View, Image, Text} from 'react-native';
-import React from 'react';
+import { ScrollView, View, Text} from 'react-native';
+import { useState } from 'react';
+import EStyleSheet from 'react-native-extended-stylesheet'
 import { colorTheme } from '../global_colors';
+import {useFonts, Poppins_500Medium, Poppins_400Regular, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 export default function SearchResults(props) {
-    const cals = props.itemCals
-    const prot = props.itemProt
+    let [fontsLoaded] = useFonts({Poppins_500Medium, Poppins_400Regular, Poppins_300Light})
+
+    if(!fontsLoaded) {
+        return <></>
+    }
     return(
-        <View style={[styles.container1, styles.gap]}>
-            <View style={styles.container2}>
-                <Text style={styles.resultText}>Item: {props.currentItem}</Text>
-                <Text style={styles.resultText}>Estimated Calories: {cals}</Text>
-                <Text style={styles.resultText}>Estimated Protein Content: {prot}g</Text>
+        <View style={{flex: 1, flexGrow: 1, justifyContent: 'space-between'}}>
+            <View style={{flex: 1}}>
+                <Text style={styles.title}>Results</Text>
+                <ScrollView contentContainerStyle={{flex: 1, flexGrow: 1}}>
+                    {props.results.map((food, id) => 
+                        <View style={[styles.container]} key={id}>
+                            <View>
+                                <Text style={styles.resultHeader}>{food.name}</Text>
+                                <Text style={styles.resultText}>Serving Size: {food.serving_size_g}g</Text>
+                                <Text style={styles.resultText}>Calories: {food.calories}</Text>
+                                <Text style={styles.resultText}>Protein Content: {food.protein_g}g</Text>
+                            </View>
+                            <View style={[styles.button, styles.submission]} onTouchEnd={() => props.onSubmission(food.calories, food.protein_g)}>
+                                <Text style={{color: colorTheme.boldTheme, fontSize: styles.$checkSize}}>{"\u2713"}</Text>
+                            </View>
+                        </View>
+                    )}
+                </ScrollView>
             </View>
-            <View style={[styles.submissionButton]} onTouchEnd={() => props.onSubmission(cals, prot)}>
-                <Text>{"\u2713"}</Text>
+            <View style={[styles.button, styles.return]} onTouchEnd={() => props.onReturn({searched: false})}>
+                <Text style={[styles.resultText, {color: colorTheme.boldTheme}]}>Return {"\u21b2"}</Text>
             </View>
         </View>
     )
 }
 
-const styles = StyleSheet.create({
-    responseSpace: {
-        flex: 1,
-        flexDirection: 'column'
-    },
-    resultText: {
-        fontSize: 20,
-        fontFamily: 'Arial',
-        color: colorTheme.highContrast,
-        width: 310, 
-        marginLeft: 1
-    }, 
-    gap: {
-        marginBottom: 25,
-    },
-    container1: {
+const styles = EStyleSheet.create({
+    container: {
         flex: 0,
+        width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '1rem'
     },
-    container2: {
-        flex: 0,
-        flexDirection: 'column'
+    title: {
+        fontFamily: 'Poppins_500Medium',
+        fontSize: '2rem',
+        color: colorTheme.accent,
+        alignSelf: 'center',
+        marginTop: '.5rem'
     },
-    submissionButton: {
+    resultHeader: {
+        fontFamily: 'Poppins_400Regular',
+        fontSize: '1.3rem',
+        color: colorTheme.boldTheme,
+        marginLeft: '.3rem'
+    },
+    resultText: {
+        fontFamily: 'Poppins_300Light',
+        fontSize: '1rem',
+        color: colorTheme.boldTheme,
+        marginLeft: '.3rem'
+    }, 
+    button: {
         flex: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        width: 30,
-        height: 30,
-        backgroundColor: colorTheme.lightAccent
-    }
+        borderRadius: '.6rem',
+        margin: '.5rem',
+        backgroundColor: colorTheme.lightTheme
+    },
+    submission: {
+        width: '2rem',
+        aspectRatio: 1/1
+    },
+    return: {
+        borderRadius: 0,
+        height: '2rem'
+    },
+    $checkSize: '1.2rem'
 });
