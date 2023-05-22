@@ -30,6 +30,28 @@ export default function MainScreen(props) {
         }
     }
 
+    const getWorkoutMessage = () => {
+        let split = 'Rest'
+        if(props.split.currentDay <= props.split.splits.length - 1)
+            split = props.split.splits[props.split.currentDay]
+        if(split === 'fill splits in settings!') {
+            return <Text style={[styles.reportText]}>Enter split in settings!</Text>
+        } else {
+            return <Text style={[styles.reportText]}>Today's Workout: {split}</Text>
+        }
+    }
+
+    const getWorkoutCompleteMessage = () => {
+        let split = 'Rest'
+        if(props.split.currentDay <= props.split.splits.length - 1)
+            split = props.split.splits[props.split.currentDay]
+        if(split === 'fill splits in settings!') {
+            return <Text style={[styles.reportText]}>Workout complete! Feel the burn 🔥🔥</Text>
+        } else {
+            return <Text style={[styles.reportText]}>{split} workout complete! Feel the burn 🔥🔥</Text>
+        }
+    }
+
     const quote = getQuote()
     let nutritionPercent = Math.round(((props.progressBars[0].value / props.progressBars[0].goal) + (props.progressBars[1].value / props.progressBars[1].goal)) / 2 * 100)
     // test for long quote (too long, need to shrink)
@@ -50,9 +72,9 @@ export default function MainScreen(props) {
                             <View style={styles.rule}/>
                             <View style={styles.reportSection}>
                                 {props.workoutComplete.status ? 
-                                <Text style={[styles.reportText]}>Workout complete! Feel the burn 🔥🔥</Text> :
+                                <>{getWorkoutCompleteMessage()}</> :
                                 <>
-                                <Text style={[styles.reportText]}>Today's Workout:</Text>
+                                {getWorkoutMessage()}
                                 <View style={styles.completeButton} onTouchEnd={() => props.completeWorkout({status: true, weeklyProgress: props.workoutComplete.weeklyProgress++})}>
                                     <Text style={styles.buttonText}>Complete?</Text>
                                 </View>

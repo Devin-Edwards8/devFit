@@ -6,13 +6,10 @@ import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async
 import EStyleSheet from 'react-native-extended-stylesheet';
 import SettingsScreen from './containers/Settings';
  
-EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use global variables!
-  $textColor: '#0275d8'
-});
+EStyleSheet.build({});
 
 
 export default function App() {
-  const [lastLogin, updateLastLogin] = useState('8162001')
   const [currentScreen, setCurrentScreen] = useState(0)
   const [cards, setCards] = useState([{id: 0, title: 'edit'}])
   const { setItem, getItem } = useAsyncStorage('@cards')
@@ -20,18 +17,28 @@ export default function App() {
   const [progressBars, setProgressBars] = useState([{title: 'calories', value: 0, id: 1, goal: 0},
   {title: 'protein', value: 0, id: 2, goal: 0}])
   const [workoutComplete, completeWorkout] = useState({status: false, weeklyProgress: 0})
-  const [split, setSplit] = useState({customRotation: 'false', splits: cards.map(e => e.title), 
-  currentDay: 0, rotationLength: cards.length})
+  const [split, setSplit] = useState({customRotation: false, splits: Array(7).fill('fill splits in settings!'), 
+  currentDay: 0, rotationLength: 7})
+  const [toggle1, setToggle1] = useState(false)
+  const [toggle2, setToggle2] = useState(false)
+  const [toggle3, setToggle3] = useState(false)
+
+  const handleToggle3 = (truth) => {
+    setToggle3(truth)
+    setSplit({...split, customRotation: truth})
+  }
 
   const switchScreen = (screenNum) => {
     setCurrentScreen(screenNum)
   }
 
   useEffect(() => {
-    loadWorkouts().catch(e => console.error(e));
-    loadProgress().catch(e => console.error(e));
-    loadRows().catch(e => console.error(e));
+    loadWorkouts().catch(e => console.error(e))
+    loadProgress().catch(e => console.error(e))
+    loadRows().catch(e => console.error(e))
     loadLogin().catch(e => console.error(e))
+    loadCompletion().catch(e => console.error(e))
+    loadSplits().catch(e => console.error(e))
   }, []);
 
   const handleAddCard = () => {
@@ -120,13 +127,16 @@ export default function App() {
   }
 
   const screens = [
-    <MainScreen onSwitch={switchScreen} progressBars={progressBars} workoutComplete={workoutComplete} completeWorkout={completeWorkout}/>,
+    <MainScreen onSwitch={switchScreen} progressBars={progressBars} workoutComplete={workoutComplete} completeWorkout={saveCompletion}
+    split={split}/>,
     <FitnessScreen onSwitch={switchScreen} onDeleteCard={handleDeleteCard} rows={rows} onAddRow={handleAddRow}
     onAddCard={handleAddCard} cards={cards} onTitleChange={handleTitle} onDeleteRow={handleDeleteRow}
     onRowText={handleRowText}/>,
     <NutritionScreen onSwitch={switchScreen} onGoalSet={handleGoal} progressBars={progressBars}
     onValueChange={handleValueChange} onReset={handleValueReset}/>,
-    <SettingsScreen onSwitch={switchScreen} onGoalSet={handleGoal} onReset={handleValueReset} progressBars={progressBars} />
+    <SettingsScreen onSwitch={switchScreen} onGoalSet={handleGoal} onReset={handleValueReset} progressBars={progressBars} 
+    toggle3={toggle3} setToggle3={handleToggle3} toggle1={toggle1} setToggle1={setToggle1} toggle2={toggle2} 
+    setToggle2={setToggle2} setSplit={saveSplits} split={split}/>
   ]
 
   return (
@@ -163,23 +173,57 @@ export default function App() {
 
   async function saveLogin(value) {
     await AsyncStorage.setItem('@date', JSON.stringify(value))
-    updateLastLogin(value)
   }
 
   async function loadLogin() {
     const d = new Date()
-    let date = String(d.getMonth) + String(d.getDate) + String(d.getFullYear)
+    let date = String(d.getMonth) + ',' + String(d.getDate) + ',' + String(d.getFullYear)
     let lastDate = await AsyncStorage.getItem('@date').catch(e => console.error(e))
     if(lastDate !== null) {
       lastDate = JSON.parse(lastDate)
       if (lastDate !== date) {
-        console.log('last log in not today')
-        updateLastLogin(date)
         saveLogin(date)
         handleValueReset()
+        date = date.split(',')
+        lastDate = lastDate.split(',')
+        if(lastDate.length === 3) {
+          const dif = Math.abs(Number(date[1]) - Number(lastDate[1]))
+          const cur = (split.currentDay + dif) % Number(split.rotationLength)
+          saveSplits({...split, currentDay: cur})
+          console.log(split.currentDay)
+        }
       }
     } else {
-      updateLastLogin(date)
+      saveLogin(date)
+      handleValueReset()
+    }
+  }
+
+  async function saveSplits(splits) {
+    await AsyncStorage.setItem('@splits', JSON.stringify(splits)).catch(e => console.error(e))
+    setSplit(splits)
+  }
+
+  async function loadSplits() {
+    const oldSplits = await AsyncStorage.getItem('@splits').catch(e => console.error(e))
+    if(oldSplits !== null) {
+      setSplit(JSON.parse(oldSplits))
+    } else {
+      setSplit(split)
+    }
+  }
+
+  async function saveCompletion(truth) {
+    await AsyncStorage.setItem('@completion', JSON.stringify(truth)).catch(e => console.error(e))
+    completeWorkout(truth)
+  }
+
+  async function loadCompletion() {
+    const status = await AsyncStorage.getItem('@completion').catch(e => console.error(e))
+    if(status !== null) {
+      completeWorkout(JSON.parse(status))
+    } else {
+      completeWorkout(false)
     }
   }
 

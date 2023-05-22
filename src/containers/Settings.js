@@ -9,9 +9,11 @@ import Toggle from 'react-native-toggle-input'
 
 export default function SettingsScreen(props) {
     let [fontsLoaded] = useFonts({Poppins_500Medium, Poppins_400Regular, Poppins_300Light})
-    const [toggle1, setToggle1] = useState(false)
-    const [toggle2, setToggle2] = useState(false)
-    const [toggle3, setToggle3] = useState(false)
+
+    const getSplitText = () => {
+        if(props.split.splits[0] === 'fill splits in settings!') {return null}
+        return props.split.splits.join(',')
+    }
 
     if(!fontsLoaded) {
         return <></>
@@ -25,13 +27,13 @@ export default function SettingsScreen(props) {
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Allow Notifications</Text>
                         <View style={styles.toggle}>
-                            <Toggle toggle={toggle1} setToggle={setToggle1} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
+                            <Toggle toggle={props.toggle1} setToggle={props.setToggle1} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
                         </View>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.rowText}>Allow devFit to use your data</Text>
                         <View style={styles.toggle}>
-                            <Toggle toggle={toggle2} setToggle={setToggle2} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
+                            <Toggle toggle={props.toggle2} setToggle={props.setToggle2} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
                         </View>
                     </View>
                     <Text style={styles.subtitle}>Set Nutritional Goals</Text>
@@ -53,23 +55,25 @@ export default function SettingsScreen(props) {
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Customize split rotation</Text>
                         <View style={styles.toggle}>
-                            <Toggle toggle={toggle3} setToggle={setToggle3} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
+                            <Toggle toggle={props.toggle3} setToggle={props.setToggle3} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
                         </View>
                     </View>
-                    {toggle3 ? 
+                    {props.toggle3 ? 
                     <View>
                         <View style={styles.row}>
                             <Text style={styles.rowText}>Length of rotation (days)</Text>
                             <View style={styles.inputBox}>
-                                <TextInput style={styles.inputText} placeholder='7 (default)' placeholderTextColor={colorTheme.mediumTheme}></TextInput>
+                                <TextInput style={styles.inputText} placeholder='7 (default)' 
+                                placeholderTextColor={colorTheme.mediumTheme}
+                                onChangeText={load => props.setSplit({...props.split, rotationLength: load.split(',')})}>{props.split.rotationLength}</TextInput>
                             </View>
                         </View>
                         <View style={[styles.row, styles.doubleRow]}>
                             <Text style={styles.rowText}>Enter split titles separated by commas</Text>
                             <View style={[styles.inputBox, styles.wideBox]}>
-                                <TextInput style={styles.inputText} placeholder='ex. Upper,Lower,Rest,Upper,Rest,Lower,Rest' placeholderTextColor={colorTheme.mediumTheme}>
-
-                                </TextInput>
+                                <TextInput style={styles.inputText} placeholder='ex. Upper,Lower,Rest,Upper,Rest,Lower,Rest' 
+                                placeholderTextColor={colorTheme.mediumTheme} 
+                                onChangeText={load => props.setSplit({...props.split, splits: load.split(',')})}>{getSplitText()}</TextInput>
                             </View>
                         </View>
                     </View>
