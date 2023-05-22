@@ -12,10 +12,7 @@ EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use glo
 
 
 export default function App() {
-  const d = new Date()
-  let date = String(d.getMonth) + String(d.getDate) + String(d.getFullYear)
-  
-
+  const [lastLogin, updateLastLogin] = useState('8162001')
   const [currentScreen, setCurrentScreen] = useState(0)
   const [cards, setCards] = useState([{id: 0, title: 'edit'}])
   const { setItem, getItem } = useAsyncStorage('@cards')
@@ -34,6 +31,7 @@ export default function App() {
     loadWorkouts().catch(e => console.error(e));
     loadProgress().catch(e => console.error(e));
     loadRows().catch(e => console.error(e));
+    loadLogin().catch(e => console.error(e))
   }, []);
 
   const handleAddCard = () => {
@@ -160,6 +158,28 @@ export default function App() {
       setRows(JSON.parse(oldRows))
     } else {
       setRows(rows)
+    }
+  }
+
+  async function saveLogin(value) {
+    await AsyncStorage.setItem('@date', JSON.stringify(value))
+    updateLastLogin(value)
+  }
+
+  async function loadLogin() {
+    const d = new Date()
+    let date = String(d.getMonth) + String(d.getDate) + String(d.getFullYear)
+    let lastDate = await AsyncStorage.getItem('@date').catch(e => console.error(e))
+    if(lastDate !== null) {
+      lastDate = JSON.parse(lastDate)
+      if (lastDate !== date) {
+        console.log('last log in not today')
+        updateLastLogin(date)
+        saveLogin(date)
+        handleValueReset()
+      }
+    } else {
+      updateLastLogin(date)
     }
   }
 
