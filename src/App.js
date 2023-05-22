@@ -179,11 +179,14 @@ export default function App() {
     const d = new Date()
     let date = String(d.getMonth) + ',' + String(d.getDate) + ',' + String(d.getFullYear)
     let lastDate = await AsyncStorage.getItem('@date').catch(e => console.error(e))
+    // test date
+    date = '5,29,2023'
     if(lastDate !== null) {
       lastDate = JSON.parse(lastDate)
       if (lastDate !== date) {
         saveLogin(date)
         handleValueReset()
+        saveCompletion({...workoutComplete, status: false})
         date = date.split(',')
         lastDate = lastDate.split(',')
         if(lastDate.length === 3) {

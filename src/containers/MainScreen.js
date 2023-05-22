@@ -34,15 +34,30 @@ export default function MainScreen(props) {
         let split = 'Rest'
         if(props.split.currentDay <= props.split.splits.length - 1)
             split = props.split.splits[props.split.currentDay]
-        if(split === 'fill splits in settings!') {
-            return <Text style={[styles.reportText]}>Enter split in settings!</Text>
+
+        if(split === 'Rest') {
+            return <Text style={[styles.reportText]}>Rest up! 😮‍💨😴</Text>
+        }else if(split === 'fill splits in settings!') {
+            return (
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'center'}}>
+                <Text style={[styles.reportText]}>Enter split in settings!</Text>
+                <View style={styles.completeButton} onTouchEnd={() => props.completeWorkout({status: true, weeklyProgress: props.workoutComplete.weeklyProgress++})}>
+                    <Text style={styles.buttonText}>Complete?</Text>
+                </View>
+            </View>)
         } else {
-            return <Text style={[styles.reportText]}>Today's Workout: {split}</Text>
+            return (
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'center'}}>
+                <Text style={[styles.reportText]}>Today's workout: {split}</Text>
+                <View style={[styles.completeButton]} onTouchEnd={() => props.completeWorkout({status: true, weeklyProgress: props.workoutComplete.weeklyProgress++})}>
+                    <Text style={styles.buttonText}>Complete?</Text>
+                </View>
+            </View>)
         }
     }
 
     const getWorkoutCompleteMessage = () => {
-        let split = 'Rest'
+        let split = ''
         if(props.split.currentDay <= props.split.splits.length - 1)
             split = props.split.splits[props.split.currentDay]
         if(split === 'fill splits in settings!') {
@@ -73,12 +88,7 @@ export default function MainScreen(props) {
                             <View style={styles.reportSection}>
                                 {props.workoutComplete.status ? 
                                 <>{getWorkoutCompleteMessage()}</> :
-                                <>
-                                {getWorkoutMessage()}
-                                <View style={styles.completeButton} onTouchEnd={() => props.completeWorkout({status: true, weeklyProgress: props.workoutComplete.weeklyProgress++})}>
-                                    <Text style={styles.buttonText}>Complete?</Text>
-                                </View>
-                                </>
+                                <>{getWorkoutMessage()}</>
                                 }
                             </View>
                             <View style={styles.rule}/>
@@ -180,7 +190,7 @@ const styles = EStyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'center'
     },
     reportText: {
         fontSize: '1rem',
@@ -189,14 +199,10 @@ const styles = EStyleSheet.create({
         marginLeft: '1rem'
     },
     completeButton: {
-        width: '30%',
-        height: '65%',
         marginRight: '1rem',
         borderRadius: '.3rem',
         backgroundColor: colorTheme.mediumTheme,
-        flex: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
+        padding: '.5rem'
     },
     buttonText: {
         fontSize: '0.9rem',
