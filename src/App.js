@@ -193,7 +193,6 @@ export default function App() {
           const dif = Math.abs(Number(date[1]) - Number(lastDate[1]))
           const cur = (split.currentDay + dif) % Number(split.rotationLength)
           saveSplits({...split, currentDay: cur})
-          console.log(split.currentDay)
         }
       }
     } else {
