@@ -8,9 +8,9 @@
     <true/>
     <key>EXUpdatesLaunchWaitMs</key>
     <integer>0</integer>
+    <key>EXUpdatesSDKVersion</key>
+    <string>47.0.0</string>
     <key>EXUpdatesURL</key>
-    <string>https://u.expo.dev/4a10c81d-51e7-491b-8a89-97a8642fce2c</string>
-    <key>EXUpdatesRuntimeVersion</key>
-    <string>1.0.0</string>
+    <string>https://exp.host/@devin-edwards8/fitness_app</string>
   </dict>
 </plist>
