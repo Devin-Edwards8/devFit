@@ -67,8 +67,18 @@ export default function MainScreen(props) {
         }
     }
 
+    const getNutritionText = () => {
+        let nutritionPercent = Math.round(((props.progressBars[0].value / props.progressBars[0].goal) + (props.progressBars[1].value / props.progressBars[1].goal)) / 2 * 100)
+        if(Number.isNaN(nutritionPercent) || nutritionPercent === 0) {
+            return <Text style={[styles.reportText]}>{'<-'} Start tracking your nutrition today!</Text>
+        } else if(nutritionPercent >= 100) {
+            return <Text style={[styles.reportText]}>Nutritional goals reached, great work!</Text>
+        } else {
+            <Text style={[styles.reportText]}>Nutritional goals {nutritionPercent}% complete, keep it up!</Text>
+        }
+    }
+
     const quote = getQuote()
-    let nutritionPercent = Math.round(((props.progressBars[0].value / props.progressBars[0].goal) + (props.progressBars[1].value / props.progressBars[1].goal)) / 2 * 100)
     // test for long quote (too long, need to shrink)
     // const quote = ["Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",  "Devin Edwards"]
 
@@ -93,9 +103,7 @@ export default function MainScreen(props) {
                             </View>
                             <View style={styles.rule}/>
                             <View style={styles.reportSection}>
-                                {nutritionPercent === 100 ? 
-                                <Text style={[styles.reportText]}>Nutritional goals reached, great work!</Text> :
-                                <Text style={[styles.reportText]}>Nutritional goals {nutritionPercent}% complete, keep it up!</Text>}
+                                {getNutritionText()}
                             </View>
                         </View>
                         <View style={{flex: 0, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>
