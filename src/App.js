@@ -180,7 +180,7 @@ export default function App() {
     let date = String(d.getMonth) + ',' + String(d.getDate) + ',' + String(d.getFullYear)
     let lastDate = await AsyncStorage.getItem('@date').catch(e => console.error(e))
     // test date
-    date = '5,29,2023'
+    // date = '5,29,2023'
     if(lastDate !== null) {
       lastDate = JSON.parse(lastDate)
       if (lastDate !== date) {
