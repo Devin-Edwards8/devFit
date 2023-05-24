@@ -65,6 +65,15 @@ export default function NutritionScreen(props) {
     const p0 = props.progressBars[0]
     const p1 = props.progressBars[1]
 
+    const calcRatio = (val, goal) => {
+        const ratio = val / goal
+        const inv = 1 - ratio
+        if(ratio >= 1) {
+            return [1, 0]
+        }
+        return [ratio, inv]
+    }
+
     if(!fontsLoaded) {
         return <></>
     } else {
@@ -85,7 +94,7 @@ export default function NutritionScreen(props) {
                                 <Text style={styles.title}>Nutrition Tracker</Text>
                                 <View style={styles.chartBox}>
                                     <View style={styles.chartContainer}>
-                                        <PieChart widthAndHeight={styles.$pieSize} series={[p0.value / p0.goal, 1]}
+                                        <PieChart widthAndHeight={styles.$pieSize} series={calcRatio(p0.value, p0.goal)}
                                         sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p0.id}/>
                                         <View>
                                             <Text style={styles.chartText}>calories</Text>
@@ -97,7 +106,7 @@ export default function NutritionScreen(props) {
                                             <Text style={styles.chartText}>protein (g)</Text>
                                             <Text style={styles.chartText}>{p1.value}/{p1.goal}</Text>
                                         </View>
-                                        <PieChart widthAndHeight={styles.$pieSize} series={[p1.value / p1.goal, 1]}
+                                        <PieChart widthAndHeight={styles.$pieSize} series={calcRatio(p1.value, p1.goal)}
                                         sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p1.id}/>
                                     </View>
                                 </View>
