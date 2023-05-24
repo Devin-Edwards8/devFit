@@ -66,6 +66,7 @@ export default function NutritionScreen(props) {
     const p1 = props.progressBars[1]
 
     const calcRatio = (val, goal) => {
+        if(goal === 0) return [0, 1]
         const ratio = val / goal
         const inv = 1 - ratio
         if(ratio >= 1) {
