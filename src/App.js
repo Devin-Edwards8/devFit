@@ -177,7 +177,7 @@ export default function App() {
 
   async function loadLogin() {
     const d = new Date()
-    let date = String(d.getMonth) + ',' + String(d.getDate) + ',' + String(d.getFullYear)
+    let date = String(d.getMonth()) + ',' + String(d.getDate()) + ',' + String(d.getFullYear())
     let lastDate = await AsyncStorage.getItem('@date').catch(e => console.error(e))
     // test date
     // date = '5,29,2023'

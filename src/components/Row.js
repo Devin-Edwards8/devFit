@@ -1,6 +1,8 @@
-import { StyleSheet, View,  Text } from 'react-native'
+import { View,  Text } from 'react-native'
 import { colorTheme } from '../global_colors';
 import {useFonts, Poppins_300Light} from '@expo-google-fonts/poppins';
+import Tag from './Tag';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default function Row(props) {
     let [fontsLoaded] = useFonts({
@@ -21,6 +23,7 @@ export default function Row(props) {
         return (
             <View style={styles.rowTitle}>
                 <Text style={[styles.inputText, styles.workoutText]}>{text0}</Text>
+                <Tag num={0} editMode={false}/>
                 <View style={[styles.numberText, {width: '25%'}]}>
                     <Text style={[styles.inputText]}>{text1}</Text>
                 </View>
@@ -32,7 +35,7 @@ export default function Row(props) {
     } 
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     container: {
         flex: 0,
         flexDirection: 'column',
@@ -51,11 +54,10 @@ const styles = StyleSheet.create({
     },
     inputText: {
         fontFamily: 'Poppins_300Light',
-        fontSize: 15,
+        fontSize: '1rem',
+        lineHeight: '2rem',
         color: colorTheme.boldTheme,
-        marginTop: 5,
-        marginBottom: 5,
-        marginLeft: 5,
+        marginLeft: '.2rem',
     },
     workoutText: {
         width: '55%'

@@ -69,7 +69,6 @@ export default function MainScreen(props) {
 
     const getNutritionText = () => {
         let nutritionPercent = Math.round(((props.progressBars[0].value / props.progressBars[0].goal) + (props.progressBars[1].value / props.progressBars[1].goal)) / 2 * 100)
-        // console.log(nutritionPercent)
         if(Number.isNaN(nutritionPercent) || nutritionPercent === 0) {
             return <Text style={[styles.reportText]}>{'<-'} Start tracking your nutrition today!</Text>
         } else if(nutritionPercent >= 100) {

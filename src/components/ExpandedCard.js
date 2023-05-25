@@ -83,24 +83,23 @@ const styles = EStyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         borderWidth: 1,
-        marginTop: 5,
+        marginTop: '.2rem',
         borderColor: colorTheme.mediumTheme
     },
     cardText: {
         fontFamily: 'Poppins_300Light',
         color: colorTheme.boldTheme,
-        fontSize: 30,
+        fontSize: '2rem',
         fontWeight: 'bold',
-        marginTop: 10,
+        marginTop: '.5rem',
         textAlign: 'center'
     }, 
     inputText: {
         fontFamily: 'Poppins_300Light',
-        fontSize: 15,
-        color: colorTheme.boldAccent,
-        marginTop: 5,
-        marginBottom: 5,
-        marginLeft: 5
+        fontSize: '1rem',
+        lineHeight: '2rem',
+        color: colorTheme.boldTheme,
+        marginLeft: '.2rem',
     },
     workoutText: {
         width: '55%'

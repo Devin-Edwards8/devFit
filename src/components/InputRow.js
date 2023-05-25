@@ -1,6 +1,7 @@
-import { StyleSheet, View,  TextInput } from 'react-native'
+import { View,  TextInput } from 'react-native'
 import { colorTheme } from '../global_colors';
 import {useFonts, Poppins_300Light} from '@expo-google-fonts/poppins';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default function InputRow(props) {
     let [fontsLoaded] = useFonts({
@@ -27,7 +28,7 @@ export default function InputRow(props) {
     } 
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     container: {
         flex: 0,
         flexDirection: 'column',
@@ -46,11 +47,10 @@ const styles = StyleSheet.create({
     },
     inputText: {
         fontFamily: 'Poppins_300Light',
-        fontSize: 15,
+        fontSize: '1rem',
+        lineHeight: '2rem',
         color: colorTheme.boldTheme,
-        marginTop: 5,
-        marginBottom: 5,
-        marginLeft: 5,
+        marginLeft: '.2rem',
     },
     workoutText: {
         width: '55%'
