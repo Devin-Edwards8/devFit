@@ -36,9 +36,9 @@ export default function App() {
     loadWorkouts().catch(e => console.error(e))
     loadProgress().catch(e => console.error(e))
     loadRows().catch(e => console.error(e))
-    loadLogin().catch(e => console.error(e))
     loadCompletion().catch(e => console.error(e))
     loadSplits().catch(e => console.error(e))
+    loadLogin().catch(e => console.error(e))
   }, []);
 
   const handleAddCard = () => {
@@ -119,10 +119,10 @@ export default function App() {
   }
 
   const handleValueReset = () => {
-    const tempProgressBars = [...progressBars]
-    tempProgressBars.forEach(element => {
-      element.value = 0
-    });
+    const tempProgressBars = [
+      {...progressBars[0], value: 0},
+      {...progressBars[1], value: 0}
+    ]
     saveProgress(tempProgressBars)
   }
 
@@ -180,7 +180,7 @@ export default function App() {
     let date = String(d.getMonth()) + ',' + String(d.getDate()) + ',' + String(d.getFullYear())
     let lastDate = await AsyncStorage.getItem('@date').catch(e => console.error(e))
     // test date
-    // date = '5,29,2023'
+    // date = '5,25,2023'
     if(lastDate !== null) {
       lastDate = JSON.parse(lastDate)
       if (lastDate !== date) {
