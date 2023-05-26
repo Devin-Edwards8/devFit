@@ -9,6 +9,17 @@ import Toggle from 'react-native-toggle-input'
 
 export default function SettingsScreen(props) {
     let [fontsLoaded] = useFonts({Poppins_500Medium, Poppins_400Regular, Poppins_300Light})
+    const [currentCalorieValue, setCalories] = useState({cals: props.progressBars[0].value, editing: false})
+    const [currentProteinValue, setProtein] = useState({prot: props.progressBars[1].value, editing: false})
+    let boxWidth1 = currentCalorieValue.editing ? '40%' : '25%'
+    let boxWidth2 = currentProteinValue.editing ? '40%' : '25%'
+    let buttonWidth1 = currentCalorieValue.editing ? '62.5%' : '100%'
+    let buttonWidth2 = currentProteinValue.editing ? '62.5%' : '100%'
+    const submitValue = (id) => {
+        value = id === 1 ? currentCalorieValue.cals : currentProteinValue.prot
+        if(!Number.isNaN(value)) {props.onValueAdjustment(value, id)}
+        id === 1 ? setCalories({...currentCalorieValue, editing: false}) : setProtein({...currentProteinValue, editing: false})
+    }
 
     const getSplitText = () => {
         if(props.split.splits[0] === 'fill splits in settings!') {return null}
@@ -26,35 +37,65 @@ export default function SettingsScreen(props) {
                     <Text style={styles.subtitle}>General</Text>
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Allow Notifications</Text>
-                        <View style={styles.toggle}>
+                        <View style={styles.rightMargin}>
                             <Toggle toggle={props.toggle1} setToggle={props.setToggle1} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
                         </View>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.rowText}>Allow devFit to use your data</Text>
-                        <View style={styles.toggle}>
+                        <View style={styles.rightMargin}>
                             <Toggle toggle={props.toggle2} setToggle={props.setToggle2} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
                         </View>
                     </View>
                     <Text style={styles.subtitle}>Set Nutritional Goals</Text>
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Caloric intake</Text>
-                        <View style={styles.inputBox}>
-                            <TextInput style={styles.inputText} onChangeText={(load) => props.onGoalSet(load, props.progressBars[0].id)}>
-                                {props.progressBars[0].goal}</TextInput>
+                        <View style={[{width: '25%'}, styles.rightMargin]}>
+                            <View style={styles.inputBox}>
+                                <TextInput style={styles.inputText} onChangeText={(load) => props.onGoalSet(load, props.progressBars[0].id)}>
+                                    {props.progressBars[0].goal}</TextInput>
+                            </View>
+                        </View>
+                        
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.rowText}>Grams of protein</Text>
+                        <View style={[{width: '25%'}, styles.rightMargin]}>
+                            <View style={styles.inputBox}>
+                                <TextInput style={styles.inputText} onChangeText={(load) => props.onGoalSet(load, props.progressBars[1].id)}>
+                                    {props.progressBars[1].goal}</TextInput>
+                            </View>
+                        </View>
+                    </View>
+                    <Text style={styles.subtitle}>Adjust Nutritional Entries</Text>
+                    <View style={[styles.row, styles.topRow]}>
+                        <Text style={styles.rowText}>Caloric intake</Text>
+                        <View style={[styles.inputContainer, {width: boxWidth1}, styles.rightMargin]}>
+                            <View style={[styles.inputBox, {width: buttonWidth1}]}>
+                                <TextInput style={styles.inputText} onChangeText={(load) => setCalories({cals: Number(load), editing: true})}>
+                                    {currentCalorieValue.cals}</TextInput>
+                            </View>
+                            {currentCalorieValue.editing ? 
+                            <View style={styles.submissionButton} onTouchEnd={() => submitValue(1)}>
+                                <Text style={{color: colorTheme.background}}>{"\u2713"}</Text></View> : <></>}
                         </View>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.rowText}>Grams of protein</Text>
-                        <View style={styles.inputBox}>
-                            <TextInput style={styles.inputText} onChangeText={(load) => props.onGoalSet(load, props.progressBars[1].id)}>
-                                {props.progressBars[1].goal}</TextInput>
+                        <View style={[styles.inputContainer, styles.rightMargin, {width: boxWidth2}]}>
+                            <View style={[styles.inputBox, {width: buttonWidth2}]}>
+                                <TextInput style={styles.inputText} onChangeText={(load) => setProtein({prot: Number(load), editing: true})}>
+                                    {currentProteinValue.prot}</TextInput>
+                            </View>
+                            {currentProteinValue.editing ? 
+                            <View style={styles.submissionButton} onTouchEnd={() => submitValue(2)}>
+                                <Text style={{color: colorTheme.background}}>{"\u2713"}</Text></View> : <></>}
                         </View>
                     </View>
                         <Text style={styles.subtitle}>Home Screen Data</Text>
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Customize split rotation</Text>
-                        <View style={styles.toggle}>
+                        <View style={styles.rightMargin}>
                             <Toggle toggle={props.toggle3} setToggle={props.setToggle3} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
                         </View>
                     </View>
@@ -131,16 +172,33 @@ const styles = EStyleSheet.create({
         color: colorTheme.boldTheme,
         marginLeft: '.3rem'
     },
+    inputContainer: {
+        flex: 0, 
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-around',
+        height: '100%'
+    },
     inputBox: {
-        width: '25%',
+        width: '100%',
         height: '80%',
-        marginRight: '.3rem',
         flex: 0,
         flexDirection: 'row',
         alignItems: 'center',
         borderRadius: '.2rem',
         borderWidth: 1,
         borderColor: colorTheme.mediumTheme
+    },
+    submissionButton :{
+        width: '19%',
+        aspectRatio: 1/1,
+        borderRadius: '5%',
+        backgroundColor: colorTheme.accent,
+        // borderColor: 'black',
+        // borderWidth: 1,
+        flex: 0,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     wideBox: {
         width: '90%',
@@ -151,8 +209,9 @@ const styles = EStyleSheet.create({
         textAlign: 'center',
         color: colorTheme.boldTheme
     },
-    toggle: {
+    rightMargin: {
         marginRight: '.3rem'
     },
-    $toggleSize: '1.2rem'
+    $toggleSize: '1.2rem',
+
 });

@@ -118,6 +118,18 @@ export default function App() {
     saveProgress(tempProgressBars)
   }
 
+  const handleValueAdjustment = (val, id) => {
+    const tempProgressBars1 = [
+      {...progressBars[0], value: val},
+      {...progressBars[1]}
+    ]
+    const tempProgressBars2 = [
+      {...progressBars[0]},
+      {...progressBars[1], value: val}
+    ]
+    id === 1 ? saveProgress(tempProgressBars1) : saveProgress(tempProgressBars2)
+  }
+
   const handleValueReset = () => {
     const tempProgressBars = [
       {...progressBars[0], value: 0},
@@ -136,7 +148,7 @@ export default function App() {
     onValueChange={handleValueChange} onReset={handleValueReset}/>,
     <SettingsScreen onSwitch={switchScreen} onGoalSet={handleGoal} onReset={handleValueReset} progressBars={progressBars} 
     toggle3={toggle3} setToggle3={handleToggle3} toggle1={toggle1} setToggle1={setToggle1} toggle2={toggle2} 
-    setToggle2={setToggle2} setSplit={saveSplits} split={split}/>
+    setToggle2={setToggle2} setSplit={saveSplits} split={split} onValueAdjustment={handleValueAdjustment}/>
   ]
 
   return (
