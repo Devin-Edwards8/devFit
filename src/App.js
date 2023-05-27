@@ -36,9 +36,9 @@ export default function App() {
     loadWorkouts().catch(e => console.error(e))
     loadProgress().catch(e => console.error(e))
     loadRows().catch(e => console.error(e))
-    loadLogin().catch(e => console.error(e))
     loadCompletion().catch(e => console.error(e))
     loadSplits().catch(e => console.error(e))
+    loadLogin().catch(e => console.error(e))
   }, []);
 
   const handleAddCard = () => {
@@ -130,11 +130,23 @@ export default function App() {
     saveProgress(tempProgressBars)
   }
 
+  const handleValueAdjustment = (val, id) => {
+    const tempProgressBars1 = [
+      {...progressBars[0], value: val},
+      {...progressBars[1]}
+    ]
+    const tempProgressBars2 = [
+      {...progressBars[0]},
+      {...progressBars[1], value: val}
+    ]
+    id === 1 ? saveProgress(tempProgressBars1) : saveProgress(tempProgressBars2)
+  }
+
   const handleValueReset = () => {
-    const tempProgressBars = [...progressBars]
-    tempProgressBars.forEach(element => {
-      element.value = 0
-    });
+    const tempProgressBars = [
+      {...progressBars[0], value: 0},
+      {...progressBars[1], value: 0}
+    ]
     saveProgress(tempProgressBars)
   }
 
@@ -148,7 +160,7 @@ export default function App() {
     onValueChange={handleValueChange} onReset={handleValueReset}/>,
     <SettingsScreen onSwitch={switchScreen} onGoalSet={handleGoal} onReset={handleValueReset} progressBars={progressBars} 
     toggle3={toggle3} setToggle3={handleToggle3} toggle1={toggle1} setToggle1={setToggle1} toggle2={toggle2} 
-    setToggle2={setToggle2} setSplit={saveSplits} split={split}/>
+    setToggle2={setToggle2} setSplit={saveSplits} split={split} onValueAdjustment={handleValueAdjustment}/>
   ]
 
   return (
@@ -192,7 +204,7 @@ export default function App() {
     let date = String(d.getMonth()) + ',' + String(d.getDate()) + ',' + String(d.getFullYear())
     let lastDate = await AsyncStorage.getItem('@date').catch(e => console.error(e))
     // test date
-    // date = '5,29,2023'
+    // date = '5,25,2023'
     if(lastDate !== null) {
       lastDate = JSON.parse(lastDate)
       if (lastDate !== date) {
