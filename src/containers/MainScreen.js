@@ -39,11 +39,8 @@ export default function MainScreen(props) {
             return <Text style={[styles.reportText]}>Rest up! 😮‍💨😴</Text>
         }else if(split === 'fill splits in settings!') {
             return (
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems:'center'}}>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems:'center'}}>
                 <Text style={[styles.reportText]}>Enter split in settings!</Text>
-                <View style={styles.completeButton} onTouchEnd={() => props.completeWorkout({status: true, weeklyProgress: props.workoutComplete.weeklyProgress++})}>
-                    <Text style={styles.buttonText}>Complete?</Text>
-                </View>
             </View>)
         } else {
             return (

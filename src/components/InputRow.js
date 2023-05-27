@@ -2,6 +2,7 @@ import { View,  TextInput } from 'react-native'
 import { colorTheme } from '../global_colors';
 import {useFonts, Poppins_300Light} from '@expo-google-fonts/poppins';
 import EStyleSheet from 'react-native-extended-stylesheet';
+import Tag from './Tag';
 
 export default function InputRow(props) {
     let [fontsLoaded] = useFonts({
@@ -15,6 +16,7 @@ export default function InputRow(props) {
             <View style={styles.rowTitle}>
                 <TextInput style={[styles.inputText, styles.workoutText]} placeholder="enter workout" placeholderTextColor={colorTheme.mediumTheme}
                 onChangeText={(payload) => props.onRowText(payload, props.id, 0, props.cardID)}>{props.text[0]}</TextInput>
+                <Tag num={props.tagNo} editMode={true} onTagClick={props.onTagClick} cardID={props.cardID} id={props.id} />
                 <View style={[styles.numberText, {width: '25%'}]}>
                     <TextInput style={[styles.inputText]} placeholder="-" placeholderTextColor={colorTheme.mediumTheme}
                     onChangeText={(payload) => props.onRowText(payload, props.id, 1, props.cardID)}>{props.text[1]}</TextInput>
@@ -48,12 +50,14 @@ const styles = EStyleSheet.create({
     inputText: {
         fontFamily: 'Poppins_300Light',
         fontSize: '1rem',
-        lineHeight: '2rem',
+        lineHeight: '1.5rem',
         color: colorTheme.boldTheme,
+        marginTop: '.1rem',
+        marginBottom: '.3rem',
         marginLeft: '.2rem',
     },
     workoutText: {
-        width: '55%'
+        width: '55% - 2.2rem'
     },
     numberText: {
         borderLeftWidth: 1,

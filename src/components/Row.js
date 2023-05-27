@@ -23,7 +23,7 @@ export default function Row(props) {
         return (
             <View style={styles.rowTitle}>
                 <Text style={[styles.inputText, styles.workoutText]}>{text0}</Text>
-                <Tag num={0} editMode={false}/>
+                <Tag num={props.tagNo} editMode={false}/>
                 <View style={[styles.numberText, {width: '25%'}]}>
                     <Text style={[styles.inputText]}>{text1}</Text>
                 </View>
@@ -55,7 +55,9 @@ const styles = EStyleSheet.create({
     inputText: {
         fontFamily: 'Poppins_300Light',
         fontSize: '1rem',
-        lineHeight: '2rem',
+        lineHeight: '1.5rem',
+        marginTop: '.25rem',
+        marginBottom: '.25rem',
         color: colorTheme.boldTheme,
         marginLeft: '.2rem',
     },

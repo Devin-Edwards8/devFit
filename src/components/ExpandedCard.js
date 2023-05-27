@@ -17,36 +17,19 @@ export default function ExpandedCard(props) {
     if(!fontsLoaded) {
         return <></>
     } else{
+        let paddingBottom = editMode ? 0 : styles.$lightPad
         return (
-            <>
-            {
-            editMode ? 
-            <View style={[styles.container, {paddingBottom: 0}]}>
+            <View style={[styles.container, {paddingBottom: paddingBottom}]}>
                 <View style={{flex: 0, flexShrink: 1, flexGrow: 1, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
                     <Image style={[styles.image, styles.close]} source={require('../assets/icons/close_icon2.png')} 
                     onTouchEnd={() => props.onCondense({viewMode: false, cardNo: 0})}/>
                     <TextInput style={styles.cardText} onChangeText={((payload) => props.onTitleChange(payload, props.id))}>{props.title}</TextInput>
+                    {editMode ? 
                     <Image style={[styles.image, styles.edit]} source={require('../assets/icons/editing_icon.jpeg')} 
-                    onTouchEnd={() => toggleEdit(false)}/>
-                </View>
-                <View style={{flex: 0, alignItems: 'center'}}>
-                    <View style={styles.rowTitle}>
-                        <Text style={[styles.inputText, styles.workoutText]}>workout</Text>
-                        <View style={[styles.numberText, {width: '25%'}]}><Text style={[styles.inputText]}>set x rep</Text></View>
-                        <View style={[styles.numberText, {width: '20%'}]}><Text style={[styles.inputText]}>weight</Text></View>
-                    </View>
-                    {props.rows[props.id].map(row => <InputRow id={row.id} key={row.id} text={row.text} onRowText={props.onRowText}
-                    cardID={props.id}/>)}
-                </View>
-                <CardButtons onCondense={props.onCondense} onAdd={props.onAdd} onDelete={props.onDelete} id={props.id}/>
-            </View> :
-            <View style={[styles.container]}>
-                <View style={{flex: 0, flexShrink: 1, flexGrow: 1, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
-                    <Image style={[styles.image, styles.close]} source={require('../assets/icons/close_icon2.png')} 
-                    onTouchEnd={() => props.onCondense({viewMode: false, cardNo: 0})}/>
-                    <Text style={styles.cardText}>{props.title}</Text>
+                    onTouchEnd={() => toggleEdit(false)}/> :
                     <Image style={[styles.image, styles.edit]} source={require('../assets/icons/not_editing_icon.jpeg')} 
                     onTouchEnd={() => toggleEdit(true)}/>
+                    }
                 </View>
                 <View style={{flex: 0, alignItems: 'center'}}>
                     <View style={styles.rowTitle}>
@@ -54,11 +37,14 @@ export default function ExpandedCard(props) {
                         <View style={[styles.numberText, {width: '25%'}]}><Text style={[styles.inputText]}>set x rep</Text></View>
                         <View style={[styles.numberText, {width: '20%'}]}><Text style={[styles.inputText]}>weight</Text></View>
                     </View>
-                    {props.rows[props.id].map(row => <Row key={row.id} text={row.text}/>)}
+                    {editMode ? 
+                    props.rows[props.id].map(row => <InputRow id={row.id} key={row.id} text={row.text} onRowText={props.onRowText}
+                    cardID={props.id} tagNo={row.tagNo} onTagClick={props.onTagClick}/>) :
+                    props.rows[props.id].map(row => <Row id={row.id} key={row.id} text={row.text} onRowText={props.onRowText}
+                    cardID={props.id} tagNo={row.tagNo}/>)}
                 </View>
+                {editMode ? <CardButtons onCondense={props.onCondense} onAdd={props.onAdd} onDelete={props.onDelete} id={props.id}/> : <></>}
             </View>
-            }
-            </>
         );
     }
     }
@@ -74,8 +60,7 @@ const styles = EStyleSheet.create({
         zIndex: 1,
         flex: 0,
         justifyContent: 'space-around',
-        alignItems: 'center',
-        paddingBottom: '.3rem'
+        alignItems: 'center'
     },
     rowTitle: {
         flex: 0,
@@ -119,5 +104,6 @@ const styles = EStyleSheet.create({
     edit: {
         width: '9%',
         borderRadius: '.5rem'
-    }
+    },
+    $lightPad: '.3rem'
 });

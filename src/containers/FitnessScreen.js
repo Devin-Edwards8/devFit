@@ -24,7 +24,7 @@ export default function FitnessScreen(props) {
                 <View style={styles.outerContainer}>
                     <ExpandedCard onCondense={setState} title={state.title} onTitleChange={props.onTitleChange}
                     id={state.id} rows={props.rows} onAdd={props.onAddRow} onDelete={props.onDeleteRow}
-                    onRowText={props.onRowText}/>
+                    onRowText={props.onRowText} onTagClick={props.onTagClick}/>
                     <View style={[styles.innerContainer, styles.blur]}>
                         <View>
                             <Header screen="fitness" onAdd={props.onAddCard}/>

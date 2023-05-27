@@ -5,12 +5,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 export default function Tag(props) {
     const tagStyles = [styles.hollow, styles.red, styles.yellow, styles.green]
     let tagStyle = tagStyles[props.num]
+    if(Number.isNaN(props.num) || props.num > 3 || props.num < 0) {
+        console.log('test')
+        tagStyle = styles.hollow
+    }
+
     return (
         <>
         {props.editMode ?
-        <View style={[styles.tag, styles.edit, tagStyle]} onTouchEnd={() => props.incrementCount}></View> :
-        <View style={[styles.tag, styles.static, tagStyle]}></View>
-        }
+        <View style={[styles.editTag, styles.edit, tagStyle]} onTouchEnd={() => props.onTagClick(props.id, props.cardID)}></View> :
+        <View style={[styles.tag, styles.static, tagStyle]}></View>}
         </>
     );
 }
@@ -18,12 +22,20 @@ export default function Tag(props) {
 const styles = EStyleSheet.create({
     tag: {
         position: 'absolute',
-        right: '46%',
+        right: '45%',
         top: '.3rem',
+        marginRight: '.2rem',
         width: '1.4rem',
         aspectRatio: 1 / 1,
         borderRadius: '.7rem',
         zIndex: 1
+    },
+    editTag: {
+        marginTop: '.3rem',
+        marginRight: '.2rem',
+        width: '1.4rem',
+        aspectRatio: 1 / 1,
+        borderRadius: '.7rem',
     },
     edit: {
         opacity: .7,
@@ -38,12 +50,15 @@ const styles = EStyleSheet.create({
         borderColor: colorTheme.boldTheme
     },
     red: {
-        backgroundColor: '#ff0000'
+        backgroundColor: '#ff0000',
+        borderColor: '#ff0000'
     },
     yellow: {
-        backgroundColor: '#ffd60a'
+        backgroundColor: '#ffd60a',
+        borderColor: '#ffd60a'
     }, 
     green: {
-        backgroundColor: '#06d6a0'
+        backgroundColor: '#06d6a0',
+        borderColor: '#06d6a0'
     }
 });

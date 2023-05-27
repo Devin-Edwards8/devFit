@@ -13,7 +13,7 @@ export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0)
   const [cards, setCards] = useState([{id: 0, title: 'edit'}])
   const { setItem, getItem } = useAsyncStorage('@cards')
-  const [rows, setRows] = useState({0: [{id: 0, text: ['', '', '']}]})
+  const [rows, setRows] = useState({0: [{id: 0, text: ['', '', ''], tagNo: 0}]})
   const [progressBars, setProgressBars] = useState([{title: 'calories', value: 0, id: 1, goal: 0},
   {title: 'protein', value: 0, id: 2, goal: 0}])
   const [workoutComplete, completeWorkout] = useState({status: false, weeklyProgress: 0})
@@ -98,6 +98,18 @@ export default function App() {
     saveRows(tempRows)
   }
 
+  const handleTagClick = (id, cardID) => {
+    const tempRows = {...rows}
+    tempRows[cardID].forEach(element => {
+      if(element.id === id) {
+        console.log(element.tagNo)
+        element.tagNo = ((Number(element.tagNo) + 1) % 4)
+        console.log(element.tagNo)
+      }
+    });
+    saveRows(tempRows)
+  }
+
   const handleGoal = (goal, id) => {
     const tempProgressBars = [...progressBars]
     tempProgressBars.forEach(element => {
@@ -131,7 +143,7 @@ export default function App() {
     split={split}/>,
     <FitnessScreen onSwitch={switchScreen} onDeleteCard={handleDeleteCard} rows={rows} onAddRow={handleAddRow}
     onAddCard={handleAddCard} cards={cards} onTitleChange={handleTitle} onDeleteRow={handleDeleteRow}
-    onRowText={handleRowText}/>,
+    onRowText={handleRowText} onTagClick={handleTagClick}/>,
     <NutritionScreen onSwitch={switchScreen} onGoalSet={handleGoal} progressBars={progressBars}
     onValueChange={handleValueChange} onReset={handleValueReset}/>,
     <SettingsScreen onSwitch={switchScreen} onGoalSet={handleGoal} onReset={handleValueReset} progressBars={progressBars} 
