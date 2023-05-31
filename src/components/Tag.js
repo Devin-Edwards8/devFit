@@ -4,9 +4,10 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default function Tag(props) {
     const tagStyles = [styles.hollow, styles.red, styles.yellow, styles.green]
-    let tagStyle = tagStyles[props.num]
-    if(Number.isNaN(props.num) || props.num > 3 || props.num < 0) {
-        console.log('test')
+    let tagStyle
+    if(0 <= props.num < 4) {
+        tagStyle = tagStyles[props.num]
+    } else { 
         tagStyle = styles.hollow
     }
 

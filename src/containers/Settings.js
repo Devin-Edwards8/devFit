@@ -21,30 +21,51 @@ export default function SettingsScreen(props) {
         id === 1 ? setCalories({...currentCalorieValue, editing: false}) : setProtein({...currentProteinValue, editing: false})
     }
 
-    const getSplitText = () => {
-        if(props.split.splits[0] === 'fill splits in settings!') {return null}
-        return props.split.splits.join(',')
+    const handleSplitEntry = (ind, load) => {
+        let tempSplits = props.split.splits
+        tempSplits[ind] = load
+        props.setSplit({...props.split, splits: tempSplits})
     }
+
+    const getSplitText = ind => {
+        if(props.split.splits[ind] === 'fill splits in settings!') {
+            return ""
+        }
+        return props.split.splits[ind]
+    }
+
+    const handleSplitDay = (load) => {
+        let day = Number(load) - 1
+        if(Number.isInteger(day)) {
+            props.setSplit({...props.split, currentDay: day})
+            console.log(props.split.splits)
+        }
+        props.setSplit({...props.split, currentDay: 0})
+    }
+
+    const splitRows = Array.from({length: Number(props.split.rotationLength)}, (_, i) => i + 1)
 
     if(!fontsLoaded) {
         return <></>
     } else {
         return (
             <View style={styles.container}>
-                <View>
-                    <Header screen='settings' onClose={props.onSwitch}/>
+                <Header screen='settings' onClose={props.onSwitch}/>
+                <ScrollView contentContainerStyle={{flex: 0}}>
                     <Text style={styles.title}>Settings</Text>
                     <Text style={styles.subtitle}>General</Text>
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Allow Notifications</Text>
                         <View style={styles.rightMargin}>
-                            <Toggle toggle={props.toggle1} setToggle={props.setToggle1} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
+                            <Toggle toggle={props.toggle1} setToggle={props.setToggle1} size={styles.$toggleSize} 
+                            circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
                         </View>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.rowText}>Allow devFit to use your data</Text>
                         <View style={styles.rightMargin}>
-                            <Toggle toggle={props.toggle2} setToggle={props.setToggle2} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
+                            <Toggle toggle={props.toggle2} setToggle={props.setToggle2} size={styles.$toggleSize} 
+                            circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
                         </View>
                     </View>
                     <Text style={styles.subtitle}>Set Nutritional Goals</Text>
@@ -56,7 +77,6 @@ export default function SettingsScreen(props) {
                                     {props.progressBars[0].goal}</TextInput>
                             </View>
                         </View>
-                        
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.rowText}>Grams of protein</Text>
@@ -96,32 +116,43 @@ export default function SettingsScreen(props) {
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Customize split rotation</Text>
                         <View style={styles.rightMargin}>
-                            <Toggle toggle={props.toggle3} setToggle={props.setToggle3} size={styles.$toggleSize} circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
+                            <Toggle toggle={props.toggle3} setToggle={props.setToggle3} size={styles.$toggleSize} 
+                            circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
                         </View>
                     </View>
                     {props.toggle3 ? 
                     <View>
                         <View style={styles.row}>
                             <Text style={styles.rowText}>Length of rotation (days)</Text>
-                            <View style={styles.inputBox}>
+                            <View style={[styles.inputBox, styles.rightMargin, {width: '25%'}]}>
                                 <TextInput style={styles.inputText} placeholder='7 (default)' 
                                 placeholderTextColor={colorTheme.mediumTheme}
-                                onChangeText={load => props.setSplit({...props.split, rotationLength: load.split(',')})}>{props.split.rotationLength}</TextInput>
+                                onChangeText={load => props.setSplit({...props.split, rotationLength: load})}>
+                                    {props.split.rotationLength}</TextInput>
                             </View>
                         </View>
-                        <View style={[styles.row, styles.doubleRow]}>
-                            <Text style={styles.rowText}>Enter split titles separated by commas</Text>
-                            <View style={[styles.inputBox, styles.wideBox]}>
-                                <TextInput style={styles.inputText} placeholder='ex. Upper,Lower,Rest,Upper,Rest,Lower,Rest' 
-                                placeholderTextColor={colorTheme.mediumTheme} 
-                                onChangeText={load => props.setSplit({...props.split, splits: load.split(',')})}>{getSplitText()}</TextInput>
+                        {splitRows.map(e =>
+                        <View style={styles.row} key={e}>
+                            <Text style={styles.rowText}>Day {e}</Text>
+                            <View style={[styles.inputBox, styles.rightMargin, {width: '25%'}]}>
+                                <TextInput style={styles.inputText} placeholder='title'
+                                onChangeText={(load) => handleSplitEntry(e - 1, load)} 
+                                placeholderTextColor={colorTheme.mediumTheme}>{getSplitText(e - 1)}</TextInput>
+                            </View>
+                        </View>
+                        )}
+                        <View style={styles.row}>
+                            <Text style={styles.rowText}>Set current split day</Text>
+                            <View style={[styles.inputBox, styles.rightMargin, {width: '25%'}]}>
+                                <TextInput style={styles.inputText} onChangeText={load => handleSplitDay(load)}
+                                placeholder={String(Number(props.split.currentDay) + 1)} placeholderTextColor={colorTheme.mediumTheme}/>
                             </View>
                         </View>
                     </View>
                      :
                     <></>
                     }
-                </View>
+                </ScrollView>
                 <BottomNavBar onSwitch={props.onSwitch} />
             </View>
         );

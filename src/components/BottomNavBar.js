@@ -1,6 +1,7 @@
 import react from 'react'
-import { StyleSheet, View, Image } from 'react-native'
+import { View, Image } from 'react-native'
 import { colorTheme } from '../global_colors';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default class BottomNavBar extends react.Component {
     render() {
@@ -20,11 +21,11 @@ export default class BottomNavBar extends react.Component {
     }
 }
  
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     navbar: {
         flex: 0,
         width: '100%',
-        height: 100,
+        height: '10%',
         flexDirection: 'row',
         backgroundColor: colorTheme.bars
     },
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
         width: '33.3%'
     },
     image: {
-        height: 40,
-        width: 40
+        width: '3rem',
+        height: '3rem'
     }
 });

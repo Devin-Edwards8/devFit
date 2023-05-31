@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
 import BottomNavBar from '../components/BottomNavBar'
 import Header from '../components/Header'
 import Title from '../components/Title'
@@ -32,8 +32,9 @@ export default function MainScreen(props) {
 
     const getWorkoutMessage = () => {
         let split = 'Rest'
-        if(props.split.currentDay <= props.split.splits.length - 1)
-            split = props.split.splits[props.split.currentDay]
+        if(props.split.currentDay <= props.split.splits.length - 1) {
+            split = props.split.splits[Number(props.split.currentDay)]
+        }
 
         if(split === 'Rest') {
             return <Text style={[styles.reportText]}>Rest up! 😮‍💨😴</Text>
@@ -105,7 +106,10 @@ export default function MainScreen(props) {
                         </View>
                         <View style={{flex: 0, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>
                             <View style={[styles.box, styles.narrowBox]}>
-                                <Text style={[styles.cardTitle, styles.smallTitle]}>Weekly Progress</Text>
+                                <View style={{width: '100%', flex: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
+                                    <Text style={[styles.cardTitle, styles.smallTitle]}>Weekly Progress</Text>
+                                    <Image style={styles.icon} source={require('../assets/icons/info_icon.png')}/> 
+                                </View>
                                 <View style={[styles.rule, {width: '90%'}]}/>
                                 <PieChart widthAndHeight={styles.$pieSize} series={[2/3, 1]} style={styles.pieGap} 
                                 sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]}/>
@@ -160,7 +164,7 @@ const styles = EStyleSheet.create({
         color: colorTheme.boldTheme
     },
     smallTitle: {
-        fontSize: '1.2rem'
+        fontSize: '1.1rem'
     },
     rule: {
         width: '95%',
@@ -217,6 +221,10 @@ const styles = EStyleSheet.create({
     },
     pieGap: {
         marginTop: '.5rem'
+    },
+    icon: {
+        width: '1.3rem',
+        aspectRatio: 1 / 1
     },
     $pieSize: '8rem'
 });

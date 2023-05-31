@@ -68,7 +68,7 @@ export default function App() {
   const handleAddRow = (cardID) => {
     const tempRows = {...rows}
     const cardNum = tempRows[cardID].length;
-    tempRows[cardID][cardNum] = {id: cardNum, text: ['', '', '']}
+    tempRows[cardID][cardNum] = {id: cardNum, text: ['', '', ''], tagNo: 0}
     saveRows(tempRows)
   }
 
@@ -102,9 +102,8 @@ export default function App() {
     const tempRows = {...rows}
     tempRows[cardID].forEach(element => {
       if(element.id === id) {
-        console.log(element.tagNo)
+        if(Number.isNaN(element.tagNo)) {element.tagNo = 0}
         element.tagNo = ((Number(element.tagNo) + 1) % 4)
-        console.log(element.tagNo)
       }
     });
     saveRows(tempRows)
@@ -148,6 +147,16 @@ export default function App() {
       {...progressBars[1], value: 0}
     ]
     saveProgress(tempProgressBars)
+  }
+
+  const saveCompletion = async truth => {
+    await AsyncStorage.setItem('@completion', JSON.stringify(truth)).catch(e => console.error(e))
+    completeWorkout(truth)
+  }
+
+  const saveSplits = async splits => {
+    await AsyncStorage.setItem('@splits', JSON.stringify(splits)).catch(e => console.error(e))
+    setSplit(splits)
   }
 
   const screens = [
@@ -225,11 +234,6 @@ export default function App() {
     }
   }
 
-  async function saveSplits(splits) {
-    await AsyncStorage.setItem('@splits', JSON.stringify(splits)).catch(e => console.error(e))
-    setSplit(splits)
-  }
-
   async function loadSplits() {
     const oldSplits = await AsyncStorage.getItem('@splits').catch(e => console.error(e))
     if(oldSplits !== null) {
@@ -237,11 +241,6 @@ export default function App() {
     } else {
       setSplit(split)
     }
-  }
-
-  async function saveCompletion(truth) {
-    await AsyncStorage.setItem('@completion', JSON.stringify(truth)).catch(e => console.error(e))
-    completeWorkout(truth)
   }
 
   async function loadCompletion() {

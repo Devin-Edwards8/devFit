@@ -1,6 +1,7 @@
-import { StyleSheet, View, Image, Text } from 'react-native';
+import { View, Image, Text } from 'react-native';
 import React from 'react';
 import { colorTheme } from '../global_colors';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default function Header(props) {
     return (
@@ -14,25 +15,25 @@ export default function Header(props) {
     );
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     strip: {
         flex: 0,
         alignItems: 'flex-end',
         justifyContent: 'space-between',
         flexDirection: 'row',
         width: '100%',
-        height: 80,
+        height: '10%',
         backgroundColor: colorTheme.bars
     },
     image: {
-        height: 23,
-        width: 23,
-        marginLeft: 20,
-        marginBottom: 10
+        width: '1.5rem',
+        height: '1.5rem',
+        marginLeft: '1rem',
+        marginBottom: '.7rem'
     },
     add: {
         color: colorTheme.background,
-        fontSize: 40,
-        marginRight: 20
+        fontSize: '3rem',
+        marginRight: '1rem'
     }
 });
