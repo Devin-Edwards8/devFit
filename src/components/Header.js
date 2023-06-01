@@ -17,7 +17,7 @@ export default function Header(props) {
 
 const styles = EStyleSheet.create({
     strip: {
-        flex: 0,
+        flex: 1,
         alignItems: 'flex-end',
         justifyContent: 'space-between',
         flexDirection: 'row',

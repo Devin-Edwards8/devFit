@@ -20,18 +20,18 @@ export default function ExpandedCard(props) {
         let paddingBottom = editMode ? 0 : styles.$lightPad
         return (
             <View style={[styles.container, {paddingBottom: paddingBottom}]}>
-                <View style={{flex: 0, flexShrink: 1, flexGrow: 1, flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between'}}>
+                <View style={styles.titleContainer}>
                     <Image style={[styles.image, styles.close]} source={require('../assets/icons/close_icon2.png')} 
                     onTouchEnd={() => props.onCondense({viewMode: false, cardNo: 0})}/>
-                    <TextInput style={styles.cardText} onChangeText={((payload) => props.onTitleChange(payload, props.id))}>{props.title}</TextInput>
+                    {editMode ? <TextInput style={styles.cardText} value={props.title} /> :
+                    <Text style={styles.cardText}>{props.title}</Text>}
                     {editMode ? 
                     <Image style={[styles.image, styles.edit]} source={require('../assets/icons/editing_icon.jpeg')} 
                     onTouchEnd={() => toggleEdit(false)}/> :
                     <Image style={[styles.image, styles.edit]} source={require('../assets/icons/not_editing_icon.jpeg')} 
-                    onTouchEnd={() => toggleEdit(true)}/>
-                    }
+                    onTouchEnd={() => toggleEdit(true)}/> }
                 </View>
-                <View style={{flex: 0, alignItems: 'center'}}>
+                <View style={{flex: 1, alignItems: 'center', width: '100%'}}>
                     <View style={styles.rowTitle}>
                         <Text style={[styles.inputText, styles.workoutText]}>workout</Text>
                         <View style={[styles.numberText, {width: '25%'}]}><Text style={[styles.inputText]}>set x rep</Text></View>
@@ -58,12 +58,19 @@ const styles = EStyleSheet.create({
         borderRadius: '.2rem',
         alignSelf: 'center',
         zIndex: 1,
-        flex: 0,
+        flex: 1,
         justifyContent: 'space-around',
         alignItems: 'center'
     },
+    titleContainer: {
+        flex: 1,
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
     rowTitle: {
-        flex: 0,
+        flex: 1,
         width: '98%',
         flexDirection: 'row',
         justifyContent: 'flex-start',
@@ -75,7 +82,6 @@ const styles = EStyleSheet.create({
         fontFamily: 'Poppins_300Light',
         color: colorTheme.boldTheme,
         fontSize: '2rem',
-        fontWeight: 'bold',
         marginTop: '.5rem',
         textAlign: 'center'
     }, 
@@ -95,15 +101,16 @@ const styles = EStyleSheet.create({
     },
     image: {
         aspectRatio: 1 / 1,
-        marginLeft: '3%',
-        marginRight: '3%'
+        maxWidth: '2rem'
     },
     close: {
-        width: '8%'
+        width: '8%',
+        marginLeft: '.3rem'
     },
     edit: {
         width: '9%',
-        borderRadius: '.5rem'
+        borderRadius: '.5rem',
+        marginRight: '.3rem'
     },
     $lightPad: '.3rem'
 });

@@ -90,6 +90,7 @@ export default function MainScreen(props) {
                     <Header onSwitch={props.onSwitch} />
                     <Title />
                     <View style={styles.boxContainer}>
+                        <View />
                         <View style={[styles.box, styles.wideBox]}>
                             <Text style={styles.cardTitle}>{day}'s Report</Text>
                             <View style={styles.rule}/>
@@ -104,9 +105,9 @@ export default function MainScreen(props) {
                                 {getNutritionText()}
                             </View>
                         </View>
-                        <View style={{flex: 0, flexDirection: 'row', width: '100%', justifyContent: 'space-evenly'}}>
-                            <View style={[styles.box, styles.narrowBox]}>
-                                <View style={{width: '100%', flex: 0, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
+                        <View style={{flex: 1, flexDirection: 'row', width: '96%', justifyContent: 'space-evenly', gap: '1rem'}}>
+                            <View style={[styles.box, styles.narrowBox, {justifyContent: 'space-between'}]}>
+                                <View style={{width: '100%', flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
                                     <Text style={[styles.cardTitle, styles.smallTitle]}>Weekly Progress</Text>
                                     <Image style={styles.icon} source={require('../assets/icons/info_icon.png')}/> 
                                 </View>
@@ -125,6 +126,7 @@ export default function MainScreen(props) {
                             <View style={styles.rule}/>
                             <View style={{flexGrow: 1, justifyContent: 'center'}}><Text style={[styles.body, styles.ruleGap]}>{quote[0]} ~{quote[1]}</Text></View>
                         </View>
+                        <View />
                     </View>
                 </View>
                 <BottomNavBar onSwitch={props.onSwitch}/>
@@ -144,14 +146,15 @@ const styles = EStyleSheet.create({
         justifyContent: 'space-between'
     },
     mainContainer: {
-        flex: 1,
+        flex: 10,
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
         width: '100%'
     },
     boxContainer: {
-        flex: 1,
+        flex: 9,
+        gap: '1rem',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-evenly',
@@ -175,17 +178,18 @@ const styles = EStyleSheet.create({
         marginTop: '1rem'
     },
     wideBox: {
+        borderRadius: '.5rem',
         width: '96%',
-        aspectRatio: 2/1
+        paddingLeft: '.5rem',
+        paddingRight: '.5rem'
     },
     narrowBox: {
-        width: '48%',
-        aspectRatio: 1/1
+        borderRadius: '.5rem',
     },
     box: {
         backgroundColor: colorTheme.lightTheme,
         borderRadius: 5,
-        flex: 0, 
+        flex: 1, 
         alignItems: 'center'
     },
     body: {
@@ -220,7 +224,8 @@ const styles = EStyleSheet.create({
         color: colorTheme.boldTheme
     },
     pieGap: {
-        marginTop: '.5rem'
+        marginTop: '.5rem',
+        flex: 3
     },
     icon: {
         width: '1.3rem',

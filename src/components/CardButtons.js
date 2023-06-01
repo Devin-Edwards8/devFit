@@ -1,13 +1,16 @@
-import react from 'react'
-import { StyleSheet, View, Text, } from 'react-native'
+import { View, Text, } from 'react-native'
 import { colorTheme } from '../global_colors';
 import {useFonts, Poppins_500Medium} from '@expo-google-fonts/poppins';
+import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default function CardButtons(props) {
     let [fontsLoaded] = useFonts({
         Poppins_500Medium
       });
 
+    if(!fontsLoaded) {
+        return <></>
+    }
     return (
         <View style={styles.container}>
             <View style={styles.button} onTouchEnd={() => props.onAdd(props.id)}>
@@ -20,27 +23,27 @@ export default function CardButtons(props) {
     );
 }
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     container: {
-        marginBottom: 10,
-        marginTop: 10,
-        flex: 0,
-        width: 300,
+        flex: 1,
+        width: '100%',
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        marginTop: '.5rem',
+        marginBottom: '.3rem'
     },
     button: {
-        flex: 0,
+        flex: 1,
         alignItems: 'center',
         borderWidth: 1,
         borderColor: colorTheme.boldTheme,
-        padding: 5,
-        borderRadius: 10,
-        width: 80
+        padding: '.5rem',
+        borderRadius: '.5rem',
+        maxWidth: '5rem'
     },
     text: {
         fontFamily: 'Poppins_500Medium',
         color: colorTheme.boldTheme,
-        fontSize: 15,
+        fontSize: '1rem',
     }
 });

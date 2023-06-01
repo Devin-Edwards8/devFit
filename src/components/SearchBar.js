@@ -12,7 +12,7 @@ export default function SearchBar(props) {
     }
     
     return (
-        <View style={styles.header}>
+        <View style={styles.background}>
             <View style={styles.searchBar}>
                 <Image style={styles.image} source={require('../assets/icons/search_icon.png')} />
                 <TextInput style={styles.searchText} placeholder='search nutrition database' 
@@ -25,33 +25,32 @@ export default function SearchBar(props) {
 }
 
 const styles = EStyleSheet.create({
-    header: {
-        flex: 0,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
+    background: {
         backgroundColor: colorTheme.bars,
-        height: 40,
+        height: '2.5rem',
         width: '100%',
     },
     searchBar: {
-        flex: 0,
+        flex: 1,
         flexDirection: 'row',
         backgroundColor: colorTheme.background,
-        marginLeft: '.5rem',
-        width: '95%',
+        marginLeft: '1%',
+        marginTop: '.25rem',
+        marginBottom: '.25rem',
+        width: '98%',
+        height: '2rem',
         padding: '.3rem',
-        borderRadius: 5
+        borderRadius: '.5rem'
     },
     searchText: {
-        fontSize: 20,
+        fontSize: '1.4rem',
         fontFamily: 'Arial',
         color: colorTheme.boldAccent,
-        width: 310, 
-        marginLeft: 5
+        marginLeft: '.2rem',
+        flex: 1
     },
     image: {
-        height: 20,
-        width: 20
+        wdith: '1.8rem',
+        aspectRatio: 1 / 1
     }
 });

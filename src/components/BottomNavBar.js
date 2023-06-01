@@ -23,14 +23,14 @@ export default class BottomNavBar extends react.Component {
  
 const styles = EStyleSheet.create({
     navbar: {
-        flex: 0,
+        flex: 1,
         width: '100%',
         height: '10%',
         flexDirection: 'row',
         backgroundColor: colorTheme.bars
     },
     button: {
-        flex: 0,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         height: '100%',

@@ -80,7 +80,7 @@ export default function NutritionScreen(props) {
     } else {
         return (
             <View style={styles.container}>
-                <View style={{flex:1}}>
+                <View style={{flex:10}}>
                     {state.searched ? 
                     <View style={{flex: 1}}>
                         <Header onSwitch={props.onSwitch} />
@@ -92,29 +92,32 @@ export default function NutritionScreen(props) {
                         <View style={styles.nutritionContainer}>
                             <View style={styles.chartsAndSearch}>
                                 <SearchBar handleSearch={handleSearch}/>
-                                <Text style={styles.title}>Nutrition Tracker</Text>
-                                <View style={styles.chartBox}>
-                                    <View style={styles.chartContainer}>
-                                        <PieChart widthAndHeight={styles.$pieSize} series={calcRatio(p0.value, p0.goal)}
-                                        sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p0.id}/>
-                                        <View>
-                                            <Text style={styles.chartText}>calories</Text>
-                                            <Text style={styles.chartText}>{p0.value}/{p0.goal}</Text>
+                                <View style={{flex: 9}}>
+                                    <Text style={styles.title}>Nutrition Tracker</Text>
+                                    <View style={styles.chartBox}>
+                                        <View style={styles.chartContainer}>
+                                            <PieChart widthAndHeight={styles.$pieSize} series={calcRatio(p0.value, p0.goal)}
+                                            sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p0.id}/>
+                                            <View>
+                                                <Text style={styles.chartText}>calories</Text>
+                                                <Text style={styles.chartText}>{p0.value}/{p0.goal}</Text>
+                                            </View>
                                         </View>
-                                    </View>
-                                    <View style={styles.chartContainer}>
-                                        <View>
-                                            <Text style={styles.chartText}>protein (g)</Text>
-                                            <Text style={styles.chartText}>{p1.value}/{p1.goal}</Text>
+                                        <View style={styles.chartContainer}>
+                                            <View>
+                                                <Text style={styles.chartText}>protein (g)</Text>
+                                                <Text style={styles.chartText}>{p1.value}/{p1.goal}</Text>
+                                            </View>
+                                            <PieChart widthAndHeight={styles.$pieSize} series={calcRatio(p1.value, p1.goal)}
+                                            sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p1.id}/>
                                         </View>
-                                        <PieChart widthAndHeight={styles.$pieSize} series={calcRatio(p1.value, p1.goal)}
-                                        sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]} key={p1.id}/>
                                     </View>
                                 </View>
                             </View>
                             <View>
                                 <Text style={styles.submissionTitle}>Add as you eat!</Text>
                                 <View style={styles.submissionEntries}>
+                                    <View />
                                     <TextInput style={styles.entryBox} placeholder='calories' placeholderTextColor={colorTheme.mediumTheme} ref={input1}
                                     onChangeText={(load) => setState({...state, currentCalorieValue: load})} />
                                     <TextInput style={styles.entryBox} placeholder='protein' placeholderTextColor={colorTheme.mediumTheme} ref={input2}
@@ -122,6 +125,7 @@ export default function NutritionScreen(props) {
                                     <View style={styles.submissionButton} onTouchEnd={() => handleManualSubmission()}>
                                         <Text style={{color: colorTheme.background}}>{"\u2713"}</Text>
                                     </View>
+                                    <View />
                                 </View>
                             </View>
                         </View>
@@ -146,7 +150,7 @@ const styles = EStyleSheet.create({
         backgroundColor: colorTheme.background,
     },
     nutritionContainer: {
-        flex: 1,
+        flex: 9,
         justifyContent: 'space-between'
     },
     chartsAndSearch: {
@@ -180,44 +184,41 @@ const styles = EStyleSheet.create({
         fontFamily: 'Poppins_400Regular',
         fontSize: '.8rem',
         color: colorTheme.boldTheme,
-        margin: 5
+        margin: '.25rem'
     },
     submissionEntries: {
-        flex: 0,
+        flex: 1,
+        height: '2.5rem',
         flexDirection: 'row',
         backgroundColor: colorTheme.lightTheme,
         alignItems: 'center',
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingTop: '.5rem',
+        paddingBottom: '.5rem',
+        gap: '.5rem'
     },
     entryBox: {
-        flex: 2,
-        width: '40%',
-        marginLeft: 5,
-        marginRight: 5,
-        borderRadius: 10,
-        height: 30,
+        flex: 4,
+        borderRadius: '.5rem',
+        height: '2rem',
         backgroundColor: colorTheme.background,
         borderWidth: 1,
         borderColor: colorTheme.boldTheme,
         fontFamily: 'Poppins_300Light',
         color: colorTheme.boldTheme,
-        paddingLeft: 5
+        paddingLeft: '.3rem'
     },
     submissionButton: {
-        flex: 0,
+        flex: 1,
+        maxWidth: '2rem',
+        aspectRatio: 1 / 1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        width: 30,
-        height: 30,
+        borderRadius: '.5rem',
         backgroundColor: colorTheme.mediumTheme
     },
     sideMargin: {
         marginRight: '.5rem',
         marginLeft: '.5rem'
     },
-    $pieSize: '12rem'
+    $pieSize: '13rem'
 });

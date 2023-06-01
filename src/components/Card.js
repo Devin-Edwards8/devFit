@@ -42,46 +42,38 @@ export default function Card(props) {
 }
  
 const styles = EStyleSheet.create({
-    cardDel: {
-        flex: 0,
+    card: {
+        flex: 1,
         alignItems: 'center',
-        justifyContent: 'space-between',
-        flexDirection: 'row',
-        height: '5rem',
-        width: '100%',
+        justifyContent: 'center',
+        minHeight: '5rem',
         borderBottomWidth: 1,
         borderColor: colorTheme.lightTheme
     },
-    card: {
-        flex: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '5rem',
+    cardDel: {
+        flex: 1,
         width: '100%',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
         borderBottomWidth: 1,
         borderColor: colorTheme.lightTheme
     },
     cardText: {
         fontFamily: 'Poppins_300Light',
         color: colorTheme.boldTheme,
-        fontSize: '1.8rem',
-        fontWeight: 'bold'
+        fontSize: '1.8rem'
     },
     deleteButton: {
-        flex: 0,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: colorTheme.boldTheme,
         height: '100%',
         width: '6rem',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: colorTheme.boldTheme
     }, 
     deleteText: {
         color: colorTheme.lightTheme,
         fontFamily: 'Poppins_300Light',
         fontSize: '1rem'
-    },
-    fill: {
-        width: '100%',
-        aspectRatio: 1 / 2
     }
 });

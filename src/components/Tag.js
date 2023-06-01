@@ -32,7 +32,6 @@ const styles = EStyleSheet.create({
         zIndex: 1
     },
     editTag: {
-        marginTop: '.3rem',
         marginRight: '.2rem',
         width: '1.4rem',
         aspectRatio: 1 / 1,

@@ -14,16 +14,18 @@ export default function InputRow(props) {
     } else {
         return (
             <View style={styles.rowTitle}>
-                <TextInput style={[styles.inputText, styles.workoutText]} placeholder="enter workout" placeholderTextColor={colorTheme.mediumTheme}
-                onChangeText={(payload) => props.onRowText(payload, props.id, 0, props.cardID)}>{props.text[0]}</TextInput>
-                <Tag num={props.tagNo} editMode={true} onTagClick={props.onTagClick} cardID={props.cardID} id={props.id} />
+                <View style={styles.workoutText}>
+                    <TextInput style={[styles.inputText]} placeholder="enter workout" placeholderTextColor={colorTheme.mediumTheme}
+                    onChangeText={(payload) => props.onRowText(payload, props.id, 0, props.cardID)} value={props.text[0]} />
+                    <Tag num={props.tagNo} editMode={true} onTagClick={props.onTagClick} cardID={props.cardID} id={props.id} />
+                </View>
                 <View style={[styles.numberText, {width: '25%'}]}>
                     <TextInput style={[styles.inputText]} placeholder="-" placeholderTextColor={colorTheme.mediumTheme}
-                    onChangeText={(payload) => props.onRowText(payload, props.id, 1, props.cardID)}>{props.text[1]}</TextInput>
+                    onChangeText={(payload) => props.onRowText(payload, props.id, 1, props.cardID)} value={props.text[1]} />
                 </View>
                 <View style={[styles.numberText, {width: '20%'}]}>
                     <TextInput style={[styles.inputText]} placeholder="-" placeholderTextColor={colorTheme.mediumTheme}
-                    onChangeText={(payload) => props.onRowText(payload, props.id, 2, props.cardID)}>{props.text[2]}</TextInput>
+                    onChangeText={(payload) => props.onRowText(payload, props.id, 2, props.cardID)} value={props.text[2]} />
                 </View>
             </View>
         );
@@ -52,12 +54,18 @@ const styles = EStyleSheet.create({
         fontSize: '1rem',
         lineHeight: '1.5rem',
         color: colorTheme.boldTheme,
-        marginTop: '.1rem',
-        marginBottom: '.3rem',
         marginLeft: '.2rem',
+        marginRight: '.2rem',
+        flexGrow: 1
     },
     workoutText: {
-        width: '55% - 2.2rem'
+        width: '55%',
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingTop: '.25rem',
+        paddingBottom: '.25rem'
     },
     numberText: {
         borderLeftWidth: 1,

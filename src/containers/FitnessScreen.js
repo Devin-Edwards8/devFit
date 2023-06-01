@@ -26,23 +26,32 @@ export default function FitnessScreen(props) {
                     id={state.id} rows={props.rows} onAdd={props.onAddRow} onDelete={props.onDeleteRow}
                     onRowText={props.onRowText} onTagClick={props.onTagClick}/>
                     <View style={[styles.innerContainer, styles.blur]}>
-                        <View>
-                            <Header screen="fitness" onAdd={props.onAddCard}/>
-                            <View style={[styles.titleContainer]}><Text style={[styles.title, styles.blur]}>Workout Library</Text></View>
-                            {cards.map(card => <Card id={card.id} key={card.id} title={card.title} onDeleteCard={props.onDeleteCard}
-                            handleExpand={setState}/>)}
+                        <View style={{flex: 10}}>
+                            <Header screen="fitness" onAdd={props.onAddCard} onSwitch={props.onSwitch}/>
+                            <View style={{flex: 9}}>
+                                <Text style={styles.title}>Workout Library</Text>
+                                <View style={styles.rule}/>
+                                <View>
+                                    {cards.map(card => <Card id={card.id} key={card.id} title={card.title}/>)}
+                                </View>
+                            </View>
                         </View>
                         <BottomNavBar onSwitch={props.onSwitch}/>
                     </View>
                 </View> 
                 :
                 <View style={styles.container}>
-                    <Header screen="fitness" onAdd={props.onAddCard} onSwitch={props.onSwitch}/>
-                    <ScrollView style={{maxWidth: '100%', width: '100%'}}>
-                        <View style={styles.titleContainer}><Text style={styles.title}>Workout Library</Text></View>
-                        {cards.map(card => <Card id={card.id} key={card.id} title={card.title} onDeleteCard={props.onDeleteCard}
-                        handleExpand={setState}/>)}
-                    </ScrollView>
+                    <View style={{flex: 10}}>
+                        <Header screen="fitness" onAdd={props.onAddCard} onSwitch={props.onSwitch}/>
+                        <View style={{flex: 9}}>
+                            <Text style={styles.title}>Workout Library</Text>
+                            <View style={styles.rule}/>
+                            <ScrollView>
+                                {cards.map(card => <Card id={card.id} key={card.id} title={card.title} onDeleteCard={props.onDeleteCard}
+                                handleExpand={setState}/>)}
+                            </ScrollView>
+                        </View>
+                    </View>
                     <BottomNavBar onSwitch={props.onSwitch}/>
                 </View>
             }
@@ -53,31 +62,28 @@ export default function FitnessScreen(props) {
  
 const styles = EStyleSheet.create({
     container: {
-        flex: 0,
-        height: '100%',
+        flex: 1,
         backgroundColor: colorTheme.background,
     },
     title: {
         fontSize: '2rem',
         fontFamily: 'Poppins_500Medium',
         color: colorTheme.accent,
-        textAlign: 'center'
+        textAlign: 'center',
+        marginTop: '.5rem',
+        marginBottom: '.5rem'
     },
-    titleContainer: {
+    rule: {
         width: '100%',
-        borderBottomWidth: 1,
-        borderColor: colorTheme.lightTheme,
-        marginTop: 15
+        borderTopWidth: 1,
+        borderColor: colorTheme.lightTheme
     },
     outerContainer: {
         position: 'relative',
-        width: '100%',
-        height: '100%'
+        flex: 1
     },
     innerContainer: {
-        width: '100%',
-        height: '100%',
-        flex: 0,
+        flex: 1,
         justifyContent: 'space-between'
     },
     blur: {
