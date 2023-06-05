@@ -4,17 +4,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 export default function Tag(props) {
     const tagStyles = [styles.hollow, styles.red, styles.yellow, styles.green]
-    let tagStyle
+    let tagStyle = styles.hollow
     if(0 <= props.num < 4) {
         tagStyle = tagStyles[props.num]
-    } else { 
-        tagStyle = styles.hollow
     }
 
     return (
         <>
         {props.editMode ?
-        <View style={[styles.editTag, styles.edit, tagStyle]} onTouchEnd={() => props.onTagClick(props.id, props.cardID)}></View> :
+        <View style={[styles.editTag, styles.edit, tagStyle]} onTouchEnd={() => props.onTagClick(props.id, props.cardID)} 
+        onClick={() => props.onTagClick(props.id, props.cardID)}/> :
         <View style={[styles.tag, styles.static, tagStyle]}></View>}
         </>
     );

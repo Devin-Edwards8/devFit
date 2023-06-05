@@ -22,14 +22,14 @@ export default function ExpandedCard(props) {
             <View style={[styles.container, {paddingBottom: paddingBottom}]}>
                 <View style={styles.titleContainer}>
                     <Image style={[styles.image, styles.close]} source={require('../assets/icons/close_icon2.png')} 
-                    onTouchEnd={() => props.onCondense({viewMode: false, cardNo: 0})}/>
+                    onTouchEnd={() => props.onCondense({viewMode: false, cardNo: 0})} onClick={() => props.onCondense({viewMode: false, cardNo: 0})}/>
                     {editMode ? <TextInput style={styles.cardText} value={props.title} /> :
                     <Text style={styles.cardText}>{props.title}</Text>}
                     {editMode ? 
                     <Image style={[styles.image, styles.edit]} source={require('../assets/icons/editing_icon.jpeg')} 
-                    onTouchEnd={() => toggleEdit(false)}/> :
+                    onTouchEnd={() => toggleEdit(false)} onClick={() => toggleEdit(false)}/> :
                     <Image style={[styles.image, styles.edit]} source={require('../assets/icons/not_editing_icon.jpeg')} 
-                    onTouchEnd={() => toggleEdit(true)}/> }
+                    onTouchEnd={() => toggleEdit(true)} onClick={() => toggleEdit(true)}/> }
                 </View>
                 <View style={{flex: 1, alignItems: 'center', width: '100%'}}>
                     <View style={styles.rowTitle}>

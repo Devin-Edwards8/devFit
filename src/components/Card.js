@@ -30,11 +30,12 @@ export default function Card(props) {
                 <View style={styles.cardDel}>
                     <View />
                     <Text style={styles.cardText}>{props.title}</Text>
-                    <View style={styles.deleteButton} onTouchEnd={() => props.onDeleteCard(props.id)}>
+                    <View style={styles.deleteButton} onTouchEnd={() => props.onDeleteCard(props.id)} onClick={() => props.onDeleteCard(props.id)}>
                         <Text style={styles.deleteText}>Delete</Text>
                     </View>
                 </View> :
                 <Text onTouchEnd={() => props.handleExpand({viewMode: true, id: props.id, title: props.title})} 
+                onClick={() => props.handleExpand({viewMode: true, id: props.id, title: props.title})} 
                 style={styles.cardText}>{props.title}</Text>}
             </GestureRecognizer>
         );

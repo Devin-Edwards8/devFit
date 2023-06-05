@@ -5,19 +5,26 @@ import NutritionScreen from './containers/NutritionScreen';
 import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import EStyleSheet from 'react-native-extended-stylesheet';
 import SettingsScreen from './containers/Settings';
+import * as demo_settings from './demo_settings'
  
 EStyleSheet.build({});
 
 
 export default function App() {
+  let demoMode = true
+  let defaultCards = demoMode ? demo_settings.demo_cards : [{id: 0, title: 'edit'}]
+  let defaultRows = demoMode ? demo_settings.demo_rows : {0: [{id: 0, text: ['', '', ''], tagNo: 0}]}
+  let defaultBars = demoMode ? demo_settings.demo_bars : [{title: 'calories', value: 0, id: 1, goal: 0},
+  {title: 'protein', value: 0, id: 2, goal: 0}]
+  let defaultSplits = demoMode ? demo_settings.demo_split : Array(7).fill('fill splits in settings!')
+
   const [currentScreen, setCurrentScreen] = useState(0)
-  const [cards, setCards] = useState([{id: 0, title: 'edit'}])
+  const [cards, setCards] = useState(defaultCards)
   const { setItem, getItem } = useAsyncStorage('@cards')
-  const [rows, setRows] = useState({0: [{id: 0, text: ['', '', ''], tagNo: 0}]})
-  const [progressBars, setProgressBars] = useState([{title: 'calories', value: 0, id: 1, goal: 0},
-  {title: 'protein', value: 0, id: 2, goal: 0}])
+  const [rows, setRows] = useState(defaultRows)
+  const [progressBars, setProgressBars] = useState(defaultBars)
   const [workoutComplete, completeWorkout] = useState({status: false, weeklyProgress: 0})
-  const [split, setSplit] = useState({customRotation: false, splits: Array(7).fill('fill splits in settings!'), 
+  const [split, setSplit] = useState({customRotation: false, splits: defaultSplits, 
   currentDay: 0, rotationLength: 7})
   const [toggle1, setToggle1] = useState(false)
   const [toggle2, setToggle2] = useState(false)
@@ -53,7 +60,7 @@ export default function App() {
     }
     tempCards[cardNum] = {id: uniqueID, title: 'edit'}
     const tempRows = {...rows}
-    tempRows[uniqueID] = [{ id: 0, text: ['','',''] }, ]
+    tempRows[uniqueID] = [{ id: 0, text: ['','',''], tagNo: 0 }, ]
     saveRows(tempRows)
     saveWorkouts(tempCards)
   }

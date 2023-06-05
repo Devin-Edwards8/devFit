@@ -14,7 +14,7 @@ export default function SearchResults(props) {
         <View style={{flex: 1, flexGrow: 1, justifyContent: 'space-between'}}>
             <View style={{flex: 1}}>
                 <Text style={styles.title}>Results</Text>
-                <ScrollView contentContainerStyle={{flex: 1, flexGrow: 1}}>
+                <ScrollView contentContainerStyle={{flex: 1, flexGrow: 1, justifyContent: 'flex-start'}}>
                     {props.results.map((food, id) => 
                         <View style={[styles.container]} key={id}>
                             <View>
@@ -39,7 +39,7 @@ export default function SearchResults(props) {
 
 const styles = EStyleSheet.create({
     container: {
-        flex: 0,
+        flex: 1,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',

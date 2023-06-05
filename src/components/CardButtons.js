@@ -13,10 +13,12 @@ export default function CardButtons(props) {
     }
     return (
         <View style={styles.container}>
-            <View style={styles.button} onTouchEnd={() => props.onAdd(props.id)}>
+            <View style={styles.button} onTouchEnd={() => props.onAdd(props.id)}
+            onClick={() => props.onAdd(props.id)}>
                 <Text style={styles.text}>add</Text>
             </View>
-            <View style={styles.button} onTouchEnd={() => props.onDelete(props.id)}>
+            <View style={styles.button} onTouchEnd={() => props.onDelete(props.id)}
+            onClick={() => props.onDelete(props.id)}>
                 <Text style={styles.text}>delete</Text>
             </View>
         </View>

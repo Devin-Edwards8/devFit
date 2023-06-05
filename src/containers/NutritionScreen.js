@@ -84,8 +84,10 @@ export default function NutritionScreen(props) {
                     {state.searched ? 
                     <View style={{flex: 1}}>
                         <Header onSwitch={props.onSwitch} />
-                        <SearchBar handleSearch={handleSearch}/>
-                        <SearchResults results={state.results} onSubmission={handleSearchSubmission} onReturn={setState}/>
+                        <View style={{flex: 9}}>
+                            <SearchBar handleSearch={handleSearch}/>
+                            <SearchResults results={state.results} onSubmission={handleSearchSubmission} onReturn={setState}/>
+                        </View>
                     </View> :
                     <View style={styles.mainContainer}>
                         <Header onSwitch={props.onSwitch} />
