@@ -14,7 +14,7 @@ export default function SearchResults(props) {
         <View style={{flex: 1, flexGrow: 1, justifyContent: 'space-between'}}>
             <View style={{flex: 1}}>
                 <Text style={styles.title}>Results</Text>
-                <ScrollView contentContainerStyle={{flex: 1, flexGrow: 1, justifyContent: 'flex-start'}}>
+                <ScrollView>
                     {props.results.map((food, id) => 
                         <View style={[styles.container]} key={id}>
                             <View>
@@ -23,15 +23,17 @@ export default function SearchResults(props) {
                                 <Text style={styles.resultText}>Calories: {food.calories}</Text>
                                 <Text style={styles.resultText}>Protein Content: {food.protein_g}g</Text>
                             </View>
-                            <View style={[styles.button, styles.submission]} onTouchEnd={() => props.onSubmission(food.calories, food.protein_g)}>
-                                <Text style={{color: colorTheme.boldTheme, fontSize: styles.$checkSize}}>{"\u2713"}</Text>
+                            <View style={[styles.button, styles.submission]} onTouchEnd={() => props.onSubmission(food.calories, food.protein_g)}
+                            onClick={() => props.onSubmission(food.calories, food.protein_g)}>
+                                <Text style={styles.buttonText}>{"\u2713"}</Text>
                             </View>
                         </View>
                     )}
                 </ScrollView>
             </View>
-            <View style={[styles.button, styles.return]} onTouchEnd={() => props.onReturn({searched: false})}>
-                <Text style={[styles.resultText, {color: colorTheme.boldTheme}]}>Return {"\u21b2"}</Text>
+            <View style={[styles.button, styles.return]} onTouchEnd={() => props.onReturn({searched: false})}
+            onClick={() => props.onReturn({searched: false})}>
+                <Text style={styles.buttonText}>Return {"\u21b2"}</Text>
             </View>
         </View>
     )
@@ -66,20 +68,26 @@ const styles = EStyleSheet.create({
         marginLeft: '.3rem'
     }, 
     button: {
-        flex: 0,
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: '.6rem',
         margin: '.5rem',
-        backgroundColor: colorTheme.lightTheme
+        backgroundColor: colorTheme.lightTheme,
+        cursor: 'pointer'
     },
     submission: {
-        width: '2rem',
-        aspectRatio: 1/1
+        maxWidth: '2rem',
+        aspectRatio: 1/1,
+        borderRadius: '.6rem'
     },
     return: {
-        borderRadius: 0,
-        height: '2rem'
+        maxWidth: '98%',
+        maxHeight: '2rem'
+    },
+    buttonText: {
+        fontFamily: 'Poppins_300Light',
+        fontSize: '1rem',
+        color: colorTheme.boldTheme,
     },
     $checkSize: '1.2rem'
 });

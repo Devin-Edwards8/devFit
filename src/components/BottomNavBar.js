@@ -38,6 +38,7 @@ const styles = EStyleSheet.create({
     },
     image: {
         width: '3rem',
-        height: '3rem'
+        height: '3rem',
+        cursor: 'pointer'
     }
 });

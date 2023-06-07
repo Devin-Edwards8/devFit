@@ -36,7 +36,7 @@ export default function Card(props) {
                 </View> :
                 <Text onTouchEnd={() => props.handleExpand({viewMode: true, id: props.id, title: props.title})} 
                 onClick={() => props.handleExpand({viewMode: true, id: props.id, title: props.title})} 
-                style={styles.cardText}>{props.title}</Text>}
+                style={[styles.cardText, {cursor: 'pointer'}]}>{props.title}</Text>}
             </GestureRecognizer>
         );
     }
@@ -58,7 +58,8 @@ const styles = EStyleSheet.create({
         justifyContent: 'space-between',
         flexDirection: 'row',
         borderBottomWidth: 1,
-        borderColor: colorTheme.lightTheme
+        borderColor: colorTheme.lightTheme,
+        cursor: 'pointer'
     },
     cardText: {
         fontFamily: 'Poppins_300Light',

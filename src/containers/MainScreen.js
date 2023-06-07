@@ -68,7 +68,7 @@ export default function MainScreen(props) {
     const getNutritionText = () => {
         let nutritionPercent = Math.round(((props.progressBars[0].value / props.progressBars[0].goal) + (props.progressBars[1].value / props.progressBars[1].goal)) / 2 * 100)
         if(Number.isNaN(nutritionPercent) || nutritionPercent === 0) {
-            return <Text style={[styles.reportText]}>{'<-'} Start tracking your nutrition today!</Text>
+            return <Text style={[styles.reportText]}>Start tracking your nutrition today!</Text>
         } else if(nutritionPercent >= 100) {
             return <Text style={[styles.reportText]}>Nutritional goals reached, great work!</Text>
         } else {
@@ -105,26 +105,31 @@ export default function MainScreen(props) {
                                 {getNutritionText()}
                             </View>
                         </View>
-                        <View style={{flex: 1, flexDirection: 'row', width: '96%', justifyContent: 'space-evenly', gap: '1rem'}}>
-                            <View style={[styles.box, styles.narrowBox, {justifyContent: 'space-between'}]}>
-                                <View style={{width: '100%', flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly'}}>
+                        <View style={{flex: 1, flexDirection: 'row', width: '100%'}}>
+                            <View style={[styles.box, styles.narrowBox, {justifyContent: 'space-between', marginLeft: '2%', marginRight: '1%'}]}>
+                                <View style={{width: '95%', flex: 1, flexDirection: 'row', 
+                                alignItems: 'center', justifyContent: 'space-around'}}>
                                     <Text style={[styles.cardTitle, styles.smallTitle]}>Weekly Progress</Text>
                                     <Image style={styles.icon} source={require('../assets/icons/info_icon.png')}/> 
                                 </View>
-                                <View style={[styles.rule, {width: '90%'}]}/>
-                                <PieChart widthAndHeight={styles.$pieSize} series={[2/3, 1]} style={styles.pieGap} 
-                                sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]}/>
+                                <View style={[styles.rule, {width: '90%'}]} />
+                                <View style={{height: '78%'}}>
+                                    <PieChart widthAndHeight={styles.$pieSize} series={[2/3, 1]} style={styles.pieGap} 
+                                    sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]}/>
+                                </View>
                             </View>
-                            <View style={[styles.box, styles.narrowBox]}>
-                                <Text style={[styles.cardTitle, styles.smallTitle]}>Today in Fitness</Text>
+                            <View style={[styles.box, styles.narrowBox, {marginLeft: '1%', marginRight: '2%'}]}>
+                                <View style={{flex: 1}}><Text style={[styles.cardTitle, styles.smallTitle]}>Today in Fitness</Text></View>
                                 <View style={[styles.rule, {width: '90%'}]}/>
-                                <Text style={[styles.body, styles.ruleGap]}>Coming Soon...</Text>
+                                <View style={{height: '78%'}}><Text style={[styles.body, styles.ruleGap]}>Coming Soon...</Text></View>
                             </View>
                         </View>
                         <View style={[styles.box, styles.wideBox]}>
-                            <Text style={styles.cardTitle}>Quote of the Day</Text>
+                            <Text style={[styles.cardTitle, {height: '25%'}]}>Quote of the Day</Text>
                             <View style={styles.rule}/>
-                            <View style={{flexGrow: 1, justifyContent: 'center'}}><Text style={[styles.body, styles.ruleGap]}>{quote[0]} ~{quote[1]}</Text></View>
+                            <View style={{flex: 1, justifyContent: 'center', maxHeight: '75%'}}>
+                                <Text style={[styles.body, styles.ruleGap]}>{quote[0]} ~{quote[1]}</Text>
+                            </View>
                         </View>
                         <View />
                     </View>
@@ -154,7 +159,7 @@ const styles = EStyleSheet.create({
     },
     boxContainer: {
         flex: 9,
-        gap: '1rem',
+        width: '100%',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-evenly',
@@ -170,7 +175,7 @@ const styles = EStyleSheet.create({
         fontSize: '1.1rem'
     },
     rule: {
-        width: '95%',
+        width: '96%',
         borderTopWidth: 1,
         borderColor: colorTheme.mediumTheme
     },
@@ -179,18 +184,20 @@ const styles = EStyleSheet.create({
     },
     wideBox: {
         borderRadius: '.5rem',
-        width: '96%',
-        paddingLeft: '.5rem',
-        paddingRight: '.5rem'
+        maxWidth: '96%',
+        minWidth: '96%',
+        paddingLeft: '2%',
+        paddingRight: '2%',
     },
     narrowBox: {
-        borderRadius: '.5rem',
+        borderRadius: '.5rem'
     },
     box: {
         backgroundColor: colorTheme.lightTheme,
-        borderRadius: 5,
+        borderRadius: '.3rem',
         flex: 1, 
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: '2%'
     },
     body: {
         fontSize: '1.2rem',
@@ -216,7 +223,8 @@ const styles = EStyleSheet.create({
         marginRight: '1rem',
         borderRadius: '.3rem',
         backgroundColor: colorTheme.mediumTheme,
-        padding: '.5rem'
+        padding: '.5rem',
+        cursor: 'pointer'
     },
     buttonText: {
         fontSize: '0.9rem',
@@ -231,5 +239,5 @@ const styles = EStyleSheet.create({
         width: '1.3rem',
         aspectRatio: 1 / 1
     },
-    $pieSize: '8rem'
+    $pieSize: '7rem'
 });

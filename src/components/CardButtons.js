@@ -41,7 +41,8 @@ const styles = EStyleSheet.create({
         borderColor: colorTheme.boldTheme,
         padding: '.5rem',
         borderRadius: '.5rem',
-        maxWidth: '5rem'
+        maxWidth: '5rem',
+        cursor: 'pointer'
     },
     text: {
         fontFamily: 'Poppins_500Medium',

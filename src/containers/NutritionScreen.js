@@ -116,7 +116,7 @@ export default function NutritionScreen(props) {
                                     </View>
                                 </View>
                             </View>
-                            <View>
+                            <View style={{flex: 1, maxHeight: styles.$subHeight}}>
                                 <Text style={styles.submissionTitle}>Add as you eat!</Text>
                                 <View style={styles.submissionEntries}>
                                     <View />
@@ -185,23 +185,23 @@ const styles = EStyleSheet.create({
     submissionTitle: {
         fontFamily: 'Poppins_400Regular',
         fontSize: '.8rem',
+        lineHeight: '1rem',
         color: colorTheme.boldTheme,
         margin: '.25rem'
     },
     submissionEntries: {
         flex: 1,
-        height: '2.5rem',
+        maxHeight: '3rem',
         flexDirection: 'row',
         backgroundColor: colorTheme.lightTheme,
         alignItems: 'center',
-        paddingTop: '.5rem',
-        paddingBottom: '.5rem',
-        gap: '.5rem'
+        justifyContent: 'space-between'
     },
     entryBox: {
-        flex: 4,
+        flex: 1,
         borderRadius: '.5rem',
-        height: '2rem',
+        minHeight: '2rem',
+        maxWidth: '40%',
         backgroundColor: colorTheme.background,
         borderWidth: 1,
         borderColor: colorTheme.boldTheme,
@@ -216,11 +216,9 @@ const styles = EStyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: '.5rem',
-        backgroundColor: colorTheme.mediumTheme
+        backgroundColor: colorTheme.mediumTheme,
+        cursor: 'pointer'
     },
-    sideMargin: {
-        marginRight: '.5rem',
-        marginLeft: '.5rem'
-    },
+    $subHeight: '4rem',
     $pieSize: '13rem'
 });

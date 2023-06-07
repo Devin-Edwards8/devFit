@@ -29,11 +29,13 @@ const styles = EStyleSheet.create({
         width: '1.5rem',
         height: '1.5rem',
         marginLeft: '1rem',
-        marginBottom: '.7rem'
+        marginBottom: '.7rem',
+        cursor: 'pointer'
     },
     add: {
         color: colorTheme.background,
         fontSize: '3rem',
-        marginRight: '1rem'
+        marginRight: '1rem',
+        cursor: 'pointer'
     }
 });

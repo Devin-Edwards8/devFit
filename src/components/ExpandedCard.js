@@ -101,7 +101,8 @@ const styles = EStyleSheet.create({
     },
     image: {
         aspectRatio: 1 / 1,
-        maxWidth: '2rem'
+        maxWidth: '2rem',
+        cursor: 'pointer'
     },
     close: {
         width: '8%',

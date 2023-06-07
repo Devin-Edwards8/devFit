@@ -50,7 +50,8 @@ const styles = EStyleSheet.create({
         flex: 1
     },
     image: {
-        wdith: '1.8rem',
-        aspectRatio: 1 / 1
+        width: '1.8rem',
+        aspectRatio: 1 / 1,
+        alignSelf: 'center'
     }
 });
