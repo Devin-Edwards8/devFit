@@ -106,7 +106,7 @@ export default function MainScreen(props) {
                             </View>
                         </View>
                         <View style={{flex: 1, flexDirection: 'row', width: '100%'}}>
-                            <View style={[styles.box, styles.narrowBox, {justifyContent: 'space-between', marginLeft: '2%', marginRight: '1%'}]}>
+                            <View style={[styles.box, styles.narrowBox, {justifyContent: 'space-between', marginLeft: '1%', marginRight: '.5%'}]}>
                                 <View style={{width: '95%', flex: 1, flexDirection: 'row', 
                                 alignItems: 'center', justifyContent: 'space-around'}}>
                                     <Text style={[styles.cardTitle, styles.smallTitle]}>Weekly Progress</Text>
@@ -118,7 +118,7 @@ export default function MainScreen(props) {
                                     sliceColor={[colorTheme.mediumTheme, colorTheme.boldTheme]}/>
                                 </View>
                             </View>
-                            <View style={[styles.box, styles.narrowBox, {marginLeft: '1%', marginRight: '2%'}]}>
+                            <View style={[styles.box, styles.narrowBox, {marginLeft: '.5%', marginRight: '1%'}]}>
                                 <View style={{flex: 1}}><Text style={[styles.cardTitle, styles.smallTitle]}>Today in Fitness</Text></View>
                                 <View style={[styles.rule, {width: '90%'}]}/>
                                 <View style={{height: '78%'}}><Text style={[styles.body, styles.ruleGap]}>Coming Soon...</Text></View>
@@ -184,8 +184,8 @@ const styles = EStyleSheet.create({
     },
     wideBox: {
         borderRadius: '.5rem',
-        maxWidth: '96%',
-        minWidth: '96%',
+        maxWidth: '98%',
+        minWidth: '98%',
         paddingLeft: '2%',
         paddingRight: '2%',
     },
@@ -197,7 +197,7 @@ const styles = EStyleSheet.create({
         borderRadius: '.3rem',
         flex: 1, 
         alignItems: 'center',
-        marginBottom: '2%'
+        marginBottom: '1%'
     },
     body: {
         fontSize: '1.2rem',
