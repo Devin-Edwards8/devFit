@@ -6,16 +6,23 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 import {useFonts, Poppins_500Medium, Poppins_400Regular, Poppins_300Light} from '@expo-google-fonts/poppins';
 import { colorTheme } from '../global_colors';
 import Toggle from 'react-native-toggle-input'
-import SettingRow from '../components/SettingRow';
 
 export default function SettingsScreen(props) {
     let [fontsLoaded] = useFonts({Poppins_500Medium, Poppins_400Regular, Poppins_300Light})
     const [currentCalorieValue, setCalories] = useState({cals: props.progressBars[0].value, editing: false})
     const [currentProteinValue, setProtein] = useState({prot: props.progressBars[1].value, editing: false})
+    const [currentCalorieGoal, setCalorieGoal] = useState("")
+    const [currentProteinGoal, setProteinGoal] = useState("")
+
     const submitValue = (id) => {
-        value = id === 1 ? currentCalorieValue.cals : currentProteinValue.prot
+        let value = id === 1 ? currentCalorieValue.cals : currentProteinValue.prot
         if(!Number.isNaN(value)) {props.onValueAdjustment(value, id)}
         id === 1 ? setCalories({...currentCalorieValue, editing: false}) : setProtein({...currentProteinValue, editing: false})
+    }
+
+    const submitGoal = (id) => {
+        let goal = id === 1 ? currentCalorieGoal : currentProteinGoal
+        props.onGoalSet(Number(goal), id)
     }
 
     const handleSplitEntry = (ind, load) => {
@@ -51,6 +58,9 @@ export default function SettingsScreen(props) {
                     <Header screen='settings' onClose={props.onSwitch}/>
                     <View style={{flex: 9}}>
                     <Text style={styles.title}>Settings</Text>
+
+                    {/* General */}
+
                     <Text style={styles.subtitle}>General</Text>
                     <ScrollView>
                     <View style={[styles.row, styles.topRow]}>
@@ -67,9 +77,23 @@ export default function SettingsScreen(props) {
                             circleColor={colorTheme.lightTheme} filled={true} color={colorTheme.boldTheme}/>
                         </View>
                     </View>
+
+                    {/* GOALS */}
+
                     <Text style={styles.subtitle}>Set Nutritional Goals</Text>
-                    <SettingRow rowText="Caloric intake" inputText={props.progressBars[0].value} onGoalSet={props.onGoalSet} topRow={true}/>
-                    <SettingRow rowText="Grams of protein" inputText={props.progressBars[1].value} onGoalSet={props.onGoalSet}/>
+                    <View style={[styles.row, styles.topRow]}>
+                        <Text style={styles.rowText}>Caloric intake</Text>
+                        <TextInput style={styles.inputText} value={props.progressBars[1].value} onChangeText={(load) => setCalorieGoal(load)} 
+                        onSubmitEditing={() => submitGoal(1)}/>
+                    </View>
+                    <View style={[styles.row]}>
+                        <Text style={styles.rowText}>Grams of protein</Text>
+                        <TextInput style={styles.inputText} value={props.progressBars[1].value} onChangeText={(load) => setProteinGoal(load)} 
+                        onSubmitEditing={() => submitGoal(2)}/>
+                    </View>
+
+                    {/* RESET VALUES */}
+
                     <Text style={styles.subtitle}>Adjust Nutritional Entries</Text>
                     <View style={[styles.buttonContainer, {borderBottomWidth: 1, borderTopWidth: 1, borderColor: colorTheme.mediumTheme}]}>
                         <View style={[styles.row, {width: currentCalorieValue.editing ? '90%' : '100%', height: '100%', borderBottomWidth: currentCalorieValue.editing ? 0 : 1, borderTopWidth: currentCalorieValue.editing ? 0 : 1}]}>
@@ -91,6 +115,9 @@ export default function SettingsScreen(props) {
                         <View style={styles.submissionButton} onTouchEnd={() => submitValue(2)}>
                         <Text style={{color: colorTheme.background}}>{"\u2713"}</Text></View> : <></>}
                     </View>
+
+                    {/* Split Setting */}
+
                     <Text style={styles.subtitle}>Home Screen Data</Text>
                     <View style={[styles.row, styles.topRow]}>
                         <Text style={styles.rowText}>Customize split rotation</Text>

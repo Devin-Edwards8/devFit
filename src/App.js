@@ -118,6 +118,7 @@ export default function App() {
 
   const handleGoal = (goal, id) => {
     const tempProgressBars = [...progressBars]
+    if(Number.isNaN(goal)) return
     tempProgressBars.forEach(element => {
       if(element.id === id) {
         element.goal = goal
@@ -128,6 +129,7 @@ export default function App() {
 
   const handleValueChange = (val, id) => {
     const tempProgressBars = [...progressBars]
+    if(Number.isNaN(val)) return
     tempProgressBars.forEach(element => {
       if(element.id === id) {
         element.value += Number(val)

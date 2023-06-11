@@ -14,16 +14,16 @@ export default function InputRow(props) {
     } else {
         return (
             <View style={styles.rowTitle}>
-                <View style={styles.workoutText}>
-                    <TextInput style={[styles.inputText]} placeholder="enter workout" placeholderTextColor={colorTheme.mediumTheme}
+                <View style={[styles.textContainer, {minWidth: '55%'}]}>
+                    <TextInput style={[styles.inputText, {flex: 1}]} placeholder="enter workout" placeholderTextColor={colorTheme.mediumTheme}
                     onChangeText={(payload) => props.onRowText(payload, props.id, 0, props.cardID)} value={props.text[0]} />
                     <Tag num={props.tagNo} editMode={true} onTagClick={props.onTagClick} cardID={props.cardID} id={props.id} />
                 </View>
-                <View style={[styles.numberText, {width: '25%'}]}>
+                <View style={[styles.numberText, styles.textContainer, {minWidth: '25%'}]}>
                     <TextInput style={[styles.inputText]} placeholder="-" placeholderTextColor={colorTheme.mediumTheme}
                     onChangeText={(payload) => props.onRowText(payload, props.id, 1, props.cardID)} value={props.text[1]} />
                 </View>
-                <View style={[styles.numberText, {width: '20%'}]}>
+                <View style={[styles.numberText, styles.textContainer, {minWidth: '20%'}]}>
                     <TextInput style={[styles.inputText]} placeholder="-" placeholderTextColor={colorTheme.mediumTheme}
                     onChangeText={(payload) => props.onRowText(payload, props.id, 2, props.cardID)} value={props.text[2]} />
                 </View>
@@ -55,15 +55,12 @@ const styles = EStyleSheet.create({
         lineHeight: '1.5rem',
         color: colorTheme.boldTheme,
         marginLeft: '.2rem',
-        marginRight: '.2rem',
-        flexGrow: 1
+        marginRight: '.2rem'
     },
-    workoutText: {
-        width: '55%',
+    textContainer: {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
         paddingTop: '.25rem',
         paddingBottom: '.25rem'
     },

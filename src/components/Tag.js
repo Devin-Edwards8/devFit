@@ -34,7 +34,7 @@ const styles = EStyleSheet.create({
         marginRight: '.2rem',
         width: '1.4rem',
         aspectRatio: 1 / 1,
-        borderRadius: '.7rem',
+        borderRadius: '.7rem'
     },
     edit: {
         opacity: .7,
