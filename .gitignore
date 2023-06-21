@@ -10,5 +10,6 @@ npm-debug.*
 *.orig.*
 web-build/
 src/FontTest
+.vscode/
 # macOS
 .DS_Store
