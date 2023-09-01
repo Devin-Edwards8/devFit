@@ -164,7 +164,8 @@ export default function SettingsScreen(props) {
 const styles = EStyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        backgroundColor: colorTheme.background
     },
     title: {
         fontSize: '2rem',
